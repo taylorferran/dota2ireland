@@ -78,11 +78,7 @@ const Events = () => {
               className="flex flex-col gap-4 p-6 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-primary"
             >
               <div 
-                className={`w-full bg-center bg-no-repeat aspect-video rounded-md ${
-                  event.title.includes('IDL') || event.title.includes('Irish Dota League')
-                    ? 'bg-contain bg-zinc-800'
-                    : 'bg-cover'
-                }`}
+                className="w-full bg-center bg-no-repeat aspect-video bg-contain rounded-md bg-zinc-800"
                 style={{ backgroundImage: `url("${event.image}")` }}
               ></div>
               <div className="flex flex-col gap-3">
@@ -111,11 +107,7 @@ const Events = () => {
               className="flex flex-col gap-4 p-6 bg-zinc-900 border border-zinc-800 rounded-lg opacity-70"
             >
               <div 
-                className={`w-full bg-center bg-no-repeat aspect-video rounded-md filter grayscale ${
-                  event.title.includes('IDL') || event.title.includes('Irish Dota League')
-                    ? 'bg-contain bg-zinc-800'
-                    : 'bg-cover'
-                }`}
+                className="w-full bg-center bg-no-repeat aspect-video bg-contain rounded-md filter grayscale bg-zinc-800"
                 style={{ backgroundImage: `url("${event.image}")` }}
               ></div>
               <div className="flex flex-col gap-3">

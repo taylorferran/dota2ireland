@@ -92,9 +92,11 @@ const Home = () => {
                 <p className="text-white text-lg font-bold">Irish Dota League</p>
                 <p className="text-white/70 text-sm font-normal">See the standings and schedule for the current season.</p>
               </div>
-              <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors">
-                <span className="truncate">Learn More</span>
-              </button>
+              <Link to="/league">
+                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors">
+                  <span className="truncate">View League</span>
+                </button>
+              </Link>
             </div>
           </div>
 

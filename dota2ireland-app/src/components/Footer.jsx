@@ -7,12 +7,12 @@ const Footer = () => {
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/events">
           Events
         </Link>
+        <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/league">
+          Irish Dota League
+        </Link>
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/merch">
           Merch
         </Link>
-        <a className="text-white/70 hover:text-white text-base font-normal transition-colors" href="#">
-          Irish Dota League
-        </a>
         <a className="text-white/70 hover:text-white text-base font-normal transition-colors" href="#">
           About Us
         </a>
@@ -57,7 +57,6 @@ const Footer = () => {
         </a>
       </div>
       
-      <p className="text-white/50 text-sm font-normal">© 2024 Dota2Ireland. All rights reserved.</p>
     </footer>
   );
 };

@@ -13,7 +13,7 @@ const Header = () => {
           alt="Dota2Ireland Logo" 
           className="h-10 w-auto"
         />
-        <h2 className="text-white text-xl font-bold tracking-tighter">Dota2Ireland</h2>
+        <h2 className="text-white text-xl font-bold tracking-tighter">Dota 2 Ireland</h2>
       </Link>
       
       <div className="flex flex-1 justify-end items-center gap-6 md:gap-8">
@@ -31,14 +31,17 @@ const Header = () => {
             Events
           </Link>
           <Link 
+            className={`text-sm font-medium transition-colors ${isActive('/league') ? 'text-primary' : 'text-white hover:text-primary'}`}
+            to="/league"
+          >
+            Irish Dota League
+          </Link>
+          <Link 
             className={`text-sm font-medium transition-colors ${isActive('/merch') ? 'text-primary' : 'text-white hover:text-primary'}`}
             to="/merch"
           >
             Merch
           </Link>
-          <a className="text-white text-sm font-medium hover:text-primary transition-colors" href="#">
-            Irish Dota League
-          </a>
         </nav>
         
         <div className="flex gap-2">
