@@ -59,9 +59,9 @@ const Home = () => {
       <section className="py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 - Tournament */}
-          <div className="flex h-full flex-col gap-4 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 p-1">
+          <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">
             <div 
-              className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
+              className="w-full bg-center bg-no-repeat aspect-video bg-cover"
               style={{
                 backgroundImage: 'url(/img/homepage1.webp)'
               }}
@@ -80,11 +80,11 @@ const Home = () => {
           </div>
 
           {/* Card 2 - League */}
-          <div className="flex h-full flex-col gap-4 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 p-1">
+          <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">
             <div 
-              className="w-full bg-center bg-no-repeat aspect-video bg-contain rounded-lg bg-zinc-800"
+              className="w-full bg-center bg-no-repeat aspect-video bg-cover"
               style={{
-                backgroundImage: 'url(/img/idl.png)'
+                backgroundImage: 'url(/img/old_logo.jpeg)'
               }}
             ></div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
@@ -101,8 +101,8 @@ const Home = () => {
           </div>
 
           {/* Card 3 - Merch Teaser */}
-          <div className="flex h-full flex-col gap-4 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 p-1">
-            <div className="w-full aspect-video bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-lg flex items-center justify-center">
+          <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">
+            <div className="w-full aspect-video bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
               <span className="text-primary text-8xl font-black">?</span>
             </div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">

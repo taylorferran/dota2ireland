@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { supabase } from '../lib/supabase';
+import { supabase, getSupabaseClient } from '../lib/supabase';
+import { useAuth } from '../hooks/useAuth';
 import { divisionMatches as season4Matches } from '../data/matchData';
 import { divisionMatches as season5Matches } from '../data/matchDataSeason5';
 import { KnockoutBracket } from '../components/KnockoutBracket';
@@ -8,6 +9,7 @@ import { AddTeamForm } from '../components/AddTeamForm';
 import { JoinTeamForm } from '../components/JoinTeamForm';
 import { LFTForm } from '../components/LFTForm';
 import { useMyTeam } from '../hooks/useMyTeam';
+import { fetchMatchDetails } from '../services/matchApi';
 
 // Team name mappings
 const season4TeamNames = {
@@ -54,7 +56,8 @@ const season5TeamNames = {
 
 const League = () => {
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
-  const { team: myTeam, loading: myTeamLoading } = useMyTeam();
+  const { supabaseToken } = useAuth();
+  const { team: myTeam, loading: myTeamLoading, mutate: mutateMyTeam } = useMyTeam();
   const [selectedSeason, setSelectedSeason] = useState(5);
   const [selectedDivision, setSelectedDivision] = useState(1);
   const [selectedView, setSelectedView] = useState('standings'); // standings, rosters, lft, matches
@@ -64,6 +67,12 @@ const League = () => {
   const [teams, setTeams] = useState([]);
   const [lftPlayers, setLftPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [newTeamImage, setNewTeamImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [selectedGameId, setSelectedGameId] = useState(null);
+  const [matchDetails, setMatchDetails] = useState(null);
+  const [loadingMatch, setLoadingMatch] = useState(false);
 
   // Get match data based on selected season
   const matchData = selectedSeason === 4 ? season4Matches : season5Matches;
@@ -213,53 +222,175 @@ const League = () => {
           {weekMatches.length === 0 ? (
             <div className="text-center text-white/60 py-8">No matches for this week</div>
           ) : (
-            weekMatches.map((match) => (
-              <div key={match.id} className="bg-zinc-800 p-4 rounded-lg border border-white/10">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex-1 text-center md:text-right pr-4">
-                    <div className={`text-white font-medium ${match.score && match.score[0] > match.score[1] ? 'text-primary' : ''}`}>
-                      {getTeamName(match.team1Id)}
-                    </div>
-                  </div>
-                  <div className="px-6 text-center min-w-[100px]">
-                    {match.completed && match.score ? (
-                      <div className="text-primary font-bold text-xl">
-                        {match.score[0]} - {match.score[1]}
+            weekMatches.map((match) => {
+              // Check if any game in this match is expanded
+              const expandedGameEntry = match.games && Object.entries(match.games).find(([gameKey, game]) => {
+                if (!game.played || !game.dota2MatchId) return false;
+                const gameId = `${game.dota2MatchId}-${gameKey}`;
+                return selectedGameId === gameId;
+              });
+              const hasExpandedGame = !!expandedGameEntry;
+              const [expandedGameKey] = expandedGameEntry || [];
+
+              return (
+                <div key={match.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
+                  <div className="p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex-1 text-center md:text-right pr-4">
+                        <div className={`text-white font-medium ${match.score && match.score[0] > match.score[1] ? 'text-primary' : ''}`}>
+                          {getTeamName(match.team1Id)}
+                        </div>
                       </div>
-                    ) : (
-                      <div className="text-white/60 font-bold">vs</div>
+                      <div className="px-6 text-center min-w-[100px]">
+                        {match.completed && match.score ? (
+                          <div className="text-primary font-bold text-xl">
+                            {match.score[0]} - {match.score[1]}
+                          </div>
+                        ) : (
+                          <div className="text-white/60 font-bold">vs</div>
+                        )}
+                      </div>
+                      <div className="flex-1 text-center md:text-left pl-4">
+                        <div className={`text-white font-medium ${match.score && match.score[1] > match.score[0] ? 'text-primary' : ''}`}>
+                          {getTeamName(match.team2Id)}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-center text-white/60 text-sm mb-3">
+                      {new Date(match.date).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        year: 'numeric', 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })}
+                    </div>
+                    {match.games && (
+                      <div className="mt-3 pt-3 border-t border-white/10">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                          {Object.entries(match.games).map(([gameKey, game]) => {
+                            if (!game.played || !game.dota2MatchId) return null;
+                            const gameId = `${game.dota2MatchId}-${gameKey}`;
+                            const isExpanded = selectedGameId === gameId;
+                            
+                            return (
+                              <div 
+                                key={gameKey}
+                                onClick={() => handleGameClick(game.dota2MatchId, gameKey)}
+                                className={`bg-zinc-900 p-2 rounded text-center cursor-pointer hover:bg-zinc-700 transition-colors ${
+                                  isExpanded ? 'ring-2 ring-primary' : ''
+                                }`}
+                              >
+                                <span className="text-white/60">{gameKey.replace('game', 'Game ')}: </span>
+                                <span className="text-primary">{getTeamName(game.winner)}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
                     )}
                   </div>
-                  <div className="flex-1 text-center md:text-left pl-4">
-                    <div className={`text-white font-medium ${match.score && match.score[1] > match.score[0] ? 'text-primary' : ''}`}>
-                      {getTeamName(match.team2Id)}
-                    </div>
-                  </div>
-                </div>
-                <div className="text-center text-white/60 text-sm">
-                  {new Date(match.date).toLocaleDateString('en-US', { 
-                    weekday: 'short', 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric' 
-                  })}
-                </div>
-                {match.games && (
-                  <div className="mt-3 pt-3 border-t border-white/10">
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-                      {Object.entries(match.games).map(([gameKey, game]) => (
-                        game.played && (
-                          <div key={gameKey} className="bg-zinc-900 p-2 rounded text-center">
-                            <span className="text-white/60">{gameKey.replace('game', 'Game ')}: </span>
-                            <span className="text-primary">{getTeamName(game.winner)}</span>
+
+                  {/* Match Details Section - Full Width Below */}
+                  {hasExpandedGame && (
+                    <div className="border-t border-white/10 bg-zinc-900 p-6">
+                      {loadingMatch ? (
+                        <div className="text-center text-white/60 py-8">Loading match details...</div>
+                      ) : matchDetails?.error ? (
+                        <div className="text-center text-red-400 py-8">{matchDetails.error}</div>
+                      ) : matchDetails ? (
+                        <div className="space-y-6">
+                          {/* Match Header */}
+                          <div className="text-center">
+                            <div className="text-white/60 text-sm mb-2">
+                              {expandedGameKey.replace('game', 'Game ')} • Duration: {matchDetails.duration}
+                            </div>
                           </div>
-                        )
-                      ))}
+
+                          {/* Teams */}
+                          {matchDetails.teams.map((team, teamIndex) => (
+                            <div key={teamIndex} className="space-y-3">
+                              <div className="flex items-center justify-between px-4 py-2 bg-zinc-800 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                  <div className={`font-bold text-lg ${team.win ? 'text-primary' : 'text-white'}`}>
+                                    {team.team_name}
+                                  </div>
+                                  <div className="text-sm px-2 py-1 bg-white/10 text-white rounded">
+                                    {team.is_radiant ? 'Radiant' : 'Dire'}
+                                  </div>
+                                  {team.win && (
+                                    <div className="text-sm px-2 py-1 bg-primary/20 text-primary rounded font-medium">
+                                      Victory
+                                    </div>
+                                  )}
+                                </div>
+                                <div className="text-right">
+                                  <div className="text-white text-sm">Kills: {team.kills}</div>
+                                  <div className="text-primary text-xs">Rating: {team.team_imprint_rating.toFixed(0)}</div>
+                                </div>
+                              </div>
+
+                              {/* Players */}
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                  <thead>
+                                    <tr className="border-b border-white/10">
+                                      <th className="text-left text-xs text-white/60 uppercase pb-2 px-2">Hero</th>
+                                      <th className="text-left text-xs text-white/60 uppercase pb-2 px-2">Player</th>
+                                      <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">K/D/A</th>
+                                      <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Net Worth</th>
+                                      <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Hero DMG</th>
+                                      <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Rating</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {team.players.map((player, playerIndex) => (
+                                      <tr key={playerIndex} className="border-b border-white/5">
+                                        <td className="py-2 px-2">
+                                          <div className="flex items-center gap-2">
+                                            <img 
+                                              src={player.hero.icon_src} 
+                                              alt={player.hero.Name}
+                                              className="w-8 h-8 rounded"
+                                            />
+                                            <span className="text-white text-xs">{player.hero.Name}</span>
+                                          </div>
+                                        </td>
+                                        <td className="py-2 px-2">
+                                          <div className="text-white text-xs">{player.account_name}</div>
+                                          <div className="text-white/40 text-xs">{player.position}</div>
+                                        </td>
+                                        <td className="py-2 px-2 text-center">
+                                          <span className="text-primary">{player.kills}</span>
+                                          <span className="text-white/40">/</span>
+                                          <span className="text-red-400">{player.deaths}</span>
+                                          <span className="text-white/40">/</span>
+                                          <span className="text-white">{player.assists}</span>
+                                        </td>
+                                        <td className="py-2 px-2 text-center text-white text-xs">
+                                          {(player.net_worth / 1000).toFixed(1)}k
+                                        </td>
+                                        <td className="py-2 px-2 text-center text-white text-xs">
+                                          {(player.hero_damage / 1000).toFixed(1)}k
+                                        </td>
+                                        <td className="py-2 px-2 text-center">
+                                          <span className="text-primary text-xs font-medium">
+                                            {player.imprint_rating.toFixed(0)}
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
-                  </div>
-                )}
-              </div>
-            ))
+                  )}
+                </div>
+              );
+            })
           )}
         </div>
       </div>
@@ -288,6 +419,163 @@ const League = () => {
     }).filter(Boolean);
   };
 
+  // Handle individual game click to load details
+  const handleGameClick = async (dota2MatchId, gameKey) => {
+    if (!dota2MatchId) return;
+
+    const gameId = `${dota2MatchId}-${gameKey}`;
+
+    // If clicking the same game, close it
+    if (selectedGameId === gameId) {
+      setSelectedGameId(null);
+      setMatchDetails(null);
+      return;
+    }
+
+    setSelectedGameId(gameId);
+    setLoadingMatch(true);
+    setMatchDetails(null);
+
+    try {
+      const details = await fetchMatchDetails(dota2MatchId);
+      setMatchDetails(details);
+    } catch (error) {
+      console.error('Error fetching match details:', error);
+      setMatchDetails({ error: 'Failed to load match details' });
+    } finally {
+      setLoadingMatch(false);
+    }
+  };
+
+  // Image handling functions for team logo updates
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please select a valid image file');
+        return;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size must be less than 5MB');
+        return;
+      }
+
+      setNewTeamImage(file);
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImagePreview(e.target?.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeNewImage = () => {
+    setNewTeamImage(null);
+    setImagePreview(null);
+  };
+
+  const uploadNewImage = async (file) => {
+    if (!supabaseToken) return null;
+    
+    const authenticatedClient = getSupabaseClient(supabaseToken);
+    
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { error } = await authenticatedClient.storage
+        .from('team-images')
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Error uploading image:', error);
+        return null;
+      }
+
+      const { data: { publicUrl } } = authenticatedClient.storage
+        .from('team-images')
+        .getPublicUrl(fileName);
+
+      return publicUrl;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  };
+
+  const deleteOldImage = async (imageUrl) => {
+    if (!supabaseToken || !imageUrl) return;
+    
+    const authenticatedClient = getSupabaseClient(supabaseToken);
+    
+    try {
+      const urlParts = imageUrl.split('/');
+      const fileName = urlParts[urlParts.length - 1];
+      
+      if (fileName) {
+        const { error } = await authenticatedClient.storage
+          .from('team-images')
+          .remove([fileName]);
+        
+        if (error) {
+          console.error('Error deleting old image:', error);
+        }
+      }
+    } catch (error) {
+      console.error('Error deleting old image:', error);
+    }
+  };
+
+  const handleUpdateTeamImage = async () => {
+    if (!myTeam || !newTeamImage || !supabaseToken) return;
+
+    // Check if user is captain (first player)
+    const isTeamCaptain = myTeam.players && myTeam.players[0]?.auth_id === user?.sub;
+    if (!isTeamCaptain) {
+      alert('Only the team captain can update the logo');
+      return;
+    }
+
+    setIsUploadingImage(true);
+
+    try {
+      const imageUrl = await uploadNewImage(newTeamImage);
+      
+      if (imageUrl) {
+        const authenticatedClient = getSupabaseClient(supabaseToken);
+        const { error: updateError } = await authenticatedClient
+          .from("teams_s6")
+          .update({ image_url: imageUrl })
+          .eq("id", myTeam.id);
+
+        if (updateError) throw updateError;
+
+        // Delete the old image if it exists
+        if (myTeam.image_url) {
+          await deleteOldImage(myTeam.image_url);
+        }
+
+        // Refresh the team data
+        mutateMyTeam();
+        setNewTeamImage(null);
+        setImagePreview(null);
+        alert('Team logo updated successfully!');
+      } else {
+        alert('Failed to upload image. Please try again.');
+      }
+    } catch (err) {
+      console.error("Error updating team image:", err);
+      alert('Failed to update team logo. Please try again.');
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
   // Render team rosters - 3 per row, compact vertical layout
   const renderRosters = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -301,12 +589,33 @@ const League = () => {
             <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
               {/* Team Header */}
               <div className="bg-zinc-900 p-4 border-b border-white/10">
-                <h3 className="text-white font-bold text-lg mb-1">{team.name}</h3>
-                {team.captain_name && (
-                  <div className="text-xs text-white/60">
-                    Captain: <span className="text-primary">{team.captain_name}</span>
+                <div className="flex items-center gap-3 mb-2">
+                  {/* Team Logo */}
+                  {team.image_url ? (
+                    <img 
+                      src={team.image_url} 
+                      alt={`${team.name} logo`}
+                      className="w-12 h-12 object-cover rounded-lg border-2 border-primary/30"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                    />
+                  ) : (
+                    <div className="w-12 h-12 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center flex-shrink-0">
+                      <span className="text-lg text-white font-bold">
+                        {team.name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <h3 className="text-white font-bold text-lg">{team.name}</h3>
+                    {team.captain_name && (
+                      <div className="text-xs text-white/60">
+                        Captain: <span className="text-primary">{team.captain_name}</span>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
               
               {/* Players Table */}
@@ -649,17 +958,79 @@ const League = () => {
                       {/* Team Info */}
                       <div className="bg-zinc-900 rounded-lg p-6 mb-6 border border-primary/30">
                         <div className="flex items-start justify-between mb-4">
-                          <div>
+                          <div className="flex-1">
                             <h3 className="text-white font-bold text-xl">{myTeam.name}</h3>
+                            {/* Image upload button for captain */}
+                            {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (
+                              <button
+                                onClick={() => document.getElementById('team-image-upload-myteam')?.click()}
+                                className="mt-2 flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
+                              >
+                                <span className="material-symbols-outlined text-base">photo_camera</span>
+                                Change Team Logo
+                              </button>
+                            )}
                           </div>
-                          {myTeam.image_url && (
-                            <img 
-                              src={myTeam.image_url} 
-                              alt={myTeam.name} 
-                              className="w-20 h-20 object-cover rounded-lg"
-                            />
-                          )}
+                          <div className="flex flex-col items-end gap-2">
+                            {myTeam.image_url ? (
+                              <img 
+                                src={myTeam.image_url} 
+                                alt={myTeam.name} 
+                                className="w-20 h-20 object-cover rounded-lg border-2 border-primary/30"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            ) : (
+                              <div className="w-20 h-20 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center">
+                                <span className="text-2xl text-white font-bold">
+                                  {myTeam.name.charAt(0).toUpperCase()}
+                                </span>
+                              </div>
+                            )}
+                          </div>
                         </div>
+
+                        {/* Hidden file input for image upload */}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          className="hidden"
+                          id="team-image-upload-myteam"
+                        />
+
+                        {/* Image preview and update section */}
+                        {imagePreview && (
+                          <div className="mb-4 p-4 bg-zinc-800 rounded-lg border border-primary/30">
+                            <div className="flex items-center gap-4">
+                              <img
+                                src={imagePreview}
+                                alt="New team logo preview"
+                                className="w-12 h-12 object-cover rounded-lg border border-primary/30"
+                              />
+                              <div className="flex-1">
+                                <p className="text-sm text-white">New team logo preview</p>
+                                <p className="text-xs text-white/60">Click update to save changes</p>
+                              </div>
+                              <div className="flex gap-2">
+                                <button
+                                  onClick={handleUpdateTeamImage}
+                                  disabled={isUploadingImage}
+                                  className="px-3 py-1 bg-primary text-black rounded text-sm hover:bg-primary/80 transition-colors disabled:opacity-50"
+                                >
+                                  {isUploadingImage ? "Updating..." : "Update"}
+                                </button>
+                                <button
+                                  onClick={removeNewImage}
+                                  className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors"
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Show Team ID if user is captain (first player) */}
                         {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { supabase } from "../lib/supabase";
-import { useAuth0 } from "@auth0/auth0-react";
+import { supabase, getSupabaseClient } from "../lib/supabase";
+import { useAuth } from "../hooks/useAuth";
 import { useMyTeam } from "../hooks/useMyTeam";
 import { Link } from "react-router-dom";
 
@@ -30,7 +30,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
   const [imagePreview, setImagePreview] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { user } = useAuth0();
+  const { user, supabaseToken } = useAuth();
   const { team: existingTeam, loading } = useMyTeam();
 
   const handlePlayerChange = (field, value) => {
@@ -69,11 +69,17 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
   };
 
   const uploadImage = async (file) => {
+    if (!supabaseToken) {
+      console.error('No Supabase token available');
+      return null;
+    }
+
     try {
+      const authenticatedClient = getSupabaseClient(supabaseToken);
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       
-      const { error } = await supabase.storage
+      const { error } = await authenticatedClient.storage
         .from('team-images')
         .upload(fileName, file, {
           cacheControl: '3600',
@@ -85,7 +91,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
         return null;
       }
 
-      const { data: { publicUrl } } = supabase.storage
+      const { data: { publicUrl } } = authenticatedClient.storage
         .from('team-images')
         .getPublicUrl(fileName);
 

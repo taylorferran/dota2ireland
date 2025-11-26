@@ -75,7 +75,7 @@ const Events = () => {
         <h2 className="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b-2 border-primary w-fit mb-6">
           Upcoming Events
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
           {upcomingEvents.map((event) => (
             <div 
               key={event.id}
@@ -107,7 +107,7 @@ const Events = () => {
         <h2 className="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b-2 border-accent-orange w-fit mb-6">
           Past Events
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
           {pastEvents.map((event) => (
             <div 
               key={event.id}

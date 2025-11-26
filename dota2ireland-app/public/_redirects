@@ -1,2 +1,6 @@
-/* /index.html 200
+/api/leaderboard  https://api.imprint.gg/league/players  200!
+/api/hero-statistics  https://api.imprint.gg/league/statistics/hero  200!
+/api/teams  https://api.imprint.gg/league/teams  200!
+/api/match  https://api.imprint.gg/match  200!
+/*  /index.html  200
 

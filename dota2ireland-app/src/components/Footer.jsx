@@ -10,6 +10,9 @@ const Footer = () => {
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/league">
           Irish Dota League
         </Link>
+        <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/imprint">
+          Imprint
+        </Link>
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/merch">
           Merch
         </Link>

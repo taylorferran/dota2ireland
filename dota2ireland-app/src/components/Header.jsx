@@ -37,6 +37,12 @@ const Header = () => {
             Irish Dota League
           </Link>
           <Link 
+            className={`text-sm font-medium transition-colors ${isActive('/imprint') ? 'text-primary' : 'text-white hover:text-primary'}`}
+            to="/imprint"
+          >
+            Imprint
+          </Link>
+          <Link 
             className={`text-sm font-medium transition-colors ${isActive('/merch') ? 'text-primary' : 'text-white hover:text-primary'}`}
             to="/merch"
           >
