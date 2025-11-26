@@ -20,6 +20,8 @@ const Imprint = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  console.log('API Token available:', !!import.meta.env.VITE_IMPRINT_API_TOKEN);
+
   useEffect(() => {
     const loadData = async () => {
       try {
