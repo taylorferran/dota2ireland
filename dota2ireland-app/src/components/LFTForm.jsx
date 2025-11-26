@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMyTeam } from "../hooks/useMyTeam";
@@ -26,8 +26,47 @@ export const LFTForm = ({ onSubmitSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [existingLFT, setExistingLFT] = useState(null);
+  const [checkingLFT, setCheckingLFT] = useState(true);
+  const [isRemoving, setIsRemoving] = useState(false);
   const { user } = useAuth0();
   const { team: existingTeam, loading: checkingTeam } = useMyTeam();
+
+  // Check if user already has an LFT entry
+  useEffect(() => {
+    const checkExistingLFT = async () => {
+      if (!user?.sub) {
+        setCheckingLFT(false);
+        return;
+      }
+
+      try {
+        console.log('Checking for existing LFT for user:', user.sub);
+        
+        const { data, error } = await supabase
+          .from('lft_players')
+          .select('*')
+          .eq('auth_id', user.sub);
+
+        console.log('LFT check result:', { data, error });
+
+        if (error) {
+          console.error('Error checking LFT:', error);
+        } else if (data && data.length > 0) {
+          setExistingLFT(data[0]);
+        } else {
+          setExistingLFT(null);
+        }
+      } catch (err) {
+        console.error('Error checking LFT:', err);
+      } finally {
+        setCheckingLFT(false);
+      }
+    };
+
+    checkExistingLFT();
+    setIsSuccess(false); // Reset success state when component loads
+  }, [user]);
 
   const handleChange = (field, value) => {
     setFormData((current) => ({
@@ -56,8 +95,113 @@ export const LFTForm = ({ onSubmitSuccess }) => {
     "Immortal",
   ];
 
-  if (checkingTeam) {
+  const handleRemoveLFT = async () => {
+    if (!user?.sub || !existingLFT) return;
+
+    const confirmRemove = window.confirm('Are you sure you want to remove your LFT listing?');
+    if (!confirmRemove) return;
+
+    setIsRemoving(true);
+    setError(null);
+
+    try {
+      console.log('Attempting to delete LFT for user:', user.sub);
+      
+      const { data, error: deleteError } = await supabase
+        .from('lft_players')
+        .delete()
+        .eq('auth_id', user.sub)
+        .select();
+
+      console.log('Delete result:', { data, error: deleteError });
+
+      if (deleteError) {
+        console.error('Delete error:', deleteError);
+        throw deleteError;
+      }
+
+      // Successfully deleted
+      setExistingLFT(null);
+      setIsSuccess(true);
+    } catch (err) {
+      console.error('Error removing LFT:', err);
+      setError(err instanceof Error ? err.message : 'Failed to remove LFT listing');
+    } finally {
+      setIsRemoving(false);
+    }
+  };
+
+  if (checkingTeam || checkingLFT) {
     return <div className="text-center text-white/60 py-8">Loading...</div>;
+  }
+
+  // Show existing LFT entry if user already posted
+  if (existingLFT && !isSuccess) {
+    const roles = existingLFT.roles || [];
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
+          <h2 className="text-2xl font-bold mb-4 text-white">
+            You're Already on the LFT List
+          </h2>
+          <p className="text-white/80 mb-6">
+            Your LFT listing is currently active. Team captains can see your profile.
+          </p>
+
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/20 border border-red-500 text-red-200 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          {/* Current LFT Info */}
+          <div className="bg-zinc-900 rounded-lg p-6 mb-6 border border-primary/30">
+            <h3 className="text-white font-bold text-lg mb-4">Your LFT Profile</h3>
+            <div className="space-y-3">
+              <div className="flex items-center gap-2">
+                <span className="text-white/60 text-sm">Name:</span>
+                <span className="text-white font-medium">{existingLFT.name}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-white/60 text-sm">Rank:</span>
+                <span className="px-2 py-1 bg-primary/20 text-primary rounded text-sm">{existingLFT.rank}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-white/60 text-sm">Positions:</span>
+                <div className="flex gap-2">
+                  {roles.map((role, idx) => (
+                    <span key={idx} className="px-2 py-1 bg-white/10 text-white rounded text-sm">
+                      {role}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              {existingLFT.notes && (
+                <div className="pt-2 border-t border-white/10">
+                  <span className="text-white/60 text-sm">Notes:</span>
+                  <p className="text-white mt-1">{existingLFT.notes}</p>
+                </div>
+              )}
+              <div className="pt-2 border-t border-white/10">
+                <span className="text-white/60 text-xs">Entry ID: {existingLFT.id}</span>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={handleRemoveLFT}
+            disabled={isRemoving}
+            className={`w-full py-3 px-6 rounded-lg transition-colors font-medium ${
+              isRemoving
+                ? 'bg-zinc-700 text-white/40 cursor-not-allowed'
+                : 'bg-red-500 text-white hover:bg-red-600'
+            }`}
+          >
+            {isRemoving ? 'Removing...' : 'Remove My LFT Listing'}
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (existingTeam) {
@@ -82,19 +226,35 @@ export const LFTForm = ({ onSubmitSuccess }) => {
     setError(null);
 
     try {
+      // First check if user already has an LFT entry
+      const { data: existingCheck, error: checkError } = await supabase
+        .from('lft_players')
+        .select('*')
+        .eq('auth_id', user.sub);
+
+      if (checkError) throw checkError;
+
+      if (existingCheck && existingCheck.length > 0) {
+        setError('You already have an LFT listing. Please remove it first before creating a new one.');
+        setExistingLFT(existingCheck[0]);
+        setIsSubmitting(false);
+        return;
+      }
+
       // Map positions to roles for database compatibility
       const { positions, ...restFormData } = formData;
-      const { error: submitError } = await supabase.from("lft_players").insert([
+      const { data, error: submitError } = await supabase.from("lft_players").insert([
         {
           ...restFormData,
           roles: positions, // Map positions to roles column
           auth_id: user.sub,
         },
-      ]);
+      ]).select().single();
 
       if (submitError) throw submitError;
 
       setFormData(initialFormState);
+      setExistingLFT(data);
       setIsSuccess(true);
     } catch (err) {
       console.error("Error registering as LFT:", err);
@@ -105,6 +265,7 @@ export const LFTForm = ({ onSubmitSuccess }) => {
   };
 
   if (isSuccess) {
+    const isRemoval = existingLFT === null;
     return (
       <div className="max-w-4xl mx-auto">
         <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
@@ -112,10 +273,21 @@ export const LFTForm = ({ onSubmitSuccess }) => {
             <div className="flex justify-center">
               <span className="material-symbols-outlined text-6xl text-primary">check_circle</span>
             </div>
-            <h2 className="text-2xl font-bold text-white">Successfully Registered as LFT!</h2>
+            <h2 className="text-2xl font-bold text-white">
+              {isRemoval ? 'LFT Listing Removed!' : 'Successfully Registered as LFT!'}
+            </h2>
             <p className="text-white/80">
-              Your LFT listing has been posted. Teams can now see your profile and contact you.
+              {isRemoval 
+                ? 'Your LFT listing has been removed. You can register again at any time.'
+                : 'Your LFT listing has been posted. Teams can now see your profile and contact you.'
+              }
             </p>
+            <button
+              onClick={() => setIsSuccess(false)}
+              className="mt-4 px-6 py-2 bg-primary text-black rounded-lg hover:bg-primary/80 transition-colors font-medium"
+            >
+              Back to League
+            </button>
           </div>
         </div>
       </div>

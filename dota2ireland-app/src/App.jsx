@@ -8,6 +8,7 @@ import Merch from './pages/Merch';
 import League from './pages/League';
 import Contact from './pages/Contact';
 import Imprint from './pages/Imprint';
+import Casters from './pages/Casters';
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN || '***REMOVED_AUTH0_DOMAIN***';
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID || '***REMOVED_AUTH0_CLIENT_ID***';
@@ -33,6 +34,8 @@ function App() {
             <Route path="imprint" element={<Imprint />} />
             <Route path="contact" element={<Contact />} />
           </Route>
+          {/* Hidden page for casters - no navigation links */}
+          <Route path="/casters" element={<Casters />} />
         </Routes>
       </Router>
       <Analytics />
