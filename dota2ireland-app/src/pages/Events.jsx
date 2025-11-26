@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Events = () => {
   const upcomingEvents = [
     {
@@ -7,7 +9,9 @@ const Events = () => {
       location: "Online",
       description: "The 6th installment of the Irish Dota League.",
       image: "/img/idl.png",
-      buttonText: "Register"
+      linkUrl: "/league",
+      buttonText: "View League",
+      buttonLink: "/league"
     },
   ];
 
@@ -87,9 +91,12 @@ const Events = () => {
                 <p className="font-mono text-sm text-white/70">{event.location}</p>
                 <p className="text-white/70 text-base font-normal leading-relaxed">{event.description}</p>
               </div>
-              <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors">
+              <Link 
+                to={event.buttonLink}
+                className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors"
+              >
                 <span className="truncate">{event.buttonText}</span>
-              </button>
+              </Link>
             </div>
           ))}
         </div>

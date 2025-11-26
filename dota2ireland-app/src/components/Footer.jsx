@@ -13,12 +13,9 @@ const Footer = () => {
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/merch">
           Merch
         </Link>
-        <a className="text-white/70 hover:text-white text-base font-normal transition-colors" href="#">
-          About Us
-        </a>
-        <a className="text-white/70 hover:text-white text-base font-normal transition-colors" href="#">
+        <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/contact">
           Contact
-        </a>
+        </Link>
       </div>
       
       <div className="flex flex-wrap justify-center gap-4">

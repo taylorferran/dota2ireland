@@ -63,7 +63,7 @@ const Home = () => {
             <div 
               className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
               style={{
-                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuClHSAQXq2SypYu7P9V0UglAzs49mDZFSb7F0cbB11jcssdubZ74YeIRNcir0etiI1aN0E5bw7mguVkOSfu-Hi6XUZY4jHFLHswgi_R1Z3Lgc0qO4eFX9ZCYMcibaDpxP7B-EautZwmzghuFeS4TSUTS3b0PWRbRCeJsjM9YAfi7wpoD9AIDuADQ0FIfhCBVuea-_-DaasClIlk39crbDXLVNbbEkkRZ2lWPg6_32JoymgzemZGAIQWf8kYq4Kf85zJJbvwe80POE0H")'
+                backgroundImage: 'url(/img/homepage1.webp)'
               }}
             ></div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
@@ -82,9 +82,9 @@ const Home = () => {
           {/* Card 2 - League */}
           <div className="flex h-full flex-col gap-4 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 p-1">
             <div 
-              className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
+              className="w-full bg-center bg-no-repeat aspect-video bg-contain rounded-lg bg-zinc-800"
               style={{
-                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCU828Swcjhnq9bvGBz16zHE-B7Sr_zSzE2_AmwEwsaw0dfT0itN5o-r96RYN9XmbeoKMJCPpnF5gpMphJjTdbF637Atgg1gjIU7HsLrip3ATVk0dWNzIsZBbcz6JMraR2WaTPtaIMV223hktEgA3SDVib5RDnq5WUsDBowgFC9lZCAr0GSlDwNpgjLy-0tMT4zPKPH7fMB5Hd-o5k033QhrNNoZXedXUESsjF3hHcIJBgYHHdtiP22KYDdagKNn7B1njyFFRFBZqDN")'
+                backgroundImage: 'url(/img/idl.png)'
               }}
             ></div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
@@ -100,22 +100,19 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Card 3 - Merch */}
+          {/* Card 3 - Merch Teaser */}
           <div className="flex h-full flex-col gap-4 rounded-xl bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 p-1">
-            <div 
-              className="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-lg"
-              style={{
-                backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDxkoghrLvQJE1Au-7b-6dMt_pmUIH6qYXfF85eYBBdLVJNHmBA36RJnA_0EZJTHn30CERWmoi1XjayOYycQ7SgSxR5fhoH3EoZT8ciZmfMZkKZkzEAmiUYC9MHrZywZAYpT70vrc41fHnhNHtJjPLSQjqvilpexsbi6-6OXlwsVDfxaAm3B7YaQu0docLnaipByuLeSEQlzCmZ1j0uf1sLpctL6zPCnpyGw1kUfBITXk9V0lj5XqgQSL2BuJA_vJRf5SXpijxk5l4h")'
-              }}
-            ></div>
+            <div className="w-full aspect-video bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-lg flex items-center justify-center">
+              <span className="text-primary text-8xl font-black">?</span>
+            </div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
               <div>
-                <p className="text-white text-lg font-bold">Latest Merch Drop</p>
-                <p className="text-white/70 text-sm font-normal">Get the newest community-designed gear now.</p>
+                <p className="text-white text-lg font-bold">Merch Coming Soon</p>
+                <p className="text-white/70 text-sm font-normal"></p>
               </div>
               <Link to="/merch">
-                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-accent-orange text-white text-sm font-bold hover:bg-opacity-90 transition-colors">
-                  <span className="truncate">Shop Now</span>
+                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors">
+                  <span className="truncate">Learn More</span>
                 </button>
               </Link>
             </div>

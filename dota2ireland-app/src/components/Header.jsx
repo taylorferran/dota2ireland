@@ -42,6 +42,12 @@ const Header = () => {
           >
             Merch
           </Link>
+          <Link 
+            className={`text-sm font-medium transition-colors ${isActive('/contact') ? 'text-primary' : 'text-white hover:text-primary'}`}
+            to="/contact"
+          >
+            Contact
+          </Link>
         </nav>
         
         <div className="flex gap-2">
