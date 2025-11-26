@@ -1,22 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/api/leaderboard",
-      "destination": "https://api.imprint.gg/league/players"
-    },
-    {
-      "source": "/api/hero-statistics",
-      "destination": "https://api.imprint.gg/league/statistics/hero"
-    },
-    {
-      "source": "/api/teams",
-      "destination": "https://api.imprint.gg/league/teams"
-    },
-    {
-      "source": "/api/match",
-      "destination": "https://api.imprint.gg/match"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
