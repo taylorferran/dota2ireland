@@ -74,37 +74,12 @@ const Imprint = () => {
           </tr>
         </thead>
         <tbody className="bg-zinc-900 divide-y divide-white/10">
-          {/* Bl1nkz row - always first */}
-          <tr className="hover:bg-white/5 transition-colors">
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">1</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">Bl1nkz</td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-              <img
-                src={getPositionImage(2)}
-                alt="Position 2"
-                className="w-6 h-6 inline-block"
-                title="Position 2"
-              />
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-primary">
-              93
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-              <div className="flex items-center gap-2">
-                <img src="/img/archon.png" alt="Waterford, Ireland" className="w-6 h-6 object-contain" />
-                <span>Waterford, Ireland</span>
-              </div>
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-white">
-              90% (9/1)
-            </td>
-          </tr>
           {players.map((player, index) => (
             <tr
               key={player.account_id}
               className="hover:bg-white/5 transition-colors"
             >
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 2}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{player.account_name}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
                 <img
@@ -255,7 +230,7 @@ const Imprint = () => {
           {/* Header */}
           <div className="text-center space-y-6 mb-8">
             <h1 className="text-4xl font-black text-primary tracking-wider">
-              Imprint Leaderboard
+              Imprint Leaderboard (IDL Season 5)
             </h1>
 
             {/* Tab Navigation */}
