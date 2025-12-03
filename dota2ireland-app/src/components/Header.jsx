@@ -21,17 +21,6 @@ const Header = () => {
       </Link>
       
       <div className="flex flex-1 justify-end items-center gap-4 md:gap-8">
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden flex items-center justify-center w-10 h-10 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
-          aria-label="Toggle menu"
-        >
-          <span className="material-symbols-outlined text-white">
-            {mobileMenuOpen ? 'close' : 'menu'}
-          </span>
-        </button>
-
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-9">
           <Link 
@@ -107,6 +96,17 @@ const Header = () => {
             </svg>
           </a>
         </div>
+
+        {/* Mobile Menu Button - after social icons on mobile */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          className="md:hidden flex items-center justify-center w-10 h-10 bg-white/10 rounded-lg hover:bg-white/20 transition-colors"
+          aria-label="Toggle menu"
+        >
+          <span className="material-symbols-outlined text-white">
+            {mobileMenuOpen ? 'close' : 'menu'}
+          </span>
+        </button>
       </div>
 
       {/* Mobile Menu Overlay */}

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { supabase, getSupabaseClient } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
@@ -55,15 +56,55 @@ const season5TeamNames = {
 };
 
 const League = () => {
+  const { season: seasonParam, divisionOrView, view: viewParam } = useParams();
+  const navigate = useNavigate();
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const { supabaseToken } = useAuth();
   const { team: myTeam, loading: myTeamLoading, mutate: mutateMyTeam } = useMyTeam();
-  const [selectedSeason, setSelectedSeason] = useState(5);
-  const [selectedDivision, setSelectedDivision] = useState(1);
-  const [selectedView, setSelectedView] = useState('standings'); // standings, rosters, lft, matches
+  
+  // Parse URL params to derive state
+  const selectedSeason = useMemo(() => {
+    if (!seasonParam) return 6;
+    const match = seasonParam.match(/^s(\d+)$/);
+    return match ? parseInt(match[1]) : 6;
+  }, [seasonParam]);
+
+  // For seasons 4 & 5, divisionOrView is division (d1, d2, d3)
+  // For season 6, divisionOrView is the form/view (lft, join_team, my_team, teams, register)
+  const selectedDivision = useMemo(() => {
+    if (selectedSeason === 6) return 1;
+    if (!divisionOrView) return 1;
+    const match = divisionOrView.match(/^d(\d+)$/);
+    return match ? parseInt(match[1]) : 1;
+  }, [divisionOrView, selectedSeason]);
+
+  // For seasons 4 & 5, view is standings, matches, or teams
+  const selectedView = useMemo(() => {
+    if (selectedSeason === 6) return 'standings';
+    if (!viewParam) return 'standings';
+    // Map URL path to view id
+    const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters' };
+    return viewMap[viewParam] || 'standings';
+  }, [viewParam, selectedSeason]);
+
+  // For season 6, the form/view state
+  const season6Form = useMemo(() => {
+    if (selectedSeason !== 6) return null;
+    if (!divisionOrView) return null;
+    // Map URL path to form state
+    const formMap = { 
+      lft: 'viewlft', 
+      join_team: 'join', 
+      my_team: 'viewmyteam', 
+      teams: 'viewteams',
+      register: 'register',
+      lft_form: 'lft'
+    };
+    return formMap[divisionOrView] || null;
+  }, [divisionOrView, selectedSeason]);
+
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [standingsView, setStandingsView] = useState('group'); // 'group' or 'knockout'
-  const [season6Form, setSeason6Form] = useState(null); // 'register', 'join', 'lft', or null
   const [teams, setTeams] = useState([]);
   const [lftPlayers, setLftPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -73,6 +114,42 @@ const League = () => {
   const [selectedGameId, setSelectedGameId] = useState(null);
   const [matchDetails, setMatchDetails] = useState(null);
   const [loadingMatch, setLoadingMatch] = useState(false);
+
+  // Navigation helpers
+  const navigateToSeason = (seasonId) => {
+    if (seasonId === 6) {
+      navigate('/league/s6');
+    } else {
+      navigate(`/league/s${seasonId}/d1/standings`);
+    }
+  };
+
+  const navigateToDivision = (divisionId) => {
+    navigate(`/league/s${selectedSeason}/d${divisionId}/${viewParam || 'standings'}`);
+  };
+
+  const navigateToView = (viewId) => {
+    // Map view id to URL path
+    const viewMap = { standings: 'standings', matches: 'matches', rosters: 'teams' };
+    navigate(`/league/s${selectedSeason}/d${selectedDivision}/${viewMap[viewId]}`);
+  };
+
+  const navigateToSeason6Form = (formId) => {
+    if (!formId) {
+      navigate('/league/s6');
+      return;
+    }
+    // Map form state to URL path
+    const formMap = { 
+      register: 'register', 
+      join: 'join_team', 
+      lft: 'lft_form',
+      viewlft: 'lft', 
+      viewteams: 'teams', 
+      viewmyteam: 'my_team' 
+    };
+    navigate(`/league/s6/${formMap[formId]}`);
+  };
 
   // Get match data based on selected season
   const matchData = selectedSeason === 4 ? season4Matches : season5Matches;
@@ -773,7 +850,7 @@ const League = () => {
           {seasons.map((season) => (
             <button
               key={season.id}
-              onClick={() => setSelectedSeason(season.id)}
+              onClick={() => navigateToSeason(season.id)}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
                 selectedSeason === season.id
                   ? 'bg-primary text-black'
@@ -792,7 +869,7 @@ const League = () => {
             {divisions.map((division) => (
               <button
                 key={division.id}
-                onClick={() => setSelectedDivision(division.id)}
+                onClick={() => navigateToDivision(division.id)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   selectedDivision === division.id
                     ? 'bg-primary/20 text-primary border border-primary'
@@ -821,7 +898,7 @@ const League = () => {
                 <div className="space-y-3">
                   {isAuthenticated ? (
                     <button 
-                      onClick={() => setSeason6Form('register')}
+                      onClick={() => navigateToSeason6Form('register')}
                       className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
                     >
                       Register Your Team
@@ -836,7 +913,7 @@ const League = () => {
                   )}
                   {isAuthenticated && (
                     <button 
-                      onClick={() => setSeason6Form('viewmyteam')}
+                      onClick={() => navigateToSeason6Form('viewmyteam')}
                       className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
                     >
                       View My Team
@@ -854,7 +931,7 @@ const League = () => {
                 <div className="space-y-3">
                   {isAuthenticated ? (
                     <button 
-                      onClick={() => setSeason6Form('join')}
+                      onClick={() => navigateToSeason6Form('join')}
                       className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
                     >
                       Join a Team
@@ -868,7 +945,7 @@ const League = () => {
                     </button>
                   )}
                   <button 
-                    onClick={() => setSeason6Form('viewteams')}
+                    onClick={() => navigateToSeason6Form('viewteams')}
                     className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
                   >
                     View Teams
@@ -885,7 +962,7 @@ const League = () => {
                 <div className="space-y-3">
                   {isAuthenticated ? (
                     <button 
-                      onClick={() => setSeason6Form('lft')}
+                      onClick={() => navigateToSeason6Form('lft')}
                       className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
                     >
                       LFT Form
@@ -899,7 +976,7 @@ const League = () => {
                     </button>
                   )}
                   <button 
-                    onClick={() => setSeason6Form('viewlft')}
+                    onClick={() => navigateToSeason6Form('viewlft')}
                     className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
                   >
                     View LFT
@@ -911,7 +988,7 @@ const League = () => {
             <div>
               {/* Back button */}
               <button
-                onClick={() => setSeason6Form(null)}
+                onClick={() => navigateToSeason6Form(null)}
                 className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
               >
                 <span className="material-symbols-outlined">arrow_back</span>
@@ -945,7 +1022,7 @@ const League = () => {
                         Register a new team or join an existing one to participate in Season 6.
                       </p>
                       <button
-                        onClick={() => setSeason6Form(null)}
+                        onClick={() => navigateToSeason6Form(null)}
                         className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
                       >
                         Back to Options
@@ -1115,7 +1192,7 @@ const League = () => {
                 {views.map((view) => (
                   <button
                     key={view.id}
-                    onClick={() => setSelectedView(view.id)}
+                    onClick={() => navigateToView(view.id)}
                     className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
                       selectedView === view.id
                         ? 'bg-primary text-black'
