@@ -5,6 +5,7 @@ import { supabase, getSupabaseClient } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { divisionMatches as season4Matches } from '../data/matchData';
 import { divisionMatches as season5Matches } from '../data/matchDataSeason5';
+import { divisionMatches as season6Matches } from '../data/matchDataSeason6';
 import { KnockoutBracket } from '../components/KnockoutBracket';
 import { AddTeamForm } from '../components/AddTeamForm';
 import { JoinTeamForm } from '../components/JoinTeamForm';
@@ -55,6 +56,60 @@ const season5TeamNames = {
   bye_week: "Bye Week",
 };
 
+const season6TeamNames = {
+  // Division 1
+  wongs_bakery: "Wong's Bakery",
+  skiddys_angels: "Skiddy's Angels",
+  sentinel_island_esports: "Sentinel Island Esports",
+  no_tormentor: "No Tormentor",
+  the_pepegs: "The Pepegs",
+  // Division 2
+  joon_squad_junior: "Joon Squad: Junior",
+  creep_enjoyers: "Creep Enjoyers",
+  bdc: "BDC",
+  washed_rejected: "Washed & Rejected",
+  i_do_revenge: "I DO: REVENGE",
+  // Division 3
+  imprint_esports: "Imprint Esports",
+  green_isle_gaming: "Green Isle Gaming",
+  motion_of_the_roshan: "Motion of the roshan",
+  ausgang: "Ausgang",
+  d2ire_rejects: "D2Ire Rejects",
+  passport_issues: "Passport Issues",
+  // Division 4
+  five_stuns_no_brain: "5 stuns no brain",
+  bord_na_mona: "Bord Na Mona",
+  cavan_creche: "Cavan Creche",
+  team_sosal: "Team Sosal",
+  herald_hall_of_fame: "Herald Hall of Fame",
+  // Placeholders
+  bye_week: "Bye Week",
+  seed1_d1: "1st Place",
+  seed2_d1: "2nd Place",
+  seed3_d1: "3rd Place",
+  seed4_d1: "4th Place",
+  seed1_d2: "1st Place",
+  seed2_d2: "2nd Place",
+  seed3_d2: "3rd Place",
+  seed4_d2: "4th Place",
+  seed1_d3: "1st Place",
+  seed2_d3: "2nd Place",
+  seed3_d3: "3rd Place",
+  seed4_d3: "4th Place",
+  seed1_d4: "1st Place",
+  seed2_d4: "2nd Place",
+  seed3_d4: "3rd Place",
+  seed4_d4: "4th Place",
+  winner_d1w6m1: "Winner SF1",
+  winner_d1w6m2: "Winner SF2",
+  winner_d2w6m1: "Winner SF1",
+  winner_d2w6m2: "Winner SF2",
+  winner_d3w6m1: "Winner SF1",
+  winner_d3w6m2: "Winner SF2",
+  winner_d4w6m1: "Winner SF1",
+  winner_d4w6m2: "Winner SF2",
+};
+
 const League = () => {
   const { season: seasonParam, divisionOrView, view: viewParam } = useParams();
   const navigate = useNavigate();
@@ -69,25 +124,7 @@ const League = () => {
     return match ? parseInt(match[1]) : 6;
   }, [seasonParam]);
 
-  // For seasons 4 & 5, divisionOrView is division (d1, d2, d3)
-  // For season 6, divisionOrView is the form/view (lft, join_team, my_team, teams, register)
-  const selectedDivision = useMemo(() => {
-    if (selectedSeason === 6) return 1;
-    if (!divisionOrView) return 1;
-    const match = divisionOrView.match(/^d(\d+)$/);
-    return match ? parseInt(match[1]) : 1;
-  }, [divisionOrView, selectedSeason]);
-
-  // For seasons 4 & 5, view is standings, matches, or teams
-  const selectedView = useMemo(() => {
-    if (selectedSeason === 6) return 'standings';
-    if (!viewParam) return 'standings';
-    // Map URL path to view id
-    const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters' };
-    return viewMap[viewParam] || 'standings';
-  }, [viewParam, selectedSeason]);
-
-  // For season 6, the form/view state
+  // For season 6, check if divisionOrView is a form/view or a division
   const season6Form = useMemo(() => {
     if (selectedSeason !== 6) return null;
     if (!divisionOrView) return null;
@@ -103,6 +140,24 @@ const League = () => {
     return formMap[divisionOrView] || null;
   }, [divisionOrView, selectedSeason]);
 
+  // For seasons 4, 5, & 6 divisionOrView is division (d1, d2, d3, d4)
+  // But for season 6, also check if it's a form route
+  const selectedDivision = useMemo(() => {
+    if (selectedSeason === 6 && season6Form) return 1; // Default to Division 1 if showing a form
+    if (!divisionOrView) return 1;
+    const match = divisionOrView.match(/^d(\d+)$/);
+    return match ? parseInt(match[1]) : 1;
+  }, [divisionOrView, selectedSeason, season6Form]);
+
+  // For seasons 4, 5, & 6 view is standings, matches, or teams
+  const selectedView = useMemo(() => {
+    if (selectedSeason === 6 && season6Form) return 'standings'; // Default view if showing a form
+    if (!viewParam) return 'standings';
+    // Map URL path to view id
+    const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters' };
+    return viewMap[viewParam] || 'standings';
+  }, [viewParam, selectedSeason, season6Form]);
+
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [standingsView, setStandingsView] = useState('group'); // 'group' or 'knockout'
   const [teams, setTeams] = useState([]);
@@ -117,11 +172,7 @@ const League = () => {
 
   // Navigation helpers
   const navigateToSeason = (seasonId) => {
-    if (seasonId === 6) {
-      navigate('/league/s6');
-    } else {
-      navigate(`/league/s${seasonId}/d1/standings`);
-    }
+    navigate(`/league/s${seasonId}/d1/standings`);
   };
 
   const navigateToDivision = (divisionId) => {
@@ -152,8 +203,8 @@ const League = () => {
   };
 
   // Get match data based on selected season
-  const matchData = selectedSeason === 4 ? season4Matches : season5Matches;
-  const teamNamesMap = selectedSeason === 4 ? season4TeamNames : season5TeamNames;
+  const matchData = selectedSeason === 4 ? season4Matches : selectedSeason === 5 ? season5Matches : season6Matches;
+  const teamNamesMap = selectedSeason === 4 ? season4TeamNames : selectedSeason === 5 ? season5TeamNames : season6TeamNames;
   const divisionMatchData = matchData[selectedDivision] || [];
   
   // Get max week for matches
@@ -164,13 +215,14 @@ const League = () => {
   const seasons = [
     { id: 4, name: 'Season 4', active: true },
     { id: 5, name: 'Season 5', active: true },
-    { id: 6, name: 'Season 6', active: true, upcoming: true },
+    { id: 6, name: 'Season 6', active: true },
   ];
 
   const divisions = [
     { id: 1, name: 'Division 1' },
     { id: 2, name: 'Division 2' },
     { id: 3, name: 'Division 3' },
+    { id: 4, name: 'Division 4' },
   ];
 
   const views = [
@@ -428,6 +480,7 @@ const League = () => {
                                               src={player.hero.icon_src} 
                                               alt={player.hero.Name}
                                               className="w-8 h-8 rounded"
+                                              loading="lazy"
                                             />
                                             <span className="text-white text-xs">{player.hero.Name}</span>
                                           </div>
@@ -705,30 +758,48 @@ const League = () => {
                       <tr className="border-b border-white/10">
                         <th className="text-left text-xs text-white/60 uppercase pb-2 px-2">Player</th>
                         <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Rank</th>
+                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Dotabuff</th>
                       </tr>
                     </thead>
                     <tbody>
                       {players.map((player, index) => (
                         <tr key={index} className="border-b border-white/5 last:border-0">
-                          <td className="py-2 px-2">
+                          <td className="py-2 px-2 max-w-[200px]">
                             {player.steamProfile && player.steamProfile !== 'https://steamcommunity.com/my/' ? (
                               <a
                                 href={player.steamProfile}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-primary hover:text-primary/80 transition-colors text-sm flex items-center gap-1"
+                                className="text-primary hover:text-primary/80 transition-colors text-xs flex items-center gap-1 overflow-hidden"
+                                title={player.name}
                               >
-                                {player.name}
-                                <span className="material-symbols-outlined text-xs">open_in_new</span>
+                                <span className="truncate">{player.name}</span>
+                                <span className="material-symbols-outlined text-xs flex-shrink-0">open_in_new</span>
                               </a>
                             ) : (
-                              <div className="text-white text-sm">{player.name}</div>
+                              <div className="text-white text-xs truncate" title={player.name}>{player.name}</div>
                             )}
                           </td>
                           <td className="py-2 px-2 text-center">
                             <span className="text-xs px-2 py-1 bg-primary/20 text-primary rounded inline-block">
                               {player.rank || 'N/A'}
                             </span>
+                          </td>
+                          <td className="py-2 px-2 text-center">
+                            {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' ? (
+                              <a
+                                href={player.dotabuffProfile}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 px-2 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
+                                title="Dotabuff Profile"
+                              >
+                                <span className="material-symbols-outlined text-xs">open_in_new</span>
+                                Dotabuff
+                              </a>
+                            ) : (
+                              <span className="text-white/40 text-xs">-</span>
+                            )}
                           </td>
                         </tr>
                       ))}
@@ -858,13 +929,12 @@ const League = () => {
               }`}
             >
               {season.name}
-              {season.upcoming && <span className="ml-2 text-xs">(Registration Open)</span>}
             </button>
           ))}
         </div>
 
-        {/* Division Selector - Only show for Season 4 & 5 */}
-        {selectedSeason !== 6 && (
+        {/* Division Selector - Show for all seasons when not viewing Season 6 forms */}
+        {!(selectedSeason === 6 && season6Form) && (
           <div className="flex flex-wrap gap-2 mt-4">
             {divisions.map((division) => (
               <button
@@ -883,309 +953,209 @@ const League = () => {
         )}
       </section>
 
-      {/* Season 6 Registration Options */}
-      {selectedSeason === 6 && (
+      {/* Season 6 Registration/Team Management - Show when form route is active */}
+      {selectedSeason === 6 && season6Form && (
         <section className="py-4 mb-8">
-          {!season6Form ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Register Team */}
-              <div className="bg-gradient-to-br from-primary/10 to-zinc-900 border border-primary/50 rounded-lg p-6">
-                <h2 className="text-white text-2xl font-bold mb-3">Register Team</h2>
-                <p className="text-white/70 mb-4">
-                  Create and register a new team for Season 6.
+          <div>
+            {/* Back button */}
+            <button
+              onClick={() => navigate('/league/s6/d1/standings')}
+              className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
+            >
+              <span className="material-symbols-outlined">arrow_back</span>
+              Back to Season 6 League
+            </button>
 
-                </p>
-                <div className="space-y-3">
-                  {isAuthenticated ? (
-                    <button 
-                      onClick={() => navigateToSeason6Form('register')}
-                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
-                    >
-                      Register Your Team
-                    </button>
-                  ) : (
-                    <button 
-                      onClick={() => loginWithRedirect()}
-                      className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                    >
-                      Sign In to Register
-                    </button>
-                  )}
-                  {isAuthenticated && (
-                    <button 
-                      onClick={() => navigateToSeason6Form('viewmyteam')}
-                      className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                    >
-                      View My Team
-                    </button>
-                  )}
-                </div>
+            {/* Render appropriate form or view */}
+            {season6Form === 'register' && <AddTeamForm divisionId={selectedDivision} />}
+            {season6Form === 'join' && <JoinTeamForm />}
+            {season6Form === 'lft' && <LFTForm />}
+            {season6Form === 'viewlft' && (
+              <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
+                <h2 className="text-2xl font-bold mb-6 text-white">Looking for Team Players</h2>
+                {renderLFT()}
               </div>
-
-              {/* Join Team */}
-              <div className="bg-gradient-to-br from-primary/10 to-zinc-900 border border-primary/50 rounded-lg p-6">
-                <h2 className="text-white text-2xl font-bold mb-3">Join Team</h2>
-                <p className="text-white/70 mb-4">
-                  Get your team ID from your captain, and join the team here.
-                </p>
-                <div className="space-y-3">
-                  {isAuthenticated ? (
-                    <button 
-                      onClick={() => navigateToSeason6Form('join')}
-                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
-                    >
-                      Join a Team
-                    </button>
-                  ) : (
-                    <button 
-                      onClick={() => loginWithRedirect()}
-                      className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                    >
-                      Sign In to Join
-                    </button>
-                  )}
-                  <button 
-                    onClick={() => navigateToSeason6Form('viewteams')}
-                    className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                  >
-                    View Teams
-                  </button>
-                </div>
+            )}
+            {season6Form === 'viewteams' && (
+              <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
+                <h2 className="text-2xl font-bold mb-6 text-white">Season 6 Teams</h2>
+                {renderRosters()}
               </div>
-
-              {/* Looking for Team */}
-              <div className="bg-gradient-to-br from-primary/10 to-zinc-900 border border-primary/50 rounded-lg p-6">
-                <h2 className="text-white text-2xl font-bold mb-3">Looking for Team</h2>
-                <p className="text-white/70 mb-4">
-                  Post your profile to let team captains know you're available to play.
-                </p>
-                <div className="space-y-3">
-                  {isAuthenticated ? (
-                    <button 
-                      onClick={() => navigateToSeason6Form('lft')}
-                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all w-full"
+            )}
+            {season6Form === 'viewmyteam' && (
+              <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
+                {myTeamLoading ? (
+                  <div className="text-center text-white/60 py-8">Loading...</div>
+                ) : !myTeam ? (
+                  <div className="text-center py-8">
+                    <h2 className="text-2xl font-bold mb-4 text-white">You're Not on a Team Yet</h2>
+                    <p className="text-white/60 mb-6">
+                      Register a new team or join an existing one to participate in Season 6.
+                    </p>
+                    <button
+                      onClick={() => navigate('/league/s6/d1/standings')}
+                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
                     >
-                      LFT Form
+                      Back to League
                     </button>
-                  ) : (
-                    <button 
-                      onClick={() => loginWithRedirect()}
-                      className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                    >
-                      Sign In to Post
-                    </button>
-                  )}
-                  <button 
-                    onClick={() => navigateToSeason6Form('viewlft')}
-                    className="px-6 py-3 bg-white/10 text-white rounded-full font-medium hover:bg-white/20 transition-all w-full"
-                  >
-                    View LFT
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div>
-              {/* Back button */}
-              <button
-                onClick={() => navigateToSeason6Form(null)}
-                className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
-              >
-                <span className="material-symbols-outlined">arrow_back</span>
-                Back to Season 6
-              </button>
-
-              {/* Render appropriate form or view */}
-              {season6Form === 'register' && <AddTeamForm divisionId={selectedDivision} />}
-              {season6Form === 'join' && <JoinTeamForm />}
-              {season6Form === 'lft' && <LFTForm />}
-              {season6Form === 'viewlft' && (
-                <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
-                  <h2 className="text-2xl font-bold mb-6 text-white">Looking for Team Players</h2>
-                  {renderLFT()}
-                </div>
-              )}
-              {season6Form === 'viewteams' && (
-                <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
-                  <h2 className="text-2xl font-bold mb-6 text-white">Season 6 Teams</h2>
-                  {renderRosters()}
-                </div>
-              )}
-              {season6Form === 'viewmyteam' && (
-                <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
-                  {myTeamLoading ? (
-                    <div className="text-center text-white/60 py-8">Loading...</div>
-                  ) : !myTeam ? (
-                    <div className="text-center py-8">
-                      <h2 className="text-2xl font-bold mb-4 text-white">You're Not on a Team Yet</h2>
-                      <p className="text-white/60 mb-6">
-                        Register a new team or join an existing one to participate in Season 6.
-                      </p>
-                      <button
-                        onClick={() => navigateToSeason6Form(null)}
-                        className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
-                      >
-                        Back to Options
-                      </button>
-                    </div>
-                  ) : (
-                    <div>
-                      <h2 className="text-2xl font-bold mb-6 text-white">My Team</h2>
-                      
-                      {/* Team Info */}
-                      <div className="bg-zinc-900 rounded-lg p-6 mb-6 border border-primary/30">
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
-                            <h3 className="text-white font-bold text-xl">{myTeam.name}</h3>
-                            {/* Image upload button for captain */}
-                            {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (
-                              <button
-                                onClick={() => document.getElementById('team-image-upload-myteam')?.click()}
-                                className="mt-2 flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
-                              >
-                                <span className="material-symbols-outlined text-base">photo_camera</span>
-                                Change Team Logo
-                              </button>
-                            )}
-                          </div>
-                          <div className="flex flex-col items-end gap-2">
-                            {myTeam.image_url ? (
-                              <img 
-                                src={myTeam.image_url} 
-                                alt={myTeam.name} 
-                                className="w-20 h-20 object-cover rounded-lg border-2 border-primary/30"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                }}
-                              />
-                            ) : (
-                              <div className="w-20 h-20 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center">
-                                <span className="text-2xl text-white font-bold">
-                                  {myTeam.name.charAt(0).toUpperCase()}
-                                </span>
-                              </div>
-                            )}
-                          </div>
+                  </div>
+                ) : (
+                  <div>
+                    <h2 className="text-2xl font-bold mb-6 text-white">My Team</h2>
+                    
+                    {/* Team Info */}
+                    <div className="bg-zinc-900 rounded-lg p-6 mb-6 border border-primary/30">
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex-1">
+                          <h3 className="text-white font-bold text-xl">{myTeam.name}</h3>
+                          {/* Image upload button for captain */}
+                          {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (
+                            <button
+                              onClick={() => document.getElementById('team-image-upload-myteam')?.click()}
+                              className="mt-2 flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors"
+                            >
+                              <span className="material-symbols-outlined text-base">photo_camera</span>
+                              Change Team Logo
+                            </button>
+                          )}
                         </div>
-
-                        {/* Hidden file input for image upload */}
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleImageChange}
-                          className="hidden"
-                          id="team-image-upload-myteam"
-                        />
-
-                        {/* Image preview and update section */}
-                        {imagePreview && (
-                          <div className="mb-4 p-4 bg-zinc-800 rounded-lg border border-primary/30">
-                            <div className="flex items-center gap-4">
-                              <img
-                                src={imagePreview}
-                                alt="New team logo preview"
-                                className="w-12 h-12 object-cover rounded-lg border border-primary/30"
-                              />
-                              <div className="flex-1">
-                                <p className="text-sm text-white">New team logo preview</p>
-                                <p className="text-xs text-white/60">Click update to save changes</p>
-                              </div>
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={handleUpdateTeamImage}
-                                  disabled={isUploadingImage}
-                                  className="px-3 py-1 bg-primary text-black rounded text-sm hover:bg-primary/80 transition-colors disabled:opacity-50"
-                                >
-                                  {isUploadingImage ? "Updating..." : "Update"}
-                                </button>
-                                <button
-                                  onClick={removeNewImage}
-                                  className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
+                        <div className="flex flex-col items-end gap-2">
+                          {myTeam.image_url ? (
+                            <img 
+                              src={myTeam.image_url} 
+                              alt={myTeam.name} 
+                              className="w-20 h-20 object-cover rounded-lg border-2 border-primary/30"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
+                            />
+                          ) : (
+                            <div className="w-20 h-20 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center">
+                              <span className="text-2xl text-white font-bold">
+                                {myTeam.name.charAt(0).toUpperCase()}
+                              </span>
                             </div>
-                          </div>
-                        )}
-
-                        {/* Show Team ID if user is captain (first player) */}
-                        {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (
-                          <div className="mt-4 p-4 bg-primary/10 border border-primary/30 rounded-lg">
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <p className="text-primary text-sm font-medium mb-1">Team ID (Share with players to join)</p>
-                                <p className="text-white font-mono text-lg">{myTeam.id}</p>
-                              </div>
-                              <button
-                                onClick={() => {
-                                  navigator.clipboard.writeText(myTeam.id);
-                                  alert('Team ID copied to clipboard!');
-                                }}
-                                className="px-4 py-2 bg-primary text-black rounded-lg hover:bg-primary/80 transition-colors text-sm font-medium"
-                              >
-                                Copy ID
-                              </button>
-                            </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
 
-                      {/* Players List */}
-                      <div className="bg-zinc-900 rounded-lg p-6 border border-white/10">
-                        <h4 className="text-white font-bold text-lg mb-4">Team Roster</h4>
-                        <div className="space-y-3">
-                          {myTeam.players && myTeam.players.map((player, index) => (
-                            <div key={index} className="flex items-center justify-between p-3 bg-zinc-800 rounded-lg border border-white/10">
-                              <div className="flex items-center gap-4">
-                                <div>
-                                  <div className="text-white font-medium">
-                                    {player.name}
-                                    {index === 0 && <span className="ml-2 text-xs px-2 py-0.5 bg-primary/20 text-primary rounded">Captain</span>}
-                                  </div>
-                                  <div className="text-white/60 text-sm mt-1">
-                                    {player.position} • {player.rank}
-                                  </div>
+                      {/* Hidden file input for image upload */}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                        id="team-image-upload-myteam"
+                      />
+
+                      {/* Image preview and update section */}
+                      {imagePreview && (
+                        <div className="mb-4 p-4 bg-zinc-800 rounded-lg border border-primary/30">
+                          <div className="flex items-center gap-4">
+                            <img
+                              src={imagePreview}
+                              alt="New team logo preview"
+                              className="w-12 h-12 object-cover rounded-lg border border-primary/30"
+                              loading="lazy"
+                            />
+                            <div className="flex-1">
+                              <p className="text-sm text-white">New team logo preview</p>
+                              <p className="text-xs text-white/60">Click update to save changes</p>
+                            </div>
+                            <div className="flex gap-2">
+                              <button
+                                onClick={handleUpdateTeamImage}
+                                disabled={isUploadingImage}
+                                className="px-3 py-1 bg-primary text-black rounded text-sm hover:bg-primary/80 transition-colors disabled:opacity-50"
+                              >
+                                {isUploadingImage ? "Updating..." : "Update"}
+                              </button>
+                              <button
+                                onClick={removeNewImage}
+                                className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600 transition-colors"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Show Team ID if user is captain (first player) */}
+                      {user && myTeam.players && myTeam.players[0]?.auth_id === user.sub && (
+                        <div className="mt-4 p-4 bg-primary/10 border border-primary/30 rounded-lg">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-primary text-sm font-medium mb-1">Team ID (Share with players to join)</p>
+                              <p className="text-white font-mono text-lg">{myTeam.id}</p>
+                            </div>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(myTeam.id);
+                                alert('Team ID copied to clipboard!');
+                              }}
+                              className="px-4 py-2 bg-primary text-black rounded-lg hover:bg-primary/80 transition-colors text-sm font-medium"
+                            >
+                              Copy ID
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Players List */}
+                    <div className="bg-zinc-900 rounded-lg p-6 border border-white/10">
+                      <h4 className="text-white font-bold text-lg mb-4">Team Roster</h4>
+                      <div className="space-y-3">
+                        {myTeam.players && myTeam.players.map((player, index) => (
+                          <div key={index} className="flex items-center justify-between p-3 bg-zinc-800 rounded-lg border border-white/10">
+                            <div className="flex items-center gap-4">
+                              <div>
+                                <div className="text-white font-medium">
+                                  {player.name}
+                                  {index === 0 && <span className="ml-2 text-xs px-2 py-0.5 bg-primary/20 text-primary rounded">Captain</span>}
+                                </div>
+                                <div className="text-white/60 text-sm mt-1">
+                                  {player.position} • {player.rank}
                                 </div>
                               </div>
-                              <div className="flex gap-2">
-                                {player.steamProfile && player.steamProfile !== 'https://steamcommunity.com/my/' && (
-                                  <a
-                                    href={player.steamProfile}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
-                                  >
-                                    Steam
-                                  </a>
-                                )}
-                                {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' && (
-                                  <a
-                                    href={player.dotabuffProfile}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
-                                  >
-                                    Dotabuff
-                                  </a>
-                                )}
-                              </div>
                             </div>
-                          ))}
-                        </div>
+                            <div className="flex gap-2">
+                              {player.steamProfile && player.steamProfile !== 'https://steamcommunity.com/my/' && (
+                                <a
+                                  href={player.steamProfile}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
+                                >
+                                  Steam
+                                </a>
+                              )}
+                              {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' && (
+                                <a
+                                  href={player.dotabuffProfile}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="px-3 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
+                                >
+                                  Dotabuff
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </section>
       )}
 
       {/* View Selector */}
-      {selectedSeason !== 6 && (
-        <section className="py-4">
+      <section className="py-4">
           <div className="bg-zinc-900 rounded-lg shadow-md p-6 border border-white/10">
             <div className="flex flex-wrap gap-2 mb-6 items-center justify-between">
               <div className="flex gap-2">
@@ -1306,7 +1276,6 @@ const League = () => {
             {selectedView === 'rosters' && renderRosters()}
           </div>
         </section>
-      )}
     </main>
   );
 };

@@ -87,6 +87,7 @@ const Imprint = () => {
                   alt={`Position ${player.position}`}
                   className="w-6 h-6 inline-block"
                   title={`Position ${player.position}`}
+                  loading="lazy"
                 />
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-primary">
@@ -94,7 +95,7 @@ const Imprint = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                 <div className="flex items-center gap-2">
-                  <img src={player.team.team_logo_src} alt={player.team.team_name} className="w-6 h-6 object-contain" />
+                  <img src={player.team.team_logo_src} alt={player.team.team_name} className="w-6 h-6 object-contain" loading="lazy" />
                   {player.team.team_name}
                 </div>
               </td>
@@ -132,7 +133,7 @@ const Imprint = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 1}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                   <div className="flex items-center gap-3">
-                    <img src={hero.icon_src} alt={hero.name} className="w-8 h-8 rounded" title={hero.name} />
+                    <img src={hero.icon_src} alt={hero.name} className="w-8 h-8 rounded" title={hero.name} loading="lazy" />
                     <span className="font-medium">{hero.name}</span>
                   </div>
                 </td>
@@ -154,6 +155,7 @@ const Imprint = () => {
                         alt={`Position ${mostPopularPosition.position}`}
                         className="w-6 h-6"
                         title={`Position ${mostPopularPosition.position}`}
+                        loading="lazy"
                       />
                       <span className="text-xs text-white/60">{mostPopularPosition.match_count}</span>
                     </div>
@@ -169,6 +171,7 @@ const Imprint = () => {
                         alt={mostPopularFacet.name}
                         className="w-6 h-6 rounded"
                         title={mostPopularFacet.name}
+                        loading="lazy"
                       />
                       <span className="text-xs text-white/60">{mostPopularFacet.match_count}</span>
                     </div>
@@ -202,7 +205,7 @@ const Imprint = () => {
               <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 1}</td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
                 <div className="flex items-center gap-3">
-                  <img src={team.team_logo_src} alt={team.team_name} className="w-8 h-8 rounded" title={team.team_name} />
+                  <img src={team.team_logo_src} alt={team.team_name} className="w-8 h-8 rounded" title={team.team_name} loading="lazy" />
                   <span className="font-medium">{team.team_name}</span>
                 </div>
               </td>
