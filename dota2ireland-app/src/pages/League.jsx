@@ -753,18 +753,18 @@ const League = () => {
                 <div className="text-white/60 text-sm text-center py-6">No players yet</div>
               ) : (
                 <div className="p-3">
-                  <table className="w-full">
+                  <table className="w-full table-fixed">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left text-xs text-white/60 uppercase pb-2 px-2">Player</th>
-                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Rank</th>
-                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2">Dotabuff</th>
+                        <th className="text-left text-xs text-white/60 uppercase pb-2 px-2 w-[140px]">Player</th>
+                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[80px]">Rank</th>
+                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[100px]">Dotabuff</th>
                       </tr>
                     </thead>
                     <tbody>
                       {players.map((player, index) => (
                         <tr key={index} className="border-b border-white/5 last:border-0">
-                          <td className="py-2 px-2 max-w-[200px]">
+                          <td className="py-2 px-2">
                             {player.steamProfile && player.steamProfile !== 'https://steamcommunity.com/my/' ? (
                               <a
                                 href={player.steamProfile}
@@ -773,11 +773,11 @@ const League = () => {
                                 className="text-primary hover:text-primary/80 transition-colors text-xs flex items-center gap-1 overflow-hidden"
                                 title={player.name}
                               >
-                                <span className="truncate">{player.name}</span>
+                                <span className="truncate break-all">{player.name}</span>
                                 <span className="material-symbols-outlined text-xs flex-shrink-0">open_in_new</span>
                               </a>
                             ) : (
-                              <div className="text-white text-xs truncate" title={player.name}>{player.name}</div>
+                              <div className="text-white text-xs truncate break-all" title={player.name}>{player.name}</div>
                             )}
                           </td>
                           <td className="py-2 px-2 text-center">
