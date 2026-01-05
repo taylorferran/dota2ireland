@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
 
 const Casters = () => {
   const [teams, setTeams] = useState([]);
@@ -94,6 +95,7 @@ const Casters = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {teams.map((team) => {
               const players = parsePlayerData(team.players || []);
+              const teamImagePath = getTeamImagePath(team);
               
               return (
                 <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
@@ -106,10 +108,10 @@ const Casters = () => {
                       
                       {/* Team Logo with Download */}
                       <div className="flex flex-col items-center gap-2">
-                        {team.image_url ? (
+                        {teamImagePath ? (
                           <>
                             <img 
-                              src={team.image_url} 
+                              src={teamImagePath} 
                               alt={`${team.name} logo`}
                               className="w-24 h-24 object-cover rounded-lg border-2 border-primary/30"
                               onError={(e) => {
@@ -117,7 +119,7 @@ const Casters = () => {
                               }}
                             />
                             <button
-                              onClick={() => handleDownloadImage(team.image_url, team.name)}
+                              onClick={() => handleDownloadImage(teamImagePath, team.name)}
                               className="px-3 py-1 bg-primary text-black text-xs rounded hover:bg-primary/80 transition-colors flex items-center gap-1"
                             >
                               <span className="material-symbols-outlined text-sm">download</span>
@@ -127,7 +129,7 @@ const Casters = () => {
                         ) : (
                           <div className="w-24 h-24 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center">
                             <span className="text-3xl text-white font-bold">
-                              {team.name.charAt(0).toUpperCase()}
+                              {getTeamInitial(team.name)}
                             </span>
                           </div>
                         )}

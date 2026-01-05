@@ -12,6 +12,7 @@ import { JoinTeamForm } from '../components/JoinTeamForm';
 import { LFTForm } from '../components/LFTForm';
 import { useMyTeam } from '../hooks/useMyTeam';
 import { fetchMatchDetails } from '../services/matchApi';
+import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
 
 // Team name mappings
 const season4TeamNames = {
@@ -606,61 +607,7 @@ const League = () => {
     setImagePreview(null);
   };
 
-  const uploadNewImage = async (file) => {
-    if (!supabaseToken) return null;
-    
-    const authenticatedClient = getSupabaseClient(supabaseToken);
-    
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      
-      const { error } = await authenticatedClient.storage
-        .from('team-images')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error('Error uploading image:', error);
-        return null;
-      }
-
-      const { data: { publicUrl } } = authenticatedClient.storage
-        .from('team-images')
-        .getPublicUrl(fileName);
-
-      return publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
-  };
-
-  const deleteOldImage = async (imageUrl) => {
-    if (!supabaseToken || !imageUrl) return;
-    
-    const authenticatedClient = getSupabaseClient(supabaseToken);
-    
-    try {
-      const urlParts = imageUrl.split('/');
-      const fileName = urlParts[urlParts.length - 1];
-      
-      if (fileName) {
-        const { error } = await authenticatedClient.storage
-          .from('team-images')
-          .remove([fileName]);
-        
-        if (error) {
-          console.error('Error deleting old image:', error);
-        }
-      }
-    } catch (error) {
-      console.error('Error deleting old image:', error);
-    }
-  };
-
+  // Note: Team logo updates are now manual - admin needs to update the image in public/img/teams/
   const handleUpdateTeamImage = async () => {
     if (!myTeam || !newTeamImage || !supabaseToken) return;
 
@@ -674,30 +621,34 @@ const League = () => {
     setIsUploadingImage(true);
 
     try {
-      const imageUrl = await uploadNewImage(newTeamImage);
-      
-      if (imageUrl) {
-        const authenticatedClient = getSupabaseClient(supabaseToken);
-        const { error: updateError } = await authenticatedClient
-          .from("teams_s6")
-          .update({ image_url: imageUrl })
-          .eq("id", myTeam.id);
+      // Generate the local image path
+      const fileExt = newTeamImage.name.split('.').pop();
+      const sanitizedName = myTeam.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '');
+      const localImagePath = `/img/teams/${sanitizedName}.${fileExt}`;
 
-        if (updateError) throw updateError;
+      const authenticatedClient = getSupabaseClient(supabaseToken);
+      const { error: updateError } = await authenticatedClient
+        .from("teams_s6")
+        .update({ 
+          image_url: localImagePath,
+          pending_image: true // Flag for admin to update
+        })
+        .eq("id", myTeam.id);
 
-        // Delete the old image if it exists
-        if (myTeam.image_url) {
-          await deleteOldImage(myTeam.image_url);
-        }
+      if (updateError) throw updateError;
 
-        // Refresh the team data
-        mutateMyTeam();
-        setNewTeamImage(null);
-        setImagePreview(null);
-        alert('Team logo updated successfully!');
-      } else {
-        alert('Failed to upload image. Please try again.');
-      }
+      // Log for admin
+      console.log('Team logo update requested. Admin needs to save image as:', localImagePath);
+      console.log('Image file:', newTeamImage);
+
+      // Refresh the team data
+      mutateMyTeam();
+      setNewTeamImage(null);
+      setImagePreview(null);
+      alert('Team logo update requested! An admin will update the logo shortly.');
     } catch (err) {
       console.error("Error updating team image:", err);
       alert('Failed to update team logo. Please try again.');
@@ -714,6 +665,7 @@ const League = () => {
       ) : (
         sortedTeams.map((team) => {
           const players = parsePlayerData(team.players || []);
+          const teamImagePath = getTeamImagePath(team);
           
           return (
             <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
@@ -721,9 +673,9 @@ const League = () => {
               <div className="bg-zinc-900 p-4 border-b border-white/10">
                 <div className="flex items-center gap-3 mb-2">
                   {/* Team Logo */}
-                  {team.image_url ? (
+                  {teamImagePath ? (
                     <img 
-                      src={team.image_url} 
+                      src={teamImagePath} 
                       alt={`${team.name} logo`}
                       className="w-12 h-12 object-cover rounded-lg border-2 border-primary/30"
                       onError={(e) => {
@@ -733,7 +685,7 @@ const League = () => {
                   ) : (
                     <div className="w-12 h-12 bg-zinc-800 rounded-lg border-2 border-primary/30 flex items-center justify-center flex-shrink-0">
                       <span className="text-lg text-white font-bold">
-                        {team.name.charAt(0).toUpperCase()}
+                        {getTeamInitial(team.name)}
                       </span>
                     </div>
                   )}

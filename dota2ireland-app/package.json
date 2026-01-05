@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "download-team-images": "node scripts/download-team-images.js"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.9.0",

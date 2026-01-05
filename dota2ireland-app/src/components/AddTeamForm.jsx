@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { supabase, getSupabaseClient } from "../lib/supabase";
+import { supabase } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
 import { useMyTeam } from "../hooks/useMyTeam";
-import { Link } from "react-router-dom";
+import { sanitizeTeamName } from "../utils/teamImages";
 
 const initialPlayerState = {
   name: "",
@@ -68,39 +68,8 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
     setImagePreview(null);
   };
 
-  const uploadImage = async (file) => {
-    if (!supabaseToken) {
-      console.error('No Supabase token available');
-      return null;
-    }
-
-    try {
-      const authenticatedClient = getSupabaseClient(supabaseToken);
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      
-      const { error } = await authenticatedClient.storage
-        .from('team-images')
-        .upload(fileName, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
-
-      if (error) {
-        console.error('Error uploading image:', error);
-        return null;
-      }
-
-      const { data: { publicUrl } } = authenticatedClient.storage
-        .from('team-images')
-        .getPublicUrl(fileName);
-
-      return publicUrl;
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
-  };
+  // Note: Images are now stored locally in GitHub, not uploaded to Supabase
+  // The admin will need to manually save the image to public/img/teams/
 
   if (loading) {
     return <div className="text-center text-white/60 py-8">Loading...</div>;
@@ -128,10 +97,10 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
     try {
       const country = await getCountry();
 
-      let imageUrl = null;
-      if (teamImage) {
-        imageUrl = await uploadImage(teamImage);
-      }
+      // Generate the local image path
+      const fileExt = teamImage.name.split('.').pop();
+      const sanitizedName = sanitizeTeamName(teamName);
+      const localImagePath = `/img/teams/${sanitizedName}.${fileExt}`;
 
       const playerWithAuthId = {
         ...player,
@@ -147,13 +116,18 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
         losses: 0,
         draws: 0,
         division_id: divisionId,
-        image_url: imageUrl,
+        image_url: localImagePath, // Store local path
+        pending_image: true, // Flag to indicate admin needs to add image
       };
 
       const { data, error } = await supabase.from("teams_s6").insert([newTeam]).select().single();
 
       if (error) throw error;
       if (data) {
+        // Store image info for admin
+        console.log('Team registered! Admin needs to save image as:', localImagePath);
+        console.log('Image file:', teamImage);
+        
         setTeamName("");
         setPlayer(initialPlayerState);
         setTeamImage(null);
