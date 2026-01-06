@@ -241,11 +241,12 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
   ],
   2: [
-    // Division 2: Joon Squad: Junior, Creep Enjoyers, BDC, Washed & Rejected, I DO: REVENGE
-    // Week 1 - I DO: REVENGE has bye
+    // Division 2: Creep Enjoyers, BDC, Washed & Rejected, I DO: REVENGE (4 teams)
+    // 3 weeks - single round robin
+    // Week 1
     {
       id: "d2w1m1",
-      team1Id: "joon_squad_junior",
+      team1Id: "i_do_revenge",
       team2Id: "creep_enjoyers",
       date: "2026-01-05",
       completed: false,
@@ -262,19 +263,6 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       date: "2026-01-05",
       completed: false,
       week: 1,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    {
-      id: "d2w1bye",
-      team1Id: "i_do_revenge",
-      team2Id: "bye_week",
-      date: "2026-01-05",
-      completed: false,
-      week: 1,
-      isByeWeek: true,
       games: {
         game1: { played: false },
         game2: { played: false },
@@ -305,24 +293,11 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game2: { played: false },
       },
     },
-    {
-      id: "d2w2bye",
-      team1Id: "joon_squad_junior",
-      team2Id: "bye_week",
-      date: "2026-01-12",
-      completed: false,
-      week: 2,
-      isByeWeek: true,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
     // Week 3
     {
       id: "d2w3m1",
-      team1Id: "bdc",
-      team2Id: "i_do_revenge",
+      team1Id: "i_do_revenge",
+      team2Id: "bdc",
       date: "2026-01-19",
       completed: false,
       week: 3,
@@ -333,7 +308,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
     {
       id: "d2w3m2",
-      team1Id: "joon_squad_junior",
+      team1Id: "creep_enjoyers",
       team2Id: "washed_rejected",
       date: "2026-01-19",
       completed: false,
@@ -343,117 +318,28 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game2: { played: false },
       },
     },
-    {
-      id: "d2w3bye",
-      team1Id: "creep_enjoyers",
-      team2Id: "bye_week",
-      date: "2026-01-19",
-      completed: false,
-      week: 3,
-      isByeWeek: true,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    // Week 4
+    // Week 4 - Semifinals (BO3)
     {
       id: "d2w4m1",
-      team1Id: "i_do_revenge",
-      team2Id: "joon_squad_junior",
+      team1Id: "seed1_d2",
+      team2Id: "seed4_d2",
       date: "2026-01-26",
       completed: false,
       week: 4,
+      isKnockout: true,
       games: {
         game1: { played: false },
         game2: { played: false },
+        game3: { played: false },
       },
     },
     {
       id: "d2w4m2",
-      team1Id: "creep_enjoyers",
-      team2Id: "washed_rejected",
-      date: "2026-01-26",
-      completed: false,
-      week: 4,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    {
-      id: "d2w4bye",
-      team1Id: "bdc",
-      team2Id: "bye_week",
-      date: "2026-01-26",
-      completed: false,
-      week: 4,
-      isByeWeek: true,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    // Week 5
-    {
-      id: "d2w5m1",
-      team1Id: "joon_squad_junior",
-      team2Id: "bdc",
-      date: "2026-02-02",
-      completed: false,
-      week: 5,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    {
-      id: "d2w5m2",
-      team1Id: "i_do_revenge",
-      team2Id: "creep_enjoyers",
-      date: "2026-02-02",
-      completed: false,
-      week: 5,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    {
-      id: "d2w5bye",
-      team1Id: "washed_rejected",
-      team2Id: "bye_week",
-      date: "2026-02-02",
-      completed: false,
-      week: 5,
-      isByeWeek: true,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-      },
-    },
-    // Week 6 - Semifinals (BO3)
-    {
-      id: "d2w6m1",
-      team1Id: "seed1_d2",
-      team2Id: "seed4_d2",
-      date: "2026-02-09",
-      completed: false,
-      week: 6,
-      isKnockout: true,
-      games: {
-        game1: { played: false },
-        game2: { played: false },
-        game3: { played: false },
-      },
-    },
-    {
-      id: "d2w6m2",
       team1Id: "seed2_d2",
       team2Id: "seed3_d2",
-      date: "2026-02-09",
+      date: "2026-01-26",
       completed: false,
-      week: 6,
+      week: 4,
       isKnockout: true,
       games: {
         game1: { played: false },
@@ -461,14 +347,14 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game3: { played: false },
       },
     },
-    // Week 7 - Grand Final (BO5)
+    // Week 5 - Grand Final (BO5)
     {
-      id: "d2w7m1",
-      team1Id: "winner_d2w6m1",
-      team2Id: "winner_d2w6m2",
-      date: "2026-02-16",
+      id: "d2w5m1",
+      team1Id: "winner_d2w4m1",
+      team2Id: "winner_d2w4m2",
+      date: "2026-02-02",
       completed: false,
-      week: 7,
+      week: 5,
       isKnockout: true,
       games: {
         game1: { played: false },
@@ -480,8 +366,9 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
   ],
   3: [
-    // Division 3: Imprint Esports, Green Isle Gaming, Motion of the roshan, Ausgang, D2Ire Rejects, Passport Issues
-    // Week 1
+    // Division 3: Joon Squad: Junior, Imprint Esports, Green Isle Gaming, Motion of the roshan, Ausgang, D2Ire Rejects, Passport Issues (7 teams)
+    // 6 weeks - rotating byes
+    // Week 1 - Joon Squad: Junior has bye
     {
       id: "d3w1m1",
       team1Id: "imprint_esports",
@@ -518,9 +405,34 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game2: { played: false },
       },
     },
+    {
+      id: "d3w1bye",
+      team1Id: "joon_squad_junior",
+      team2Id: "bye_week",
+      date: "2026-01-05",
+      completed: false,
+      week: 1,
+      isByeWeek: true,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
     // Week 2
     {
       id: "d3w2m1",
+      team1Id: "joon_squad_junior",
+      team2Id: "imprint_esports",
+      date: "2026-01-12",
+      completed: false,
+      week: 2,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    {
+      id: "d3w2m2",
       team1Id: "green_isle_gaming",
       team2Id: "motion_of_the_roshan",
       date: "2026-01-12",
@@ -532,7 +444,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w2m2",
+      id: "d3w2m3",
       team1Id: "ausgang",
       team2Id: "d2ire_rejects",
       date: "2026-01-12",
@@ -544,12 +456,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w2m3",
+      id: "d3w2bye",
       team1Id: "passport_issues",
-      team2Id: "imprint_esports",
+      team2Id: "bye_week",
       date: "2026-01-12",
       completed: false,
       week: 2,
+      isByeWeek: true,
       games: {
         game1: { played: false },
         game2: { played: false },
@@ -558,6 +471,18 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     // Week 3
     {
       id: "d3w3m1",
+      team1Id: "passport_issues",
+      team2Id: "joon_squad_junior",
+      date: "2026-01-19",
+      completed: false,
+      week: 3,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    {
+      id: "d3w3m2",
       team1Id: "motion_of_the_roshan",
       team2Id: "d2ire_rejects",
       date: "2026-01-19",
@@ -569,7 +494,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w3m2",
+      id: "d3w3m3",
       team1Id: "imprint_esports",
       team2Id: "ausgang",
       date: "2026-01-19",
@@ -581,12 +506,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w3m3",
+      id: "d3w3bye",
       team1Id: "green_isle_gaming",
-      team2Id: "passport_issues",
+      team2Id: "bye_week",
       date: "2026-01-19",
       completed: false,
       week: 3,
+      isByeWeek: true,
       games: {
         game1: { played: false },
         game2: { played: false },
@@ -595,6 +521,18 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     // Week 4
     {
       id: "d3w4m1",
+      team1Id: "green_isle_gaming",
+      team2Id: "passport_issues",
+      date: "2026-01-26",
+      completed: false,
+      week: 4,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    {
+      id: "d3w4m2",
       team1Id: "d2ire_rejects",
       team2Id: "imprint_esports",
       date: "2026-01-26",
@@ -606,9 +544,9 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w4m2",
+      id: "d3w4m3",
       team1Id: "ausgang",
-      team2Id: "green_isle_gaming",
+      team2Id: "joon_squad_junior",
       date: "2026-01-26",
       completed: false,
       week: 4,
@@ -618,12 +556,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       },
     },
     {
-      id: "d3w4m3",
-      team1Id: "passport_issues",
-      team2Id: "motion_of_the_roshan",
+      id: "d3w4bye",
+      team1Id: "motion_of_the_roshan",
+      team2Id: "bye_week",
       date: "2026-01-26",
       completed: false,
       week: 4,
+      isByeWeek: true,
       games: {
         game1: { played: false },
         game2: { played: false },
@@ -632,8 +571,8 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     // Week 5
     {
       id: "d3w5m1",
-      team1Id: "imprint_esports",
-      team2Id: "motion_of_the_roshan",
+      team1Id: "motion_of_the_roshan",
+      team2Id: "green_isle_gaming",
       date: "2026-02-02",
       completed: false,
       week: 5,
@@ -644,7 +583,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
     {
       id: "d3w5m2",
-      team1Id: "green_isle_gaming",
+      team1Id: "joon_squad_junior",
       team2Id: "d2ire_rejects",
       date: "2026-02-02",
       completed: false,
@@ -656,7 +595,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
     {
       id: "d3w5m3",
-      team1Id: "ausgang",
+      team1Id: "imprint_esports",
       team2Id: "passport_issues",
       date: "2026-02-02",
       completed: false,
@@ -666,28 +605,77 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game2: { played: false },
       },
     },
-    // Week 6 - Semifinals (BO3)
     {
-      id: "d3w6m1",
-      team1Id: "seed1_d3",
-      team2Id: "seed4_d3",
-      date: "2026-02-09",
+      id: "d3w5bye",
+      team1Id: "ausgang",
+      team2Id: "bye_week",
+      date: "2026-02-02",
       completed: false,
-      week: 6,
-      isKnockout: true,
+      week: 5,
+      isByeWeek: true,
       games: {
         game1: { played: false },
         game2: { played: false },
-        game3: { played: false },
+      },
+    },
+    // Week 6
+    {
+      id: "d3w6m1",
+      team1Id: "ausgang",
+      team2Id: "green_isle_gaming",
+      date: "2026-02-09",
+      completed: false,
+      week: 6,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
       },
     },
     {
       id: "d3w6m2",
-      team1Id: "seed2_d3",
-      team2Id: "seed3_d3",
+      team1Id: "passport_issues",
+      team2Id: "motion_of_the_roshan",
       date: "2026-02-09",
       completed: false,
       week: 6,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    {
+      id: "d3w6m3",
+      team1Id: "joon_squad_junior",
+      team2Id: "imprint_esports",
+      date: "2026-02-09",
+      completed: false,
+      week: 6,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    {
+      id: "d3w6bye",
+      team1Id: "d2ire_rejects",
+      team2Id: "bye_week",
+      date: "2026-02-09",
+      completed: false,
+      week: 6,
+      isByeWeek: true,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+      },
+    },
+    // Week 7 - Semifinals (BO3)
+    {
+      id: "d3w7m1",
+      team1Id: "seed1_d3",
+      team2Id: "seed4_d3",
+      date: "2026-02-16",
+      completed: false,
+      week: 7,
       isKnockout: true,
       games: {
         game1: { played: false },
@@ -695,14 +683,28 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
         game3: { played: false },
       },
     },
-    // Week 7 - Grand Final (BO5)
     {
-      id: "d3w7m1",
-      team1Id: "winner_d3w6m1",
-      team2Id: "winner_d3w6m2",
+      id: "d3w7m2",
+      team1Id: "seed2_d3",
+      team2Id: "seed3_d3",
       date: "2026-02-16",
       completed: false,
       week: 7,
+      isKnockout: true,
+      games: {
+        game1: { played: false },
+        game2: { played: false },
+        game3: { played: false },
+      },
+    },
+    // Week 8 - Grand Final (BO5)
+    {
+      id: "d3w8m1",
+      team1Id: "winner_d3w7m1",
+      team2Id: "winner_d3w7m2",
+      date: "2026-02-23",
+      completed: false,
+      week: 8,
       isKnockout: true,
       games: {
         game1: { played: false },
@@ -953,4 +955,5 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     },
   ],
 };
+
 

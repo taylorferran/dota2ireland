@@ -65,12 +65,12 @@ const season6TeamNames = {
   no_tormentor: "No Tormentor",
   the_pepegs: "The Pepegs",
   // Division 2
-  joon_squad_junior: "Joon Squad: Junior",
   creep_enjoyers: "Creep Enjoyers",
   bdc: "BDC",
   washed_rejected: "Washed & Rejected",
   i_do_revenge: "I DO: REVENGE",
   // Division 3
+  joon_squad_junior: "Joon Squad: Junior",
   imprint_esports: "Imprint Esports",
   green_isle_gaming: "Green Isle Gaming",
   motion_of_the_roshan: "Motion of the roshan",

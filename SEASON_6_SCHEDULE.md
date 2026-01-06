@@ -58,46 +58,32 @@
 ## Division 2
 
 ### Teams
-1. Joon Squad: Junior
-2. Creep Enjoyers
-3. BDC
-4. Washed & Rejected
-5. I DO: REVENGE
+1. Creep Enjoyers
+2. BDC
+3. Washed & Rejected
+4. I DO: REVENGE
 
-### Group Stage Schedule
+### Group Stage Schedule (3 weeks)
 
 #### Week 1 - January 5, 2026
-- **Match 1:** Joon Squad: Junior vs Creep Enjoyers (BO2)
+- **Match 1:** I DO: REVENGE vs Creep Enjoyers (BO2)
 - **Match 2:** BDC vs Washed & Rejected (BO2)
-- **Bye:** I DO: REVENGE
 
 #### Week 2 - January 12, 2026
 - **Match 1:** Creep Enjoyers vs BDC (BO2)
 - **Match 2:** Washed & Rejected vs I DO: REVENGE (BO2)
-- **Bye:** Joon Squad: Junior
 
 #### Week 3 - January 19, 2026
-- **Match 1:** BDC vs I DO: REVENGE (BO2)
-- **Match 2:** Joon Squad: Junior vs Washed & Rejected (BO2)
-- **Bye:** Creep Enjoyers
-
-#### Week 4 - January 26, 2026
-- **Match 1:** I DO: REVENGE vs Joon Squad: Junior (BO2)
+- **Match 1:** I DO: REVENGE vs BDC (BO2)
 - **Match 2:** Creep Enjoyers vs Washed & Rejected (BO2)
-- **Bye:** BDC
-
-#### Week 5 - February 2, 2026
-- **Match 1:** Joon Squad: Junior vs BDC (BO2)
-- **Match 2:** I DO: REVENGE vs Creep Enjoyers (BO2)
-- **Bye:** Washed & Rejected
 
 ### Playoffs
 
-#### Week 6 - February 9, 2026 (Semifinals - BO3)
+#### Week 4 - January 26, 2026 (Semifinals - BO3)
 - **SF1:** 1st Seed vs 4th Seed
 - **SF2:** 2nd Seed vs 3rd Seed
 
-#### Week 7 - February 16, 2026 (Grand Final - BO5)
+#### Week 5 - February 2, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
 
 ---
@@ -105,47 +91,59 @@
 ## Division 3
 
 ### Teams
-1. Imprint Esports
-2. Green Isle Gaming
-3. Motion of the roshan
-4. Ausgang
-5. D2Ire Rejects
-6. Passport Issues
+1. Joon Squad: Junior
+2. Imprint Esports
+3. Green Isle Gaming
+4. Motion of the roshan
+5. Ausgang
+6. D2Ire Rejects
+7. Passport Issues
 
-### Group Stage Schedule
+### Group Stage Schedule (6 weeks)
 
 #### Week 1 - January 5, 2026
 - **Match 1:** Imprint Esports vs Green Isle Gaming (BO2)
 - **Match 2:** Motion of the roshan vs Ausgang (BO2)
 - **Match 3:** D2Ire Rejects vs Passport Issues (BO2)
+- **Bye:** Joon Squad: Junior
 
 #### Week 2 - January 12, 2026
-- **Match 1:** Green Isle Gaming vs Motion of the roshan (BO2)
-- **Match 2:** Ausgang vs D2Ire Rejects (BO2)
-- **Match 3:** Passport Issues vs Imprint Esports (BO2)
+- **Match 1:** Joon Squad: Junior vs Imprint Esports (BO2)
+- **Match 2:** Green Isle Gaming vs Motion of the roshan (BO2)
+- **Match 3:** Ausgang vs D2Ire Rejects (BO2)
+- **Bye:** Passport Issues
 
 #### Week 3 - January 19, 2026
-- **Match 1:** Motion of the roshan vs D2Ire Rejects (BO2)
-- **Match 2:** Imprint Esports vs Ausgang (BO2)
-- **Match 3:** Green Isle Gaming vs Passport Issues (BO2)
+- **Match 1:** Passport Issues vs Joon Squad: Junior (BO2)
+- **Match 2:** Motion of the roshan vs D2Ire Rejects (BO2)
+- **Match 3:** Imprint Esports vs Ausgang (BO2)
+- **Bye:** Green Isle Gaming
 
 #### Week 4 - January 26, 2026
-- **Match 1:** D2Ire Rejects vs Imprint Esports (BO2)
-- **Match 2:** Ausgang vs Green Isle Gaming (BO2)
-- **Match 3:** Passport Issues vs Motion of the roshan (BO2)
+- **Match 1:** Green Isle Gaming vs Passport Issues (BO2)
+- **Match 2:** D2Ire Rejects vs Imprint Esports (BO2)
+- **Match 3:** Ausgang vs Joon Squad: Junior (BO2)
+- **Bye:** Motion of the roshan
 
 #### Week 5 - February 2, 2026
-- **Match 1:** Imprint Esports vs Motion of the roshan (BO2)
-- **Match 2:** Green Isle Gaming vs D2Ire Rejects (BO2)
-- **Match 3:** Ausgang vs Passport Issues (BO2)
+- **Match 1:** Motion of the roshan vs Green Isle Gaming (BO2)
+- **Match 2:** Joon Squad: Junior vs D2Ire Rejects (BO2)
+- **Match 3:** Imprint Esports vs Passport Issues (BO2)
+- **Bye:** Ausgang
+
+#### Week 6 - February 9, 2026
+- **Match 1:** Ausgang vs Green Isle Gaming (BO2)
+- **Match 2:** Passport Issues vs Motion of the roshan (BO2)
+- **Match 3:** Joon Squad: Junior vs Imprint Esports (BO2)
+- **Bye:** D2Ire Rejects
 
 ### Playoffs
 
-#### Week 6 - February 9, 2026 (Semifinals - BO3)
+#### Week 7 - February 16, 2026 (Semifinals - BO3)
 - **SF1:** 1st Seed vs 4th Seed
 - **SF2:** 2nd Seed vs 3rd Seed
 
-#### Week 7 - February 16, 2026 (Grand Final - BO5)
+#### Week 8 - February 23, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
 
 ---
@@ -203,9 +201,10 @@
 - Teams should coordinate match times directly with their opponents
 - Default match time is 8:00 PM GMT unless mutually agreed otherwise
 - Each division follows a round-robin format where every team plays every other team once
-- Divisions 1, 2, and 4 (5-team divisions) use a rotating bye week system
-- Division 3 (6 teams) has all teams playing every week
-- Division 4 now has 5 teams with rotating bye weeks
+- Division 1 (5 teams): 5 weeks group stage + 2 weeks playoffs
+- Division 2 (4 teams): 3 weeks group stage + 2 weeks playoffs (single round-robin)
+- Division 3 (7 teams): 6 weeks group stage + 2 weeks playoffs with rotating bye weeks
+- Division 4 (5 teams): 5 weeks group stage + 2 weeks playoffs with rotating bye weeks
 
 ## Contact
 
