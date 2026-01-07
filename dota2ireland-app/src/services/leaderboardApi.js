@@ -1,6 +1,6 @@
 // Use proxied endpoints to avoid CORS issues
 const API_TOKEN = import.meta.env.VITE_IMPRINT_API_TOKEN;
-const LEAGUE_ID = 18171; // IDL Season 5
+const LEAGUE_ID = import.meta.env.VITE_IMPRINT_LEAGUE_ID || 18171; // IDL Season 5
 
 export const fetchLeaderboard = async () => {
   const response = await fetch('/api/leaderboard', {

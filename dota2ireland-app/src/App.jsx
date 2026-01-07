@@ -13,8 +13,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 const Imprint = lazy(() => import('./pages/Imprint'));
 const Casters = lazy(() => import('./pages/Casters'));
 
-const domain = import.meta.env.VITE_AUTH0_DOMAIN || '***REMOVED_AUTH0_DOMAIN***';
-const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID || '***REMOVED_AUTH0_CLIENT_ID***';
+const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
 // Loading fallback component
 const PageLoader = () => (
