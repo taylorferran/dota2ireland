@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchLeaderboard, fetchHeroStatistics, fetchTeams } from "../services/leaderboardApi";
+import { fetchLeaderboard, fetchHeroStatistics, fetchTeams, SEASON_LEAGUE_IDS } from "../services/leaderboardApi";
 
 const getPositionImage = (position) => {
   const positionMap = {
@@ -14,6 +14,7 @@ const getPositionImage = (position) => {
 
 const Imprint = () => {
   const [activeTab, setActiveTab] = useState("leaderboard");
+  const [selectedSeason, setSelectedSeason] = useState(6); // Default to Season 6
   const [players, setPlayers] = useState([]);
   const [heroes, setHeroes] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -26,17 +27,21 @@ const Imprint = () => {
         setLoading(true);
         setError(null);
 
+        const leagueId = SEASON_LEAGUE_IDS[selectedSeason];
+
         if (activeTab === "leaderboard") {
-          const data = await fetchLeaderboard();
+          const data = await fetchLeaderboard(leagueId);
+          // Use lower threshold for Season 6 since it just started
+          const minMatchCount = selectedSeason === 6 ? 1 : 3;
           const filteredPlayers = data.players
-            .filter((player) => player.match_count >= 3)
+            .filter((player) => player.match_count >= minMatchCount)
             .sort((a, b) => b.average_imprint_rating - a.average_imprint_rating);
           setPlayers(filteredPlayers);
         } else if (activeTab === "heroes") {
-          const data = await fetchHeroStatistics();
+          const data = await fetchHeroStatistics(leagueId);
           setHeroes(data.hero_statistics.heroes.sort((a, b) => b.match_count - a.match_count));
         } else {
-          const data = await fetchTeams();
+          const data = await fetchTeams(leagueId);
           setTeams(data.teams.sort((a, b) => b.average_team_imprint_rating - a.average_team_imprint_rating));
         }
       } catch (err) {
@@ -48,7 +53,7 @@ const Imprint = () => {
     };
 
     loadData();
-  }, [activeTab]);
+  }, [activeTab, selectedSeason]);
 
   const getMostPopularPosition = (hero) => {
     if (!hero.position_tally || hero.position_tally.length === 0) return null;
@@ -233,37 +238,61 @@ const Imprint = () => {
           {/* Header */}
           <div className="text-center space-y-6 mb-8">
             <h1 className="text-4xl font-black text-primary tracking-wider">
-              Imprint Leaderboard (IDL Season 5)
+              Imprint Leaderboard (IDL Season {selectedSeason})
             </h1>
 
-            {/* Tab Navigation */}
-            <div className="flex justify-center gap-2 bg-zinc-800 rounded-lg p-1 w-fit mx-auto">
+            {/* Season Selector */}
+            <div className="flex flex-wrap justify-center items-center gap-3">
+              <button
+                onClick={() => setSelectedSeason(6)}
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  selectedSeason === 6
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
+                }`}
+              >
+                Season 6
+              </button>
+              <button
+                onClick={() => setSelectedSeason(5)}
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  selectedSeason === 5
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
+                }`}
+              >
+                Season 5 (Archive)
+              </button>
+
+              <div className="w-px h-8 bg-white/20 hidden sm:block"></div>
+
+              {/* Tab Navigation */}
               <button
                 onClick={() => setActiveTab("leaderboard")}
-                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "leaderboard"
-                    ? "bg-primary text-black"
-                    : "bg-transparent text-white/70 hover:text-white"
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
                 }`}
               >
                 Players
               </button>
               <button
                 onClick={() => setActiveTab("heroes")}
-                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "heroes"
-                    ? "bg-primary text-black"
-                    : "bg-transparent text-white/70 hover:text-white"
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
                 }`}
               >
                 Heroes
               </button>
               <button
                 onClick={() => setActiveTab("teams")}
-                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
                   activeTab === "teams"
-                    ? "bg-primary text-black"
-                    : "bg-transparent text-white/70 hover:text-white"
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
                 }`}
               >
                 Teams

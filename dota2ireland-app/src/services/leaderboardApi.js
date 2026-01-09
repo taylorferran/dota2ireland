@@ -1,8 +1,13 @@
 // Use proxied endpoints to avoid CORS issues
 const API_TOKEN = import.meta.env.VITE_IMPRINT_API_TOKEN;
-const LEAGUE_ID = import.meta.env.VITE_IMPRINT_LEAGUE_ID || 18171; // IDL Season 5
 
-export const fetchLeaderboard = async () => {
+// Season league IDs
+export const SEASON_LEAGUE_IDS = {
+  5: 18171, // IDL Season 5
+  6: 19084, // IDL Season 6
+};
+
+export const fetchLeaderboard = async (leagueId) => {
   const response = await fetch('/api/leaderboard', {
     method: 'POST',
     headers: {
@@ -10,7 +15,7 @@ export const fetchLeaderboard = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      league_id: LEAGUE_ID,
+      league_id: leagueId,
     }),
   });
   if (!response.ok) {
@@ -19,7 +24,7 @@ export const fetchLeaderboard = async () => {
   return response.json();
 };
 
-export const fetchHeroStatistics = async () => {
+export const fetchHeroStatistics = async (leagueId) => {
   const response = await fetch('/api/hero-statistics', {
     method: 'POST',
     headers: {
@@ -27,7 +32,7 @@ export const fetchHeroStatistics = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      league_id: LEAGUE_ID,
+      league_id: leagueId,
     }),
   });
   if (!response.ok) {
@@ -36,7 +41,7 @@ export const fetchHeroStatistics = async () => {
   return response.json();
 };
 
-export const fetchTeams = async () => {
+export const fetchTeams = async (leagueId) => {
   const response = await fetch('/api/teams', {
     method: 'POST',
     headers: {
@@ -44,7 +49,7 @@ export const fetchTeams = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      league_id: LEAGUE_ID,
+      league_id: leagueId,
     }),
   });
   if (!response.ok) {

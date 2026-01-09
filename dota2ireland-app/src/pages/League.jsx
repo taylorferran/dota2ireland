@@ -437,7 +437,9 @@ const League = () => {
                           </div>
 
                           {/* Teams */}
-                          {matchDetails.teams.map((team, teamIndex) => (
+                          {matchDetails.teams
+                            .sort((a, b) => b.is_radiant - a.is_radiant) // Radiant first (true=1, false=0)
+                            .map((team, teamIndex) => (
                             <div key={teamIndex} className="space-y-3">
                               <div className="flex items-center justify-between px-4 py-2 bg-zinc-800 rounded-lg">
                                 <div className="flex items-center gap-3">
@@ -479,11 +481,11 @@ const League = () => {
                                           <div className="flex items-center gap-2">
                                             <img 
                                               src={player.hero.icon_src} 
-                                              alt={player.hero.Name}
+                                              alt={player.hero.name}
                                               className="w-8 h-8 rounded"
                                               loading="lazy"
                                             />
-                                            <span className="text-white text-xs">{player.hero.Name}</span>
+                                            <span className="text-white text-xs">{player.hero.name}</span>
                                           </div>
                                         </td>
                                         <td className="py-2 px-2">
