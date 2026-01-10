@@ -127,7 +127,9 @@
 - **Match 2:** Motion of the roshan vs Ausgang (BO2) - **1-1**
   - Game 1: Motion of the roshan (Match ID: 8642499499)
   - Game 2: Ausgang (Match ID: 8642566255)
-- **Match 3:** D2Ire Rejects vs Passport Issues (BO2) - *Not Played*
+- **Match 3:** D2Ire Rejects vs Passport Issues (BO2) - **1-1**
+  - Game 1: Passport Issues (Match ID: 8644001797)
+  - Game 2: D2Ire Rejects (Match ID: 8644065660)
 - **Bye:** Joon Squad: Junior
 
 #### Week 2 - January 12, 2026
@@ -174,11 +176,11 @@
 |------|-----------------------|--------|---|---|---|--------|
 | 1    | Motion of the roshan  | 1      | 0 | 1 | 0 | 1      |
 | 2    | Ausgang               | 1      | 0 | 1 | 0 | 1      |
-| 3    | Joon Squad: Junior    | 0      | 0 | 0 | 0 | 0      |
-| 4    | Imprint Esports       | 0      | 0 | 0 | 0 | 0      |
-| 5    | Green Isle Gaming     | 0      | 0 | 0 | 0 | 0      |
-| 6    | D2Ire Rejects         | 0      | 0 | 0 | 0 | 0      |
-| 7    | Passport Issues       | 0      | 0 | 0 | 0 | 0      |
+| 3    | D2Ire Rejects         | 1      | 0 | 1 | 0 | 1      |
+| 4    | Passport Issues       | 1      | 0 | 1 | 0 | 1      |
+| 5    | Joon Squad: Junior    | 0      | 0 | 0 | 0 | 0      |
+| 6    | Imprint Esports       | 0      | 0 | 0 | 0 | 0      |
+| 7    | Green Isle Gaming     | 0      | 0 | 0 | 0 | 0      |
 
 ---
 
