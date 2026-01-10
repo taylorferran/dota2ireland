@@ -1,5 +1,7 @@
 # Irish Dota League - Season 6 Schedule
 
+> **Note:** When adding match scores to `matchDataSeason6.ts`, remember to also update this file with the results for historical record keeping.
+
 ## Format
 - **Group Stage:** 5 weeks of Best-of-2 (BO2) round-robin matches
 - **Playoffs:** Week 6 - Semifinals (BO3), Week 7 - Grand Finals (BO5)
@@ -20,8 +22,10 @@
 ### Group Stage Schedule
 
 #### Week 1 - January 5, 2026
-- **Match 1:** Wong's Bakery vs Skiddy's Angels (BO2)
-- **Match 2:** Sentinel Island Esports vs No Tormentor (BO2)
+- **Match 1:** Wong's Bakery vs Skiddy's Angels (BO2) - **2-0**
+  - Game 1: Wong's Bakery (Match ID: 8642434056)
+  - Game 2: Wong's Bakery (Match ID: 8642547213)
+- **Match 2:** Sentinel Island Esports vs No Tormentor (BO2) - *Not Played*
 - **Bye:** The Pepegs
 
 #### Week 2 - January 12, 2026
@@ -52,6 +56,15 @@
 
 #### Week 7 - February 16, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
+
+### Current Standings (After Week 1)
+| Rank | Team                    | Played | W | D | L | Points |
+|------|-------------------------|--------|---|---|---|--------|
+| 1    | Wong's Bakery           | 1      | 1 | 0 | 0 | 3      |
+| 2    | Skiddy's Angels         | 1      | 0 | 0 | 1 | 0      |
+| 3    | Sentinel Island Esports | 0      | 0 | 0 | 0 | 0      |
+| 4    | No Tormentor            | 0      | 0 | 0 | 0 | 0      |
+| 5    | The Pepegs              | 0      | 0 | 0 | 0 | 0      |
 
 ---
 
@@ -86,6 +99,14 @@
 #### Week 5 - February 2, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
 
+### Current Standings (After Week 1)
+| Rank | Team              | Played | W | D | L | Points |
+|------|-------------------|--------|---|---|---|--------|
+| 1    | Creep Enjoyers    | 0      | 0 | 0 | 0 | 0      |
+| 2    | BDC               | 0      | 0 | 0 | 0 | 0      |
+| 3    | Washed & Rejected | 0      | 0 | 0 | 0 | 0      |
+| 4    | I DO: REVENGE     | 0      | 0 | 0 | 0 | 0      |
+
 ---
 
 ## Division 3
@@ -102,9 +123,11 @@
 ### Group Stage Schedule (6 weeks)
 
 #### Week 1 - January 5, 2026
-- **Match 1:** Imprint Esports vs Green Isle Gaming (BO2)
-- **Match 2:** Motion of the roshan vs Ausgang (BO2)
-- **Match 3:** D2Ire Rejects vs Passport Issues (BO2)
+- **Match 1:** Imprint Esports vs Green Isle Gaming (BO2) - *Not Played*
+- **Match 2:** Motion of the roshan vs Ausgang (BO2) - **1-1**
+  - Game 1: Motion of the roshan (Match ID: 8642499499)
+  - Game 2: Ausgang (Match ID: 8642566255)
+- **Match 3:** D2Ire Rejects vs Passport Issues (BO2) - *Not Played*
 - **Bye:** Joon Squad: Junior
 
 #### Week 2 - January 12, 2026
@@ -146,6 +169,17 @@
 #### Week 8 - February 23, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
 
+### Current Standings (After Week 1)
+| Rank | Team                  | Played | W | D | L | Points |
+|------|-----------------------|--------|---|---|---|--------|
+| 1    | Motion of the roshan  | 1      | 0 | 1 | 0 | 1      |
+| 2    | Ausgang               | 1      | 0 | 1 | 0 | 1      |
+| 3    | Joon Squad: Junior    | 0      | 0 | 0 | 0 | 0      |
+| 4    | Imprint Esports       | 0      | 0 | 0 | 0 | 0      |
+| 5    | Green Isle Gaming     | 0      | 0 | 0 | 0 | 0      |
+| 6    | D2Ire Rejects         | 0      | 0 | 0 | 0 | 0      |
+| 7    | Passport Issues       | 0      | 0 | 0 | 0 | 0      |
+
 ---
 
 ## Division 4
@@ -160,8 +194,10 @@
 ### Group Stage Schedule
 
 #### Week 1 - January 5, 2026
-- **Match 1:** 5 stuns no brain vs Bord Na Mona (BO2)
-- **Match 2:** Cavan Creche vs Team Sosal (BO2)
+- **Match 1:** 5 stuns no brain vs Bord Na Mona (BO2) - *Not Played*
+- **Match 2:** Cavan Creche vs Team Sosal (BO2) - **2-0**
+  - Game 1: Cavan Creche (Match ID: 8642469750)
+  - Game 2: Cavan Creche (Match ID: 8642555149)
 - **Bye:** Herald Hall of Fame
 
 #### Week 2 - January 12, 2026
@@ -192,6 +228,15 @@
 
 #### Week 7 - February 16, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
+
+### Current Standings (After Week 1)
+| Rank | Team                | Played | W | D | L | Points |
+|------|---------------------|--------|---|---|---|--------|
+| 1    | Cavan Creche        | 1      | 1 | 0 | 0 | 3      |
+| 2    | 5 stuns no brain    | 0      | 0 | 0 | 0 | 0      |
+| 3    | Bord Na Mona        | 0      | 0 | 0 | 0 | 0      |
+| 4    | Herald Hall of Fame | 0      | 0 | 0 | 0 | 0      |
+| 5    | Team Sosal          | 1      | 0 | 0 | 1 | 0      |
 
 ---
 

@@ -13,6 +13,7 @@ import { LFTForm } from '../components/LFTForm';
 import { useMyTeam } from '../hooks/useMyTeam';
 import { fetchMatchDetails } from '../services/matchApi';
 import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
+import { calculateAllDivisionStandings } from '../utils/calculateStandings';
 
 // Team name mappings
 const season4TeamNames = {
@@ -239,41 +240,48 @@ const League = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // Determine which table to use based on season
-      const teamsTable = selectedSeason === 4 ? 'teams_duplicate' : selectedSeason === 6 ? 'teams_s6' : 'teams';
-      
-      // Fetch teams
-      const { data: teamsData, error: teamsError } = await supabase
-        .from(teamsTable)
-        .select('*')
-        .order('division_id', { ascending: true })
-        .order('points', { ascending: false });
-
-      if (teamsError) {
-        console.error('Error fetching teams:', teamsError);
-        setTeams([]);
+      // For Season 6, calculate standings from match data instead of fetching from database
+      if (selectedSeason === 6) {
+        const calculatedStandings = calculateAllDivisionStandings(season6Matches, season6TeamNames);
+        const allTeams = Object.values(calculatedStandings).flat();
+        setTeams(allTeams);
       } else {
-        // Parse the players field if it exists
-        const parsedTeams = (teamsData || []).map((team) => {
-          try {
-            return {
-              ...team,
-              players: team.players ? team.players.map((player) => {
-                if (typeof player === 'string') {
-                  return JSON.parse(player);
-                }
-                return player;
-              }) : []
-            };
-          } catch (e) {
-            console.error('Error parsing team players:', e);
-            return team;
-          }
-        });
-        setTeams(parsedTeams);
+        // For other seasons, fetch from database
+        const teamsTable = selectedSeason === 4 ? 'teams_duplicate' : 'teams';
+        
+        // Fetch teams
+        const { data: teamsData, error: teamsError } = await supabase
+          .from(teamsTable)
+          .select('*')
+          .order('division_id', { ascending: true })
+          .order('points', { ascending: false });
+
+        if (teamsError) {
+          console.error('Error fetching teams:', teamsError);
+          setTeams([]);
+        } else {
+          // Parse the players field if it exists
+          const parsedTeams = (teamsData || []).map((team) => {
+            try {
+              return {
+                ...team,
+                players: team.players ? team.players.map((player) => {
+                  if (typeof player === 'string') {
+                    return JSON.parse(player);
+                  }
+                  return player;
+                }) : []
+              };
+            } catch (e) {
+              console.error('Error parsing team players:', e);
+              return team;
+            }
+          });
+          setTeams(parsedTeams);
+        }
       }
 
-      // Matches are loaded from static data files (matchDataSeason4.js / matchDataSeason5.js)
+      // Matches are loaded from static data files (matchDataSeason4.js / matchDataSeason5.js / matchDataSeason6.ts)
 
       // Fetch LFT players
       const { data: lftData, error: lftError } = await supabase
