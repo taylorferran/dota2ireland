@@ -746,16 +746,17 @@ const League = () => {
           const teamImagePath = getTeamImagePath(team);
           
           return (
-            <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
+            <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-visible">
               {/* Team Header */}
-              <div className="bg-zinc-900 p-4 border-b border-white/10">
+              <div className="bg-zinc-900 p-4 border-b border-white/10 relative">
                 <div className="flex items-center gap-3 mb-2">
                   {/* Team Logo */}
                   {teamImagePath ? (
                     <img 
                       src={teamImagePath} 
                       alt={`${team.name} logo`}
-                      className="w-12 h-12 object-cover rounded-lg border-2 border-primary/30"
+                      className="w-12 h-12 object-contain rounded-lg border-2 border-primary/30 opacity-100 transition-transform duration-200 [transition:transform_200ms,opacity_700ms,border_0ms_200ms,border-radius_0ms_200ms] hover:[transition:transform_200ms,opacity_700ms,border_0ms,border-radius_0ms] hover:scale-[6] hover:rounded-none hover:border-0 hover:z-[9999] hover:shadow-2xl hover:opacity-100 cursor-pointer relative"
+                      style={{ willChange: 'transform, opacity' }}
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}
