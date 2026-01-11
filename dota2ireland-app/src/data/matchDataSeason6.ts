@@ -726,12 +726,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "five_stuns_no_brain",
       team2Id: "bord_na_mona",
       date: "2026-01-05",
-      completed: false,
+      completed: true,
       week: 1,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "five_stuns_no_brain", dota2MatchId: "8645450070" },
+        game2: { played: true, winner: "five_stuns_no_brain", dota2MatchId: "8645532092" },
       },
+      score: [2, 0],
     },
     {
       id: "d4w1m2",

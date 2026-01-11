@@ -196,7 +196,9 @@
 ### Group Stage Schedule
 
 #### Week 1 - January 5, 2026
-- **Match 1:** 5 stuns no brain vs Bord Na Mona (BO2) - *Not Played*
+- **Match 1:** 5 stuns no brain vs Bord Na Mona (BO2) - **2-0**
+  - Game 1: 5 stuns no brain (Match ID: 8645450070)
+  - Game 2: 5 stuns no brain (Match ID: 8645532092)
 - **Match 2:** Cavan Creche vs Team Sosal (BO2) - **2-0**
   - Game 1: Cavan Creche (Match ID: 8642469750)
   - Game 2: Cavan Creche (Match ID: 8642555149)
@@ -235,10 +237,10 @@
 | Rank | Team                | Played | W | D | L | Points |
 |------|---------------------|--------|---|---|---|--------|
 | 1    | Cavan Creche        | 1      | 1 | 0 | 0 | 3      |
-| 2    | 5 stuns no brain    | 0      | 0 | 0 | 0 | 0      |
-| 3    | Bord Na Mona        | 0      | 0 | 0 | 0 | 0      |
-| 4    | Herald Hall of Fame | 0      | 0 | 0 | 0 | 0      |
-| 5    | Team Sosal          | 1      | 0 | 0 | 1 | 0      |
+| 2    | 5 stuns no brain    | 1      | 1 | 0 | 0 | 3      |
+| 3    | Bord Na Mona        | 1      | 0 | 0 | 1 | 0      |
+| 4    | Team Sosal          | 1      | 0 | 0 | 1 | 0      |
+| 5    | Herald Hall of Fame | 0      | 0 | 0 | 0 | 0      |
 
 ---
 
