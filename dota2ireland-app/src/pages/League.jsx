@@ -60,7 +60,7 @@ const season5TeamNames = {
 
 const season6TeamNames = {
   // Division 1
-  wongs_bakery: "Wong's Bakery",
+  wongs_bakery: "Wongs Bakery 贖回",
   skiddys_angels: "Skiddy's Angels",
   sentinel_island_esports: "Sentinel Island Esports",
   no_tormentor: "No Tormentor",
@@ -71,17 +71,17 @@ const season6TeamNames = {
   washed_rejected: "Washed & Rejected",
   i_do_revenge: "I DO: REVENGE",
   // Division 3
-  joon_squad_junior: "Joon Squad: Junior",
+  joon_squad_junior: "Joon Squad: Joonior",
   imprint_esports: "Imprint Esports",
   green_isle_gaming: "Green Isle Gaming",
-  motion_of_the_roshan: "Motion of the roshan",
+  motion_of_the_roshan: "Motion of the Roshan",
   ausgang: "Ausgang",
   d2ire_rejects: "D2Ire Rejects",
   passport_issues: "Passport Issues",
   // Division 4
-  five_stuns_no_brain: "5 stuns no brain",
-  bord_na_mona: "Bord Na Mona",
-  cavan_creche: "Cavan Creche",
+  five_stuns_no_brain: "5 Stuns No Brains",
+  bord_na_mona: "Bord na Mona",
+  cavan_creche: "Cavan Crèche ",
   team_sosal: "Team Sosal",
   herald_hall_of_fame: "Herald Hall of Fame",
   // Placeholders
@@ -240,11 +240,79 @@ const League = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // For Season 6, calculate standings from match data instead of fetching from database
+      // For Season 6, fetch roster data from database AND calculate standings from match data
       if (selectedSeason === 6) {
-        const calculatedStandings = calculateAllDivisionStandings(season6Matches, season6TeamNames);
-        const allTeams = Object.values(calculatedStandings).flat();
-        setTeams(allTeams);
+        // STEP 1: Fetch roster data from database (for players, captain names, etc.)
+        const { data: teamsData, error: teamsError } = await supabase
+          .from('teams_s6')
+          .select('*')
+          .order('division_id', { ascending: true });
+
+        if (teamsError) {
+          console.error('Error fetching teams:', teamsError);
+          setTeams([]);
+        } else {
+          // Parse the players field
+          const parsedTeams = (teamsData || []).map((team) => {
+            try {
+              return {
+                ...team,
+                players: team.players ? team.players.map((player) => {
+                  if (typeof player === 'string') {
+                    return JSON.parse(player);
+                  }
+                  return player;
+                }) : []
+              };
+            } catch (e) {
+              console.error('Error parsing team players:', e);
+              return team;
+            }
+          });
+
+          // STEP 2: Calculate standings from match data
+          const calculatedStandings = calculateAllDivisionStandings(season6Matches, season6TeamNames);
+          
+          console.log('Calculated standings:', calculatedStandings);
+          console.log('Database teams:', parsedTeams.map(t => ({ 
+            id: t.id, 
+            team_id: t.team_id, 
+            name: t.name, 
+            division_id: t.division_id,
+            allFields: Object.keys(t)
+          })));
+          
+          // STEP 3: Merge - keep ALL database data but override ONLY standings fields
+          const mergedTeams = parsedTeams.map((dbTeam) => {
+            // Find the calculated standings for this team
+            const divisionStandings = calculatedStandings[dbTeam.division_id] || [];
+            
+            // Try to match by team name since team_id might not exist in database
+            const calculatedTeam = divisionStandings.find(t => t.name === dbTeam.name);
+            
+            console.log(`Matching team "${dbTeam.name}" (div ${dbTeam.division_id}):`, calculatedTeam);
+            
+            if (calculatedTeam) {
+              // Keep everything from database, but override standings with calculated values
+              return {
+                ...dbTeam, // Keep all database fields (players, captain_name, etc.)
+                wins: calculatedTeam.wins,
+                draws: calculatedTeam.draws,
+                losses: calculatedTeam.losses,
+                points: calculatedTeam.points,
+                matches_played: calculatedTeam.matches_played,
+              };
+            }
+            
+            // If no calculated standings found (shouldn't happen), keep database values
+            console.warn(`No calculated standings found for team "${dbTeam.name}" in division ${dbTeam.division_id}`);
+            return dbTeam;
+          });
+          
+          console.log('Final merged teams:', mergedTeams.map(t => ({ name: t.name, wins: t.wins, draws: t.draws, losses: t.losses, points: t.points })));
+          
+          setTeams(mergedTeams);
+        }
       } else {
         // For other seasons, fetch from database
         const teamsTable = selectedSeason === 4 ? 'teams_duplicate' : 'teams';
