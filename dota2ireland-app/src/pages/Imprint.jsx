@@ -55,16 +55,6 @@ const Imprint = () => {
     loadData();
   }, [activeTab, selectedSeason]);
 
-  const getMostPopularPosition = (hero) => {
-    if (!hero.position_tally || hero.position_tally.length === 0) return null;
-    return hero.position_tally.reduce((prev, current) => (current.match_count > prev.match_count ? current : prev));
-  };
-
-  const getMostPopularFacet = (hero) => {
-    if (!hero.facet_tally || hero.facet_tally.length === 0) return null;
-    return hero.facet_tally.reduce((prev, current) => (current.match_count > prev.match_count ? current : prev));
-  };
-
   const renderLeaderboard = () => (
     <div className="overflow-x-auto">
       <table className="min-w-full">
@@ -124,15 +114,10 @@ const Imprint = () => {
             <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Matches</th>
             <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Win Rate</th>
             <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Avg Rating</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Position</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Facet</th>
           </tr>
         </thead>
         <tbody className="bg-zinc-900 divide-y divide-white/10">
           {heroes.map((hero, index) => {
-            const mostPopularPosition = getMostPopularPosition(hero);
-            const mostPopularFacet = getMostPopularFacet(hero);
-
             return (
               <tr key={hero.raw_name} className="hover:bg-white/5 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 1}</td>
@@ -151,38 +136,6 @@ const Imprint = () => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-primary">
                   {hero.average_imprint_rating.toFixed(1)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                  {mostPopularPosition ? (
-                    <div className="flex flex-col items-center gap-1">
-                      <img
-                        src={getPositionImage(mostPopularPosition.position)}
-                        alt={`Position ${mostPopularPosition.position}`}
-                        className="w-6 h-6"
-                        title={`Position ${mostPopularPosition.position}`}
-                        loading="lazy"
-                      />
-                      <span className="text-xs text-white/60">{mostPopularPosition.match_count}</span>
-                    </div>
-                  ) : (
-                    <span className="text-white/40">-</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                  {mostPopularFacet ? (
-                    <div className="flex flex-col items-center gap-1">
-                      <img
-                        src={mostPopularFacet.icon_src}
-                        alt={mostPopularFacet.name}
-                        className="w-6 h-6 rounded"
-                        title={mostPopularFacet.name}
-                        loading="lazy"
-                      />
-                      <span className="text-xs text-white/60">{mostPopularFacet.match_count}</span>
-                    </div>
-                  ) : (
-                    <span className="text-white/40">-</span>
-                  )}
                 </td>
               </tr>
             );
