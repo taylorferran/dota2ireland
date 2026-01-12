@@ -123,7 +123,9 @@
 ### Group Stage Schedule (6 weeks)
 
 #### Week 1 - January 5, 2026
-- **Match 1:** Imprint Esports vs Green Isle Gaming (BO2) - *Not Played*
+- **Match 1:** Imprint Esports vs Green Isle Gaming (BO2) - **1-1**
+  - Game 1: Imprint Esports (Match ID: 8646932988)
+  - Game 2: Green Isle Gaming (Match ID: 8646994145)
 - **Match 2:** Motion of the roshan vs Ausgang (BO2) - **1-1**
   - Game 1: Motion of the roshan (Match ID: 8642499499)
   - Game 2: Ausgang (Match ID: 8642566255)
@@ -178,9 +180,9 @@
 | 2    | Ausgang               | 1      | 0 | 1 | 0 | 1      |
 | 3    | D2Ire Rejects         | 1      | 0 | 1 | 0 | 1      |
 | 4    | Passport Issues       | 1      | 0 | 1 | 0 | 1      |
-| 5    | Joon Squad: Junior    | 0      | 0 | 0 | 0 | 0      |
-| 6    | Imprint Esports       | 0      | 0 | 0 | 0 | 0      |
-| 7    | Green Isle Gaming     | 0      | 0 | 0 | 0 | 0      |
+| 5    | Imprint Esports       | 1      | 0 | 1 | 0 | 1      |
+| 6    | Green Isle Gaming     | 1      | 0 | 1 | 0 | 1      |
+| 7    | Joon Squad: Junior    | 0      | 0 | 0 | 0 | 0      |
 
 ---
 
