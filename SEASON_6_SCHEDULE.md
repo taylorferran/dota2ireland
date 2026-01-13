@@ -137,7 +137,9 @@
 #### Week 2 - January 12, 2026
 - **Match 1:** Joon Squad: Junior vs Imprint Esports (BO2)
 - **Match 2:** Green Isle Gaming vs Motion of the roshan (BO2)
-- **Match 3:** Ausgang vs D2Ire Rejects (BO2)
+- **Match 3:** Ausgang vs D2Ire Rejects (BO2) - **0-2**
+  - Game 1: D2Ire Rejects (Match ID: 8648140668)
+  - Game 2: D2Ire Rejects (Match ID: 8648223906)
 - **Bye:** Passport Issues
 
 #### Week 3 - January 19, 2026
