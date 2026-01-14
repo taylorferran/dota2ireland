@@ -29,7 +29,9 @@
 - **Bye:** The Pepegs
 
 #### Week 2 - January 12, 2026
-- **Match 1:** Skiddy's Angels vs Sentinel Island Esports (BO2)
+- **Match 1:** Skiddy's Angels vs Sentinel Island Esports (BO2) - **1-1**
+  - Game 1: Skiddy's Angels (Match ID: 8649399902)
+  - Game 2: Sentinel Island Esports (Match ID: 8649457350)
 - **Match 2:** No Tormentor vs The Pepegs (BO2)
 - **Bye:** Wong's Bakery
 
