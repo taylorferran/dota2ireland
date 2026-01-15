@@ -32,7 +32,9 @@
 - **Match 1:** Skiddy's Angels vs Sentinel Island Esports (BO2) - **1-1**
   - Game 1: Skiddy's Angels (Match ID: 8649399902)
   - Game 2: Sentinel Island Esports (Match ID: 8649457350)
-- **Match 2:** No Tormentor vs The Pepegs (BO2)
+- **Match 2:** No Tormentor vs The Pepegs (BO2) - **2-0**
+  - Game 1: No Tormentor (Match ID: 8650602308)
+  - Game 2: No Tormentor (Match ID: 8650658291)
 - **Bye:** Wong's Bakery
 
 #### Week 3 - January 19, 2026
@@ -137,8 +139,12 @@
 - **Bye:** Joon Squad: Junior
 
 #### Week 2 - January 12, 2026
-- **Match 1:** Joon Squad: Junior vs Imprint Esports (BO2)
-- **Match 2:** Green Isle Gaming vs Motion of the roshan (BO2)
+- **Match 1:** Joon Squad: Junior vs Imprint Esports (BO2) - **0-2**
+  - Game 1: Imprint Esports (Match ID: 8650650765)
+  - Game 2: Imprint Esports (Match ID: 8650718011)
+- **Match 2:** Green Isle Gaming vs Motion of the roshan (BO2) - **0-2**
+  - Game 1: Motion of the roshan (Match ID: 8650643501)
+  - Game 2: Motion of the roshan (Match ID: 8650708122)
 - **Match 3:** Ausgang vs D2Ire Rejects (BO2) - **0-2**
   - Game 1: D2Ire Rejects (Match ID: 8648140668)
   - Game 2: D2Ire Rejects (Match ID: 8648223906)
