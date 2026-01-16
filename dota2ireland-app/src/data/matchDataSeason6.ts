@@ -581,7 +581,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     {
       id: "d3w5m1",
       team1Id: "motion_of_the_roshan",
-      team2Id: "green_isle_gaming",
+      team2Id: "imprint_esports",
       date: "2026-02-02",
       completed: false,
       week: 5,
@@ -655,7 +655,7 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
     {
       id: "d3w6m3",
       team1Id: "joon_squad_junior",
-      team2Id: "imprint_esports",
+      team2Id: "green_isle_gaming",
       date: "2026-02-09",
       completed: false,
       week: 6,
