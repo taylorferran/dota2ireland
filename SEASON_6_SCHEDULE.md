@@ -83,7 +83,9 @@
 ### Group Stage Schedule (3 weeks)
 
 #### Week 1 - January 5, 2026
-- **Match 1:** I DO: REVENGE vs Creep Enjoyers (BO2)
+- **Match 1:** I DO: REVENGE vs Creep Enjoyers (BO2) - **2-0**
+  - Game 1: I DO: REVENGE (Match ID: 8654803670)
+  - Game 2: I DO: REVENGE (Match ID: 8654899932)
 - **Match 2:** BDC vs Washed & Rejected (BO2)
 
 #### Week 2 - January 12, 2026
@@ -218,7 +220,9 @@
 
 #### Week 2 - January 12, 2026
 - **Match 1:** Bord Na Mona vs Cavan Creche (BO2)
-- **Match 2:** Team Sosal vs Herald Hall of Fame (BO2)
+- **Match 2:** Team Sosal vs Herald Hall of Fame (BO2) - **1-1**
+  - Game 1: Herald Hall of Fame (Match ID: 8653663666)
+  - Game 2: Team Sosal (Match ID: 8653726293)
 - **Bye:** 5 stuns no brain
 
 #### Week 3 - January 19, 2026

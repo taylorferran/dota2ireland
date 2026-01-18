@@ -252,12 +252,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "i_do_revenge",
       team2Id: "creep_enjoyers",
       date: "2026-01-05",
-      completed: false,
+      completed: true,
       week: 1,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "i_do_revenge", dota2MatchId: "8654803670" },
+        game2: { played: true, winner: "i_do_revenge", dota2MatchId: "8654899932" },
       },
+      score: [2, 0],
     },
     {
       id: "d2w1m2",
@@ -784,12 +785,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "team_sosal",
       team2Id: "herald_hall_of_fame",
       date: "2026-01-12",
-      completed: false,
+      completed: true,
       week: 2,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "herald_hall_of_fame", dota2MatchId: "8653663666" },
+        game2: { played: true, winner: "team_sosal", dota2MatchId: "8653726293" },
       },
+      score: [1, 1],
     },
     {
       id: "d4w2bye",
