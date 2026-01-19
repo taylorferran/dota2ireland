@@ -86,7 +86,9 @@
 - **Match 1:** I DO: REVENGE vs Creep Enjoyers (BO2) - **2-0**
   - Game 1: I DO: REVENGE (Match ID: 8654803670)
   - Game 2: I DO: REVENGE (Match ID: 8654899932)
-- **Match 2:** BDC vs Washed & Rejected (BO2)
+- **Match 2:** BDC vs Washed & Rejected (BO2) - **2-0**
+  - Game 1: BDC (Match ID: 8655069450)
+  - Game 2: BDC (Match ID: 8655150378)
 
 #### Week 2 - January 12, 2026
 - **Match 1:** Creep Enjoyers vs BDC (BO2)
