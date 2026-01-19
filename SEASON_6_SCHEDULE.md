@@ -156,7 +156,9 @@
 
 #### Week 3 - January 19, 2026
 - **Match 1:** Passport Issues vs Joon Squad: Junior (BO2)
-- **Match 2:** Motion of the roshan vs D2Ire Rejects (BO2)
+- **Match 2:** Motion of the roshan vs D2Ire Rejects (BO2) - **2-0**
+  - Game 1: Motion of the roshan (Match ID: 8656379342)
+  - Game 2: Motion of the roshan (Match ID: 8656432588)
 - **Match 3:** Imprint Esports vs Ausgang (BO2)
 - **Bye:** Green Isle Gaming
 
