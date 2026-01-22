@@ -25,7 +25,9 @@
 - **Match 1:** Wong's Bakery vs Skiddy's Angels (BO2) - **2-0**
   - Game 1: Wong's Bakery (Match ID: 8642434056)
   - Game 2: Wong's Bakery (Match ID: 8642547213)
-- **Match 2:** Sentinel Island Esports vs No Tormentor (BO2) - *Not Played*
+- **Match 2:** Sentinel Island Esports vs No Tormentor (BO2) - **1-1**
+  - Game 1: No Tormentor (Match ID: 8660072010)
+  - Game 2: Sentinel Island Esports (Match ID: 8660132662)
 - **Bye:** The Pepegs
 
 #### Week 2 - January 12, 2026
@@ -223,7 +225,9 @@
 - **Bye:** Herald Hall of Fame
 
 #### Week 2 - January 12, 2026
-- **Match 1:** Bord Na Mona vs Cavan Creche (BO2)
+- **Match 1:** Bord Na Mona vs Cavan Creche (BO2) - **0-2**
+  - Game 1: Cavan Creche (Match ID: 8660083474)
+  - Game 2: Cavan Creche (Match ID: 8660135949)
 - **Match 2:** Team Sosal vs Herald Hall of Fame (BO2) - **1-1**
   - Game 1: Herald Hall of Fame (Match ID: 8653663666)
   - Game 2: Team Sosal (Match ID: 8653726293)

@@ -100,19 +100,21 @@ const Home = () => {
             </div>
           </div>
 
-          {/* Card 3 - Merch Teaser */}
+          {/* Card 3 - Merch */}
           <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">
             <div className="w-full aspect-video bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-              <span className="text-primary text-8xl font-black">?</span>
+              <svg className="w-20 h-20 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M16.24 11.51l1.57-9.51h-4.12c-.24-1.15-1.23-2-2.41-2H8.72c-1.18 0-2.17.85-2.41 2H2.19l1.57 9.51L6 9.62V21h8V9.62l2.24 1.89zM9.5 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+              </svg>
             </div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
               <div>
-                <p className="text-white text-lg font-bold">Merch Coming Soon</p>
-                <p className="text-white/70 text-sm font-normal"></p>
+                <p className="text-white text-lg font-bold">Official Merch</p>
+                <p className="text-white/70 text-sm font-normal">Get your official Dota 2 Ireland t-shirt now.</p>
               </div>
               <Link to="/merch">
-                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-white/10 text-white text-sm font-bold hover:bg-white/20 transition-colors">
-                  <span className="truncate">Learn More</span>
+                <button className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 px-4 bg-primary text-black text-sm font-bold hover:bg-primary/90 transition-colors">
+                  <span className="truncate">Shop Now</span>
                 </button>
               </Link>
             </div>

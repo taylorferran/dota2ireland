@@ -22,12 +22,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "sentinel_island_esports",
       team2Id: "no_tormentor",
       date: "2026-01-05",
-      completed: false,
+      completed: true,
       week: 1,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "no_tormentor", dota2MatchId: "8660072010" },
+        game2: { played: true, winner: "sentinel_island_esports", dota2MatchId: "8660132662" },
       },
+      score: [1, 1],
     },
     {
       id: "d1w1bye",
@@ -775,12 +776,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "bord_na_mona",
       team2Id: "cavan_creche",
       date: "2026-01-12",
-      completed: false,
+      completed: true,
       week: 2,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "cavan_creche", dota2MatchId: "8660083474" },
+        game2: { played: true, winner: "cavan_creche", dota2MatchId: "8660135949" },
       },
+      score: [0, 2],
     },
     {
       id: "d4w2m2",
