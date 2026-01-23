@@ -98,7 +98,9 @@
 
 #### Week 3 - January 19, 2026
 - **Match 1:** I DO: REVENGE vs BDC (BO2)
-- **Match 2:** Creep Enjoyers vs Washed & Rejected (BO2)
+- **Match 2:** Creep Enjoyers vs Washed & Rejected (BO2) - **0-2**
+  - Game 1: Washed & Rejected (Match ID: 8661372042)
+  - Game 2: Washed & Rejected (Match ID: 8661455302)
 
 ### Playoffs
 
@@ -157,7 +159,9 @@
 - **Bye:** Passport Issues
 
 #### Week 3 - January 19, 2026
-- **Match 1:** Passport Issues vs Joon Squad: Junior (BO2)
+- **Match 1:** Passport Issues vs Joon Squad: Junior (BO2) - **1-1**
+  - Game 1: Passport Issues (Match ID: 8661408255)
+  - Game 2: Joon Squad: Junior (Match ID: 8661478883)
 - **Match 2:** Motion of the roshan vs D2Ire Rejects (BO2) - **2-0**
   - Game 1: Motion of the roshan (Match ID: 8656379342)
   - Game 2: Motion of the roshan (Match ID: 8656432588)

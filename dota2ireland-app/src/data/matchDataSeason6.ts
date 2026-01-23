@@ -317,12 +317,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "creep_enjoyers",
       team2Id: "washed_rejected",
       date: "2026-01-19",
-      completed: false,
+      completed: true,
       week: 3,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "washed_rejected", dota2MatchId: "8661372042" },
+        game2: { played: true, winner: "washed_rejected", dota2MatchId: "8661455302" },
       },
+      score: [0, 2],
     },
     // Week 4 - Semifinals (BO3)
     {
@@ -486,12 +487,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "passport_issues",
       team2Id: "joon_squad_junior",
       date: "2026-01-19",
-      completed: false,
+      completed: true,
       week: 3,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "passport_issues", dota2MatchId: "8661408255" },
+        game2: { played: true, winner: "joon_squad_junior", dota2MatchId: "8661478883" },
       },
+      score: [1, 1],
     },
     {
       id: "d3w3m2",
