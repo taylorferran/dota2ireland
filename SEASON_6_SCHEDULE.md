@@ -243,7 +243,9 @@
 - **Bye:** Bord Na Mona
 
 #### Week 4 - January 26, 2026
-- **Match 1:** Herald Hall of Fame vs 5 stuns no brain (BO2)
+- **Match 1:** Herald Hall of Fame vs 5 stuns no brain (BO2) - **0-2**
+  - Game 1: 5 stuns no brain (Match ID: 8662951900)
+  - Game 2: 5 stuns no brain (Match ID: 8663065671)
 - **Match 2:** Bord Na Mona vs Team Sosal (BO2)
 - **Bye:** Cavan Creche
 

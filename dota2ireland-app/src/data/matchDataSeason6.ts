@@ -856,12 +856,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "herald_hall_of_fame",
       team2Id: "five_stuns_no_brain",
       date: "2026-01-26",
-      completed: false,
+      completed: true,
       week: 4,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "five_stuns_no_brain", dota2MatchId: "8662951900" },
+        game2: { played: true, winner: "five_stuns_no_brain", dota2MatchId: "8663065671" },
       },
+      score: [0, 2],
     },
     {
       id: "d4w4m2",
