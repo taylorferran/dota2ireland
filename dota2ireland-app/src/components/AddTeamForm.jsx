@@ -124,10 +124,6 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
 
       if (error) throw error;
       if (data) {
-        // Store image info for admin
-        console.log('Team registered! Admin needs to save image as:', localImagePath);
-        console.log('Image file:', teamImage);
-        
         setTeamName("");
         setPlayer(initialPlayerState);
         setTeamImage(null);

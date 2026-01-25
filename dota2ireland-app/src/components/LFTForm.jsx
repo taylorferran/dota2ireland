@@ -41,14 +41,10 @@ export const LFTForm = ({ onSubmitSuccess }) => {
       }
 
       try {
-        console.log('Checking for existing LFT for user:', user.sub);
-        
         const { data, error } = await supabase
           .from('lft_players')
           .select('*')
           .eq('auth_id', user.sub);
-
-        console.log('LFT check result:', { data, error });
 
         if (error) {
           console.error('Error checking LFT:', error);
@@ -105,15 +101,11 @@ export const LFTForm = ({ onSubmitSuccess }) => {
     setError(null);
 
     try {
-      console.log('Attempting to delete LFT for user:', user.sub);
-      
       const { data, error: deleteError } = await supabase
         .from('lft_players')
         .delete()
         .eq('auth_id', user.sub)
         .select();
-
-      console.log('Delete result:', { data, error: deleteError });
 
       if (deleteError) {
         console.error('Delete error:', deleteError);

@@ -272,16 +272,7 @@ const League = () => {
 
           // STEP 2: Calculate standings from match data
           const calculatedStandings = calculateAllDivisionStandings(season6Matches, season6TeamNames);
-          
-          console.log('Calculated standings:', calculatedStandings);
-          console.log('Database teams:', parsedTeams.map(t => ({ 
-            id: t.id, 
-            team_id: t.team_id, 
-            name: t.name, 
-            division_id: t.division_id,
-            allFields: Object.keys(t)
-          })));
-          
+
           // STEP 3: Merge - keep ALL database data but override ONLY standings fields
           const mergedTeams = parsedTeams.map((dbTeam) => {
             // Find the calculated standings for this team
@@ -289,9 +280,7 @@ const League = () => {
             
             // Try to match by team name since team_id might not exist in database
             const calculatedTeam = divisionStandings.find(t => t.name === dbTeam.name);
-            
-            console.log(`Matching team "${dbTeam.name}" (div ${dbTeam.division_id}):`, calculatedTeam);
-            
+
             if (calculatedTeam) {
               // Keep everything from database, but override standings with calculated values
               return {
@@ -308,9 +297,7 @@ const League = () => {
             console.warn(`No calculated standings found for team "${dbTeam.name}" in division ${dbTeam.division_id}`);
             return dbTeam;
           });
-          
-          console.log('Final merged teams:', mergedTeams.map(t => ({ name: t.name, wins: t.wins, draws: t.draws, losses: t.losses, points: t.points })));
-          
+
           setTeams(mergedTeams);
         }
       } else {
@@ -717,10 +704,6 @@ const League = () => {
         .eq("id", myTeam.id);
 
       if (updateError) throw updateError;
-
-      // Log for admin
-      console.log('Team logo update requested. Admin needs to save image as:', localImagePath);
-      console.log('Image file:', newTeamImage);
 
       // Refresh the team data
       mutateMyTeam();

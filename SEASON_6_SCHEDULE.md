@@ -45,7 +45,9 @@
 - **Bye:** Skiddy's Angels
 
 #### Week 4 - January 26, 2026
-- **Match 1:** The Pepegs vs Wong's Bakery (BO2)
+- **Match 1:** The Pepegs vs Wong's Bakery (BO2) - **1-1**
+  - Game 1: Wong's Bakery (Match ID: 8664461349)
+  - Game 2: The Pepegs (Match ID: 8664552860)
 - **Match 2:** Skiddy's Angels vs No Tormentor (BO2)
 - **Bye:** Sentinel Island Esports
 
