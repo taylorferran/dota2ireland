@@ -20,7 +20,7 @@ const Home = () => {
   return (
     <main className="flex-1">
       {/* Hero Section */}
-      <section className="py-8 md:py-12">
+      <section className="py-2 md:py-3">
         <div className="relative flex min-h-[480px] flex-col gap-6 rounded-xl items-center justify-center p-4 text-center overflow-hidden">
           {/* Background Images with Fade Transition */}
           {backgroundImages.map((image, index) => (
@@ -56,7 +56,7 @@ const Home = () => {
       </section>
 
       {/* Featured Content Cards */}
-      <section className="py-12">
+      <section className="py-2 md:py-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Card 1 - Tournament */}
           <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">

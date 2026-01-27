@@ -59,9 +59,9 @@ const Events = () => {
   ];
 
   return (
-    <main className="flex flex-col gap-10 mt-8">
+    <main className="flex flex-col gap-4 mt-2">
       {/* Page Title */}
-      <div className="flex flex-col items-center justify-center gap-4 text-center px-4 py-16">
+      <div className="flex flex-col items-center justify-center gap-2 text-center px-4 py-4">
         <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
           COMMUNITY EVENTS
         </h1>
@@ -75,7 +75,7 @@ const Events = () => {
         <h2 className="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b-2 border-primary w-fit mb-6">
           Upcoming Events
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-2">
           {upcomingEvents.map((event) => (
             <div 
               key={event.id}
@@ -103,11 +103,11 @@ const Events = () => {
       </section>
 
       {/* Past Events Section */}
-      <section className="mt-16">
+      <section className="mt-4">
         <h2 className="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b-2 border-accent-orange w-fit mb-6">
           Past Events
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 py-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-2">
           {pastEvents.map((event) => (
             <div 
               key={event.id}

@@ -896,7 +896,7 @@ const League = () => {
   return (
     <main className="flex-1">
       {/* Hero Section with Auth */}
-      <section className="py-8 md:py-12">
+      <section className="py-2 md:py-3">
         <div className="flex justify-between items-center mb-4">
           <div>
             <h1 className="text-white text-4xl sm:text-5xl font-black leading-tight tracking-[-0.033em]">
@@ -930,7 +930,7 @@ const League = () => {
       </section>
 
       {/* Season Selector */}
-      <section className="py-4">
+      <section className="py-1">
         <div className="flex flex-wrap gap-2 mb-6">
           {seasons.map((season) => (
             <button
@@ -1169,7 +1169,7 @@ const League = () => {
       )}
 
       {/* View Selector */}
-      <section className="py-4">
+      <section className="pt-4 pb-4">
           <div className="bg-zinc-900 rounded-lg shadow-md p-6 border border-white/10">
             <div className="flex flex-wrap gap-2 mb-6 items-center justify-between">
               <div className="flex gap-2">

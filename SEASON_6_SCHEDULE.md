@@ -40,7 +40,9 @@
 - **Bye:** Wong's Bakery
 
 #### Week 3 - January 19, 2026
-- **Match 1:** Sentinel Island Esports vs The Pepegs (BO2)
+- **Match 1:** Sentinel Island Esports vs The Pepegs (BO2) - **1-1**
+  - Game 1: The Pepegs (Match ID: 8665813516)
+  - Game 2: Sentinel Island Esports (Match ID: 8665894354)
 - **Match 2:** Wong's Bakery vs No Tormentor (BO2)
 - **Bye:** Skiddy's Angels
 

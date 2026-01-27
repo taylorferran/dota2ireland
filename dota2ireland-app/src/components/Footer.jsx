@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col gap-8 px-5 py-10 text-center border-t border-white/10 mt-16">
+    <footer className="flex flex-col gap-6 px-5 py-6 text-center border-t border-white/10 mt-4">
       <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
         <Link className="text-white/70 hover:text-white text-base font-normal transition-colors" to="/events">
           Events
