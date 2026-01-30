@@ -185,18 +185,26 @@
 - **Bye:** Ausgang
 
 #### Week 6 - February 9, 2026
-- **Match 1:** Ausgang vs Green Isle Gaming (BO2)
-- **Match 2:** Passport Issues vs Motion of the roshan (BO2)
-- **Match 3:** Joon Squad: Junior vs Green Isle Gaming (BO2)
+- **Match 1:** Joon Squad: Junior vs Green Isle Gaming (BO2)
+- **Match 2:** Imprint Esports vs Motion of the roshan (BO2)
+- **Match 3:** Ausgang vs Passport Issues (BO2)
 - **Bye:** D2Ire Rejects
+
+#### Week 7 - February 16, 2026
+- **Match 1:** Joon Squad: Junior vs Motion of the roshan (BO2)
+- **Match 2:** Imprint Esports vs Passport Issues (BO2) - **1-1**
+  - Game 1: Passport Issues (Match ID: 8669555293)
+  - Game 2: Imprint Esports (Match ID: 8669618287)
+- **Match 3:** Green Isle Gaming vs D2Ire Rejects (BO2)
+- **Bye:** Ausgang
 
 ### Playoffs
 
-#### Week 7 - February 16, 2026 (Semifinals - BO3)
+#### Week 8 - February 23, 2026 (Semifinals - BO3)
 - **SF1:** 1st Seed vs 4th Seed
 - **SF2:** 2nd Seed vs 3rd Seed
 
-#### Week 8 - February 23, 2026 (Grand Final - BO5)
+#### Week 9 - March 2, 2026 (Grand Final - BO5)
 - **Grand Final:** Winner SF1 vs Winner SF2
 
 ### Current Standings (After Week 1)
