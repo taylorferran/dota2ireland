@@ -307,12 +307,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "i_do_revenge",
       team2Id: "bdc",
       date: "2026-01-19",
-      completed: false,
+      completed: true,
       week: 3,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "i_do_revenge", dota2MatchId: "8673946097" },
+        game2: { played: true, winner: "i_do_revenge", dota2MatchId: "8674022293" },
       },
+      score: [2, 0],
     },
     {
       id: "d2w3m2",
@@ -553,12 +554,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "d2ire_rejects",
       team2Id: "imprint_esports",
       date: "2026-01-26",
-      completed: false,
+      completed: true,
       week: 4,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "d2ire_rejects", dota2MatchId: "8672403021" },
+        game2: { played: true, winner: "d2ire_rejects", dota2MatchId: "8672483186" },
       },
+      score: [2, 0],
     },
     {
       id: "d3w4m3",

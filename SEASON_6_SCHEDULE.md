@@ -101,7 +101,9 @@
 - **Match 2:** Washed & Rejected vs I DO: REVENGE (BO2)
 
 #### Week 3 - January 19, 2026
-- **Match 1:** I DO: REVENGE vs BDC (BO2)
+- **Match 1:** I DO: REVENGE vs BDC (BO2) - **2-0**
+  - Game 1: I DO: REVENGE (Match ID: 8673946097)
+  - Game 2: I DO: REVENGE (Match ID: 8674022293)
 - **Match 2:** Creep Enjoyers vs Washed & Rejected (BO2) - **0-2**
   - Game 1: Washed & Rejected (Match ID: 8661372042)
   - Game 2: Washed & Rejected (Match ID: 8661455302)
@@ -174,7 +176,9 @@
 
 #### Week 4 - January 26, 2026
 - **Match 1:** Green Isle Gaming vs Passport Issues (BO2)
-- **Match 2:** D2Ire Rejects vs Imprint Esports (BO2)
+- **Match 2:** D2Ire Rejects vs Imprint Esports (BO2) - **2-0**
+  - Game 1: D2Ire Rejects (Match ID: 8672403021)
+  - Game 2: D2Ire Rejects (Match ID: 8672483186)
 - **Match 3:** Ausgang vs Joon Squad: Junior (BO2)
 - **Bye:** Motion of the roshan
 
