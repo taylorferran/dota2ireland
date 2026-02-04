@@ -190,7 +190,9 @@
 
 #### Week 6 - February 9, 2026
 - **Match 1:** Joon Squad: Junior vs Green Isle Gaming (BO2)
-- **Match 2:** Imprint Esports vs Motion of the roshan (BO2)
+- **Match 2:** Imprint Esports vs Motion of the roshan (BO2) - **0-2**
+  - Game 1: Motion of the roshan (Match ID: 8675294160)
+  - Game 2: Motion of the roshan (Match ID: 8675359078)
 - **Match 3:** Ausgang vs Passport Issues (BO2)
 - **Bye:** D2Ire Rejects
 
@@ -267,7 +269,9 @@
 
 #### Week 5 - February 2, 2026
 - **Match 1:** 5 stuns no brain vs Cavan Creche (BO2)
-- **Match 2:** Herald Hall of Fame vs Bord Na Mona (BO2)
+- **Match 2:** Herald Hall of Fame vs Bord Na Mona (BO2) - **2-0**
+  - Game 1: Herald Hall of Fame (Match ID: 8676581384)
+  - Game 2: Herald Hall of Fame (Match ID: 8676635935)
 - **Bye:** Team Sosal
 
 ### Playoffs

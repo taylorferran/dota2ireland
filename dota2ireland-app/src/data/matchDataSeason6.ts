@@ -655,12 +655,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "imprint_esports",
       team2Id: "motion_of_the_roshan",
       date: "2026-02-09",
-      completed: false,
+      completed: true,
       week: 6,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "motion_of_the_roshan", dota2MatchId: "8675294160" },
+        game2: { played: true, winner: "motion_of_the_roshan", dota2MatchId: "8675359078" },
       },
+      score: [0, 2],
     },
     {
       id: "d3w6m3",
@@ -962,12 +963,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "herald_hall_of_fame",
       team2Id: "bord_na_mona",
       date: "2026-02-02",
-      completed: false,
+      completed: true,
       week: 5,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "herald_hall_of_fame", dota2MatchId: "8676581384" },
+        game2: { played: true, winner: "herald_hall_of_fame", dota2MatchId: "8676635935" },
       },
+      score: [2, 0],
     },
     {
       id: "d4w5bye",
