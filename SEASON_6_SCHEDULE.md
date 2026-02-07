@@ -183,10 +183,14 @@
 - **Bye:** Motion of the roshan
 
 #### Week 5 - February 2, 2026
-- **Match 1:** Motion of the roshan vs Imprint Esports (BO2)
-- **Match 2:** Joon Squad: Junior vs D2Ire Rejects (BO2)
-- **Match 3:** Imprint Esports vs Passport Issues (BO2)
-- **Bye:** Ausgang
+- **Match 1:** Joon Squad: Junior vs D2Ire Rejects (BO2)
+- **Match 2:** Green Isle Gaming vs Ausgang (BO2) - **0-2**
+  - Game 1: Ausgang (Match ID: 8680469343)
+  - Game 2: Ausgang (Match ID: 8680524972)
+- **Match 3:** Motion of the roshan vs Passport Issues (BO2) - **1-1**
+  - Game 1: Passport Issues (Match ID: 8680385192)
+  - Game 2: Motion of the roshan (Match ID: 8680481934)
+- **Bye:** Imprint Esports
 
 #### Week 6 - February 9, 2026
 - **Match 1:** Joon Squad: Junior vs Green Isle Gaming (BO2)
