@@ -54,7 +54,9 @@
 - **Bye:** Sentinel Island Esports
 
 #### Week 5 - February 2, 2026
-- **Match 1:** Wong's Bakery vs Sentinel Island Esports (BO2)
+- **Match 1:** Wong's Bakery vs Sentinel Island Esports (BO2) - **2-0**
+  - Game 1: Wong's Bakery (Match ID: 8679099066)
+  - Game 2: Wong's Bakery (Match ID: 8679155790)
 - **Match 2:** The Pepegs vs Skiddy's Angels (BO2)
 - **Bye:** No Tormentor
 
@@ -175,7 +177,9 @@
 - **Bye:** Green Isle Gaming
 
 #### Week 4 - January 26, 2026
-- **Match 1:** Green Isle Gaming vs Passport Issues (BO2)
+- **Match 1:** Green Isle Gaming vs Passport Issues (BO2) - **1-1**
+  - Game 1: Green Isle Gaming (Match ID: 8681973281)
+  - Game 2: Passport Issues (Match ID: 8682082814)
 - **Match 2:** D2Ire Rejects vs Imprint Esports (BO2) - **2-0**
   - Game 1: D2Ire Rejects (Match ID: 8672403021)
   - Game 2: D2Ire Rejects (Match ID: 8672483186)
@@ -268,11 +272,15 @@
 - **Match 1:** Herald Hall of Fame vs 5 stuns no brain (BO2) - **0-2**
   - Game 1: 5 stuns no brain (Match ID: 8662951900)
   - Game 2: 5 stuns no brain (Match ID: 8663065671)
-- **Match 2:** Bord Na Mona vs Team Sosal (BO2)
+- **Match 2:** Bord Na Mona vs Team Sosal (BO2) - **1-1**
+  - Game 1: Bord Na Mona (Match ID: 8682078300)
+  - Game 2: Team Sosal (Match ID: 8681997248)
 - **Bye:** Cavan Creche
 
 #### Week 5 - February 2, 2026
-- **Match 1:** 5 stuns no brain vs Cavan Creche (BO2)
+- **Match 1:** 5 stuns no brain vs Cavan Creche (BO2) - **1-1**
+  - Game 1: Cavan Creche (Match ID: 8681888004)
+  - Game 2: 5 stuns no brain (Match ID: 8682000600)
 - **Match 2:** Herald Hall of Fame vs Bord Na Mona (BO2) - **2-0**
   - Game 1: Herald Hall of Fame (Match ID: 8676581384)
   - Game 2: Herald Hall of Fame (Match ID: 8676635935)
