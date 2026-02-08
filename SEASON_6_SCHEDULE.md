@@ -43,7 +43,9 @@
 - **Match 1:** Sentinel Island Esports vs The Pepegs (BO2) - **1-1**
   - Game 1: The Pepegs (Match ID: 8665813516)
   - Game 2: Sentinel Island Esports (Match ID: 8665894354)
-- **Match 2:** Wong's Bakery vs No Tormentor (BO2)
+- **Match 2:** Wong's Bakery vs No Tormentor (BO2) - **1-1**
+  - Game 1: No Tormentor (Match ID: 8683108809)
+  - Game 2: Wong's Bakery (Match ID: 8683195682)
 - **Bye:** Skiddy's Angels
 
 #### Week 4 - January 26, 2026
@@ -99,8 +101,12 @@
   - Game 2: BDC (Match ID: 8655150378)
 
 #### Week 2 - January 12, 2026
-- **Match 1:** Creep Enjoyers vs BDC (BO2)
-- **Match 2:** Washed & Rejected vs I DO: REVENGE (BO2)
+- **Match 1:** Creep Enjoyers vs BDC (BO2) - **0-2**
+  - Game 1: BDC (Match ID: 8683447430)
+  - Game 2: BDC (Match ID: 8683507538)
+- **Match 2:** Washed & Rejected vs I DO: REVENGE (BO2) - **1-1**
+  - Game 1: I DO: REVENGE (Match ID: 8682824242)
+  - Game 2: Washed & Rejected (Match ID: 8682949191)
 
 #### Week 3 - January 19, 2026
 - **Match 1:** I DO: REVENGE vs BDC (BO2) - **2-0**
