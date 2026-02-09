@@ -31,7 +31,7 @@ const Rebooted2 = () => {
   return (
     <main className="flex flex-col gap-6 mt-2">
       {/* Hero Section */}
-      <div className="flex flex-col items-center justify-center gap-4 text-center px-4 py-8">
+      <div className="flex flex-col items-center justify-center gap-4 text-center px-4 pt-8 pb-2">
         <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.033em]">
           REBOOTED 2
         </h1>
