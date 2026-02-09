@@ -12,6 +12,7 @@ const League = lazy(() => import('./pages/League'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Imprint = lazy(() => import('./pages/Imprint'));
 const Casters = lazy(() => import('./pages/Casters'));
+const Rebooted2 = lazy(() => import('./pages/Rebooted2'));
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
@@ -51,6 +52,7 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="events" element={<Events />} />
+              <Route path="events/rebooted2" element={<Rebooted2 />} />
               <Route path="merch" element={<Merch />} />
               {/* League routes - redirect /league to /league/s6 (default to Season 6) */}
               <Route path="league" element={<Navigate to="/league/s6" replace />} />

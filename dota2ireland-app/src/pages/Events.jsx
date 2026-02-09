@@ -4,6 +4,17 @@ const Events = () => {
   const upcomingEvents = [
     {
       id: 1,
+      title: "Rebooted 2",
+      date: "2026",
+      location: "Belfast, Northern Ireland",
+      description: "Two days of Dota 2 on LAN. PCs provided, all skill levels welcome.",
+      image: "/img/d2irebooted.png",
+      linkUrl: "/events/rebooted2",
+      buttonText: "View Event & Buy Tickets",
+      buttonLink: "/events/rebooted2"
+    },
+    {
+      id: 2,
       title: "Irish Dota League Season 6",
       date: "1st January 2026",
       location: "Online",
