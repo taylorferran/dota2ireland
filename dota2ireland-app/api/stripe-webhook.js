@@ -1,10 +1,7 @@
-const crypto = require('crypto');
-const { createClient } = require('@supabase/supabase-js');
+import crypto from 'node:crypto';
+import { createClient } from '@supabase/supabase-js';
 
-// --- Configuration ---
 // Map your Stripe Payment Link IDs to ticket types.
-// Find these in Stripe Dashboard > Payment Links — they look like "plink_xxx".
-// Add them as env vars in Vercel: STRIPE_PLINK_QUB and STRIPE_PLINK_REBOOT.
 const PAYMENT_LINK_MAP = {
   [process.env.STRIPE_PLINK_QUB]: 'qub_player',
   [process.env.STRIPE_PLINK_REBOOT]: 'reboot_team',
@@ -38,7 +35,14 @@ function verifySignature(payload, header, secret) {
   );
 }
 
-module.exports = async function handler(req, res) {
+// Disable Vercel's automatic body parsing so we can read the raw body
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -87,11 +91,4 @@ module.exports = async function handler(req, res) {
   }
 
   return res.status(200).json({ received: true });
-};
-
-// Disable Vercel's automatic body parsing so we can read the raw body
-module.exports.config = {
-  api: {
-    bodyParser: false,
-  },
-};
+}
