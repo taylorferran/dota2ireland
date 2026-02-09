@@ -179,7 +179,9 @@
 - **Match 2:** Motion of the roshan vs D2Ire Rejects (BO2) - **2-0**
   - Game 1: Motion of the roshan (Match ID: 8656379342)
   - Game 2: Motion of the roshan (Match ID: 8656432588)
-- **Match 3:** Imprint Esports vs Ausgang (BO2)
+- **Match 3:** Imprint Esports vs Ausgang (BO2) - **0-2**
+  - Game 1: Ausgang (Match ID: 8679118251)
+  - Game 2: Ausgang (Match ID: 8679172098)
 - **Bye:** Green Isle Gaming
 
 #### Week 4 - January 26, 2026
