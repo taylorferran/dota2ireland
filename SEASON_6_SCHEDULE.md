@@ -191,7 +191,9 @@
 - **Match 2:** D2Ire Rejects vs Imprint Esports (BO2) - **2-0**
   - Game 1: D2Ire Rejects (Match ID: 8672403021)
   - Game 2: D2Ire Rejects (Match ID: 8672483186)
-- **Match 3:** Ausgang vs Joon Squad: Junior (BO2)
+- **Match 3:** Ausgang vs Joon Squad: Junior (BO2) - **2-0**
+  - Game 1: Ausgang (Match ID: 8684762244)
+  - Game 2: Ausgang (Match ID: 8684802571)
 - **Bye:** Motion of the roshan
 
 #### Week 5 - February 2, 2026
@@ -272,7 +274,9 @@
 - **Bye:** 5 stuns no brain
 
 #### Week 3 - January 19, 2026
-- **Match 1:** Cavan Creche vs Herald Hall of Fame (BO2)
+- **Match 1:** Cavan Creche vs Herald Hall of Fame (BO2) - **2-0**
+  - Game 1: Cavan Creche (Match ID: 8688581215)
+  - Game 2: Cavan Creche (Match ID: 8688628401)
 - **Match 2:** 5 stuns no brain vs Team Sosal (BO2)
 - **Bye:** Bord Na Mona
 

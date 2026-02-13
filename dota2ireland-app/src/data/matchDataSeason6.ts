@@ -573,12 +573,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "ausgang",
       team2Id: "joon_squad_junior",
       date: "2026-01-26",
-      completed: false,
+      completed: true,
       week: 4,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "ausgang", dota2MatchId: "8684762244" },
+        game2: { played: true, winner: "ausgang", dota2MatchId: "8684802571" },
       },
+      score: [2, 0],
     },
     {
       id: "d3w4bye",
@@ -882,12 +883,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "cavan_creche",
       team2Id: "herald_hall_of_fame",
       date: "2026-01-19",
-      completed: false,
+      completed: true,
       week: 3,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "cavan_creche", dota2MatchId: "8688581215" },
+        game2: { played: true, winner: "cavan_creche", dota2MatchId: "8688628401" },
       },
+      score: [2, 0],
     },
     {
       id: "d4w3m2",
