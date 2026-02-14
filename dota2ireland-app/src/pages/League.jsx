@@ -209,9 +209,12 @@ const League = () => {
   const teamNamesMap = selectedSeason === 4 ? season4TeamNames : selectedSeason === 5 ? season5TeamNames : season6TeamNames;
   const divisionMatchData = matchData[selectedDivision] || [];
   
-  // Get max week for matches
-  const maxWeek = divisionMatchData.length > 0 
-    ? Math.max(...divisionMatchData.map(m => m.week))
+  // Get max week for matches (exclude knockout weeks for season 6)
+  const groupStageMatchData = selectedSeason === 6
+    ? divisionMatchData.filter(m => !m.isKnockout)
+    : divisionMatchData;
+  const maxWeek = groupStageMatchData.length > 0
+    ? Math.max(...groupStageMatchData.map(m => m.week))
     : 1;
 
   const seasons = [
@@ -369,9 +372,26 @@ const League = () => {
 
   // Render knockout brackets using ReactFlow component
   const renderKnockoutBrackets = () => {
+    // Div 2 Season 6 uses Challonge embed
+    if (selectedSeason === 6 && selectedDivision === 2) {
+      return (
+        <div className="pb-8">
+          <iframe
+            src="https://challonge.com/wcr2g2rr/module"
+            width="100%"
+            height="500"
+            frameBorder="0"
+            scrolling="auto"
+            allowTransparency="true"
+            title="Division 2 Playoff Bracket"
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="pb-8">
-        <KnockoutBracket 
+        <KnockoutBracket
           teams={sortedTeams}
           division={selectedDivision}
           season={selectedSeason}
@@ -382,7 +402,7 @@ const League = () => {
 
   // Render matches schedule with week selector
   const renderMatches = () => {
-    const weekMatches = divisionMatchData.filter(m => m.week === selectedWeek && !m.isByeWeek);
+    const weekMatches = divisionMatchData.filter(m => m.week === selectedWeek && !m.isByeWeek && !(selectedSeason === 6 && m.isKnockout));
     
     return (
       <div className="space-y-6">
