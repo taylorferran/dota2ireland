@@ -277,7 +277,7 @@
 - **Match 1:** Cavan Creche vs Herald Hall of Fame (BO2) - **2-0**
   - Game 1: Cavan Creche (Match ID: 8688581215)
   - Game 2: Cavan Creche (Match ID: 8688628401)
-- **Match 2:** 5 stuns no brain vs Team Sosal (BO2)
+- **Match 2:** 5 stuns no brain vs Team Sosal (BO2) - **2-0 (Forfeit)**
 - **Bye:** Bord Na Mona
 
 #### Week 4 - January 26, 2026

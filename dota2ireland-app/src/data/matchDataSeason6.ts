@@ -896,12 +896,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "five_stuns_no_brain",
       team2Id: "team_sosal",
       date: "2026-01-19",
-      completed: false,
+      completed: true,
       week: 3,
       games: {
         game1: { played: false },
         game2: { played: false },
       },
+      score: [2, 0],
     },
     {
       id: "d4w3bye",
