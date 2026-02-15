@@ -52,7 +52,9 @@
 - **Match 1:** The Pepegs vs Wong's Bakery (BO2) - **1-1**
   - Game 1: Wong's Bakery (Match ID: 8664461349)
   - Game 2: The Pepegs (Match ID: 8664552860)
-- **Match 2:** Skiddy's Angels vs No Tormentor (BO2)
+- **Match 2:** Skiddy's Angels vs No Tormentor (BO2) - **1-1**
+  - Game 1: Skiddy's Angels (Match ID: 8692624715)
+  - Game 2: No Tormentor (Match ID: 8692707807)
 - **Bye:** Sentinel Island Esports
 
 #### Week 5 - February 2, 2026
