@@ -372,18 +372,23 @@ const League = () => {
 
   // Render knockout brackets using ReactFlow component
   const renderKnockoutBrackets = () => {
-    // Div 2 Season 6 uses Challonge embed
-    if (selectedSeason === 6 && selectedDivision === 2) {
+    // Season 6 uses Challonge embeds
+    const challongeEmbeds = {
+      2: { src: 'https://challonge.com/wcr2g2rr/module', title: 'Division 2 Playoff Bracket' },
+      4: { src: 'https://challonge.com/u5s96bzm/module', title: 'Division 4 Playoff Bracket' },
+    };
+    const embed = selectedSeason === 6 && challongeEmbeds[selectedDivision];
+    if (embed) {
       return (
         <div className="pb-8">
           <iframe
-            src="https://challonge.com/wcr2g2rr/module"
+            src={embed.src}
             width="100%"
             height="500"
             frameBorder="0"
             scrolling="auto"
             allowTransparency="true"
-            title="Division 2 Playoff Bracket"
+            title={embed.title}
           />
         </div>
       );
