@@ -1212,32 +1212,69 @@ const League = () => {
                   </button>
                 ))}
               </div>
-              
-              {/* Group Stage / Playoffs Toggle - shown only in Standings view */}
-              {selectedView === 'standings' && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setStandingsView('group')}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      standingsView === 'group'
-                        ? 'bg-primary text-black'
-                        : 'bg-white/10 text-white/70 hover:bg-white/20'
-                    }`}
+
+              <div className="flex gap-2 items-center">
+                {/* Dotabuff Link - All seasons */}
+                {selectedSeason === 6 && (
+                  <a
+                    href="https://www.dotabuff.com/esports/leagues/19084-irish-dota-league-season-6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-white/10 text-white/70 hover:bg-white/20 rounded-md text-sm font-medium transition-colors flex items-center gap-2"
                   >
-                    Group Stage
-                  </button>
-                  <button
-                    onClick={() => setStandingsView('knockout')}
-                    className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                      standingsView === 'knockout'
-                        ? 'bg-primary text-black'
-                        : 'bg-white/10 text-white/70 hover:bg-white/20'
-                    }`}
+                    <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    Dotabuff
+                  </a>
+                )}
+                {selectedSeason === 5 && (
+                  <a
+                    href="https://www.dotabuff.com/esports/leagues/18171-irish-dota-league-season-5"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-white/10 text-white/70 hover:bg-white/20 rounded-md text-sm font-medium transition-colors flex items-center gap-2"
                   >
-                    Playoffs
-                  </button>
-                </div>
-              )}
+                    <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    Dotabuff
+                  </a>
+                )}
+                {selectedSeason === 4 && (
+                  <a
+                    href="https://www.dotabuff.com/esports/leagues/17600-irish-dota-league-season-4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 bg-white/10 text-white/70 hover:bg-white/20 rounded-md text-sm font-medium transition-colors flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-sm">open_in_new</span>
+                    Dotabuff
+                  </a>
+                )}
+
+                {/* Group Stage / Playoffs Toggle - shown only in Standings view */}
+                {selectedView === 'standings' && (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setStandingsView('group')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        standingsView === 'group'
+                          ? 'bg-primary text-black'
+                          : 'bg-white/10 text-white/70 hover:bg-white/20'
+                      }`}
+                    >
+                      Group Stage
+                    </button>
+                    <button
+                      onClick={() => setStandingsView('knockout')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        standingsView === 'knockout'
+                          ? 'bg-primary text-black'
+                          : 'bg-white/10 text-white/70 hover:bg-white/20'
+                      }`}
+                    >
+                      Playoffs
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
             {selectedView === 'standings' && (
