@@ -221,7 +221,9 @@
 - **Match 2:** Imprint Esports vs Passport Issues (BO2) - **1-1**
   - Game 1: Passport Issues (Match ID: 8669555293)
   - Game 2: Imprint Esports (Match ID: 8669618287)
-- **Match 3:** Green Isle Gaming vs D2Ire Rejects (BO2)
+- **Match 3:** Green Isle Gaming vs D2Ire Rejects (BO2) - **0-2**
+  - Game 1: D2Ire Rejects (Match ID: 8695326899)
+  - Game 2: D2Ire Rejects (Match ID: 8695400185)
 - **Bye:** Ausgang
 
 ### Playoffs
