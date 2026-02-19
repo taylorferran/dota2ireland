@@ -217,7 +217,9 @@
 - **Bye:** D2Ire Rejects
 
 #### Week 7 - February 16, 2026
-- **Match 1:** Joon Squad: Junior vs Motion of the roshan (BO2)
+- **Match 1:** Joon Squad: Junior vs Motion of the roshan (BO2) - **0-2**
+  - Game 1: Motion of the roshan (Match ID: 8696562443)
+  - Game 2: Motion of the roshan (Match ID: 8696633621)
 - **Match 2:** Imprint Esports vs Passport Issues (BO2) - **1-1**
   - Game 1: Passport Issues (Match ID: 8669555293)
   - Game 2: Imprint Esports (Match ID: 8669618287)
