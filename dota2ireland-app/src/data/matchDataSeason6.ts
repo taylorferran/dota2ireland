@@ -182,12 +182,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "the_pepegs",
       team2Id: "skiddys_angels",
       date: "2026-02-02",
-      completed: false,
+      completed: true,
       week: 5,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "skiddys_angels", dota2MatchId: "8699036082" },
+        game2: { played: true, winner: "skiddys_angels", dota2MatchId: "8699138114" },
       },
+      score: [0, 2],
     },
     {
       id: "d1w5bye",
@@ -678,12 +679,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "ausgang",
       team2Id: "passport_issues",
       date: "2026-02-09",
-      completed: false,
+      completed: true,
       week: 6,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "ausgang", dota2MatchId: "8699014700" },
+        game2: { played: true, winner: "passport_issues", dota2MatchId: "8699105959" },
       },
+      score: [1, 1],
     },
     {
       id: "d3w6bye",

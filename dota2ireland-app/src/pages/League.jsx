@@ -374,6 +374,7 @@ const League = () => {
   const renderKnockoutBrackets = () => {
     // Season 6 uses Challonge embeds
     const challongeEmbeds = {
+      1: { src: 'https://challonge.com/8tgxwozl/module', title: 'Division 1 Playoff Bracket' },
       2: { src: 'https://challonge.com/wcr2g2rr/module', title: 'Division 2 Playoff Bracket' },
       4: { src: 'https://challonge.com/u5s96bzm/module', title: 'Division 4 Playoff Bracket' },
     };

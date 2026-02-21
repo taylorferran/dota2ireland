@@ -61,7 +61,9 @@
 - **Match 1:** Wong's Bakery vs Sentinel Island Esports (BO2) - **2-0**
   - Game 1: Wong's Bakery (Match ID: 8679099066)
   - Game 2: Wong's Bakery (Match ID: 8679155790)
-- **Match 2:** The Pepegs vs Skiddy's Angels (BO2)
+- **Match 2:** The Pepegs vs Skiddy's Angels (BO2) - **0-2**
+  - Game 1: Skiddy's Angels (Match ID: 8699036082)
+  - Game 2: Skiddy's Angels (Match ID: 8699138114)
 - **Bye:** No Tormentor
 
 ### Playoffs
@@ -213,7 +215,9 @@
 - **Match 2:** Imprint Esports vs Motion of the roshan (BO2) - **0-2**
   - Game 1: Motion of the roshan (Match ID: 8675294160)
   - Game 2: Motion of the roshan (Match ID: 8675359078)
-- **Match 3:** Ausgang vs Passport Issues (BO2)
+- **Match 3:** Ausgang vs Passport Issues (BO2) - **1-1**
+  - Game 1: Ausgang (Match ID: 8699014700)
+  - Game 2: Passport Issues (Match ID: 8699105959)
 - **Bye:** D2Ire Rejects
 
 #### Week 7 - February 16, 2026
