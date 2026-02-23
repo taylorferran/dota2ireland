@@ -8,15 +8,11 @@ export const SEASON_LEAGUE_IDS = {
 };
 
 export const fetchLeaderboard = async (leagueId) => {
-  const response = await fetch('/api/leaderboard', {
-    method: 'POST',
+  const response = await fetch(`/api/leaderboard?league_id=${leagueId}`, {
+    method: 'GET',
     headers: {
-      'token': API_TOKEN,
-      'Content-Type': 'application/json',
+      'x-api-key': API_TOKEN,
     },
-    body: JSON.stringify({
-      league_id: leagueId,
-    }),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch leaderboard');
@@ -25,15 +21,11 @@ export const fetchLeaderboard = async (leagueId) => {
 };
 
 export const fetchHeroStatistics = async (leagueId) => {
-  const response = await fetch('/api/hero-statistics', {
-    method: 'POST',
+  const response = await fetch(`/api/hero-statistics?league_id=${leagueId}`, {
+    method: 'GET',
     headers: {
-      'token': API_TOKEN,
-      'Content-Type': 'application/json',
+      'x-api-key': API_TOKEN,
     },
-    body: JSON.stringify({
-      league_id: leagueId,
-    }),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch hero statistics');
@@ -42,15 +34,11 @@ export const fetchHeroStatistics = async (leagueId) => {
 };
 
 export const fetchTeams = async (leagueId) => {
-  const response = await fetch('/api/teams', {
-    method: 'POST',
+  const response = await fetch(`/api/teams?league_id=${leagueId}`, {
+    method: 'GET',
     headers: {
-      'token': API_TOKEN,
-      'Content-Type': 'application/json',
+      'x-api-key': API_TOKEN,
     },
-    body: JSON.stringify({
-      league_id: leagueId,
-    }),
   });
   if (!response.ok) {
     throw new Error('Failed to fetch teams');

@@ -1,17 +1,12 @@
 const API_TOKEN = import.meta.env.VITE_IMPRINT_API_TOKEN;
-const API_URL = "/api/match";
 
 export const fetchMatchDetails = async (matchId) => {
   try {
-    const response = await fetch(API_URL, {
-      method: "POST",
+    const response = await fetch(`/api/match?match_id=${parseInt(matchId, 10)}`, {
+      method: "GET",
       headers: {
-        token: API_TOKEN,
-        "Content-Type": "application/json",
+        "x-api-key": API_TOKEN,
       },
-      body: JSON.stringify({
-        match_id: parseInt(matchId, 10),
-      }),
     });
 
     if (response.status === 503) {

@@ -1,8 +1,8 @@
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, token');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-api-key');
 
   // Handle preflight request
   if (req.method === 'OPTIONS') {
@@ -10,21 +10,20 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (req.method !== 'POST') {
+  if (req.method !== 'GET') {
     res.status(405).json({ error: 'Method not allowed' });
     return;
   }
 
   try {
-    const token = req.headers.token || process.env.VITE_IMPRINT_API_TOKEN;
-    
-    const response = await fetch('https://api.imprint.gg/league/players', {
-      method: 'POST',
+    const apiKey = req.headers['x-api-key'] || process.env.VITE_IMPRINT_API_TOKEN;
+    const { league_id } = req.query;
+
+    const response = await fetch(`https://v2.api.imprint.gg/league/${league_id}/players`, {
+      method: 'GET',
       headers: {
-        'token': token,
-        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
       },
-      body: JSON.stringify(req.body),
     });
 
     const data = await response.json();

@@ -19,16 +19,25 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.imprint.gg',
+        target: 'https://v2.api.imprint.gg',
         changeOrigin: true,
         rewrite: (path) => {
-          const rewrites = {
-            '/api/leaderboard': '/league/players',
-            '/api/hero-statistics': '/league/statistics/hero',
-            '/api/teams': '/league/teams',
-            '/api/match': '/match',
-          };
-          return rewrites[path] || path.replace(/^\/api/, '');
+          const [pathname, queryString] = path.split('?');
+          const params = new URLSearchParams(queryString);
+
+          if (pathname === '/api/match') {
+            return `/match/${params.get('match_id')}`;
+          }
+          if (pathname === '/api/leaderboard') {
+            return `/league/${params.get('league_id')}/players`;
+          }
+          if (pathname === '/api/hero-statistics') {
+            return `/league/${params.get('league_id')}/heroes`;
+          }
+          if (pathname === '/api/teams') {
+            return `/league/${params.get('league_id')}/teams`;
+          }
+          return path.replace(/^\/api/, '');
         }
       }
     }
