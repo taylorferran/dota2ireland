@@ -201,7 +201,9 @@
 - **Bye:** Motion of the roshan
 
 #### Week 5 - February 2, 2026
-- **Match 1:** Joon Squad: Junior vs D2Ire Rejects (BO2)
+- **Match 1:** Joon Squad: Junior vs D2Ire Rejects (BO2) - **1-1**
+  - Game 1: Joon Squad: Junior (Match ID: 8705124418)
+  - Game 2: D2Ire Rejects (Match ID: 8705214703)
 - **Match 2:** Green Isle Gaming vs Ausgang (BO2) - **0-2**
   - Game 1: Ausgang (Match ID: 8680469343)
   - Game 2: Ausgang (Match ID: 8680524972)

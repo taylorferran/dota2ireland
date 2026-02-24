@@ -602,12 +602,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "joon_squad_junior",
       team2Id: "d2ire_rejects",
       date: "2026-02-02",
-      completed: false,
+      completed: true,
       week: 5,
       games: {
-        game1: { played: false },
-        game2: { played: false },
+        game1: { played: true, winner: "joon_squad_junior", dota2MatchId: "8705124418" },
+        game2: { played: true, winner: "d2ire_rejects", dota2MatchId: "8705214703" },
       },
+      score: [1, 1],
     },
     {
       id: "d3w5m2",
