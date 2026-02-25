@@ -376,6 +376,7 @@ const League = () => {
     const challongeEmbeds = {
       1: { src: 'https://challonge.com/8tgxwozl/module', title: 'Division 1 Playoff Bracket' },
       2: { src: 'https://challonge.com/wcr2g2rr/module', title: 'Division 2 Playoff Bracket' },
+      3: { src: 'https://challonge.com/i29sl3qz/module', title: 'Division 3 Playoff Bracket' },
       4: { src: 'https://challonge.com/u5s96bzm/module', title: 'Division 4 Playoff Bracket' },
     };
     const embed = selectedSeason === 6 && challongeEmbeds[selectedDivision];
