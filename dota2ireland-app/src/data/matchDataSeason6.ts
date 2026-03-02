@@ -655,12 +655,13 @@ export const divisionMatches: Record<1 | 2 | 3 | 4, Match[]> = {
       team1Id: "joon_squad_junior",
       team2Id: "green_isle_gaming",
       date: "2026-02-09",
-      completed: false,
+      completed: true,
       week: 6,
       games: {
         game1: { played: false },
         game2: { played: false },
       },
+      score: [2, 0],
     },
     {
       id: "d3w6m2",
