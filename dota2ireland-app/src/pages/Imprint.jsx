@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 import { fetchLeaderboard, fetchHeroStatistics, fetchTeams, SEASON_LEAGUE_IDS } from "../services/leaderboardApi";
+import carryImg from '/img/CarryLight.png';
+import midImg from '/img/MiddleLight.png';
+import offlaneImg from '/img/OfflaneLight.png';
+import softSuppImg from '/img/SoftSupportLight.png';
+import hardSuppImg from '/img/HardSupportLight.png';
 
-const getPositionImage = (position) => {
-  const positionMap = {
-    1: "/img/Carry.png",
-    2: "/img/Middle.png",
-    3: "/img/Offlane.png",
-    4: "/img/SoftSupport.png",
-    5: "/img/HardSupport.png",
-  };
-  return positionMap[position] || "";
+const POSITION_MAP = [
+  null,
+  { image: carryImg, label: "Carry" },
+  { image: midImg, label: "Mid" },
+  { image: offlaneImg, label: "Offlane" },
+  { image: softSuppImg, label: "Soft Support" },
+  { image: hardSuppImg, label: "Hard Support" },
+];
+
+const getPositionInfo = (position) => {
+  const idx = Number(position);
+  if (idx >= 1 && idx <= 5) return POSITION_MAP[idx];
+  const str = String(position).toLowerCase();
+  return POSITION_MAP.find((p) => p && p.label.toLowerCase() === str) || { image: null, label: String(position) };
 };
 
 const Imprint = () => {
@@ -31,8 +41,7 @@ const Imprint = () => {
 
         if (activeTab === "leaderboard") {
           const data = await fetchLeaderboard(leagueId);
-          // Use lower threshold for Season 6 since it just started
-          const minMatchCount = selectedSeason === 6 ? 1 : 3;
+          const minMatchCount = selectedSeason === 6 ? 6 : 3;
           const filteredPlayers = data.players
             .filter((player) => player.match_count >= minMatchCount)
             .sort((a, b) => b.average_imprint_rating - a.average_imprint_rating);
@@ -56,51 +65,43 @@ const Imprint = () => {
   }, [activeTab, selectedSeason]);
 
   const renderLeaderboard = () => (
-    <div className="overflow-x-auto">
-      <table className="min-w-full">
-        <thead>
-          <tr className="bg-zinc-900 border-b border-primary/30">
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Rank</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Player</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Position</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Rating</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-primary uppercase tracking-wider">Team</th>
-            <th className="px-6 py-3 text-center text-xs font-medium text-primary uppercase tracking-wider">Win Rate</th>
-          </tr>
-        </thead>
-        <tbody className="bg-zinc-900 divide-y divide-white/10">
-          {players.map((player, index) => (
-            <tr
-              key={player.account_id}
-              className="hover:bg-white/5 transition-colors"
-            >
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-white">{index + 1}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">{player.account_name}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
-                <img
-                  src={getPositionImage(player.position)}
-                  alt={`Position ${player.position}`}
-                  className="w-6 h-6 inline-block"
-                  title={`Position ${player.position}`}
-                  loading="lazy"
-                />
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-primary">
-                {player.average_imprint_rating.toFixed(1)}
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
-                <div className="flex items-center gap-2">
-                  <img src={player.team.team_logo_src} alt={player.team.team_name} className="w-6 h-6 object-contain" loading="lazy" />
-                  {player.team.team_name}
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-white">
-                {player.win_rate} ({player.wins}/{player.losses})
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="space-y-0">
+      {/* Header */}
+      <div className="grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 border-b-2 border-primary/40 text-xs font-bold text-primary uppercase tracking-wider">
+        <div>#</div>
+        <div>Player</div>
+        <div>Position</div>
+        <div>Rating</div>
+        <div className="pl-8">Team</div>
+        <div>Record</div>
+      </div>
+      {/* Rows */}
+      {players.map((player, index) => {
+        const pos = getPositionInfo(player.position);
+        const isTop3 = index < 3;
+        return (
+          <div
+            key={player.account_id}
+            className={`grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 items-center ${index % 2 === 0 ? 'bg-zinc-800/50' : 'bg-zinc-900'} hover:bg-white/10 transition-colors ${isTop3 ? 'border-l-2 border-l-primary' : ''}`}
+          >
+            <div className={`text-sm font-bold ${isTop3 ? 'text-primary' : 'text-white/60'}`}>{index + 1}</div>
+            <div className="text-sm font-semibold text-white truncate">{player.account_name}</div>
+            <div className="flex items-center gap-2">
+              {pos.image && <img src={pos.image} alt="" className="w-5 h-5 flex-shrink-0" />}
+              <span className="text-xs text-white/60">{pos.label}</span>
+            </div>
+            <div className="text-sm font-bold text-primary">{player.average_imprint_rating.toFixed(1)}</div>
+            <div className="flex items-center gap-2 text-sm text-white truncate">
+              <img src={player.team.team_logo_src} alt="" className="w-6 h-6 object-contain rounded flex-shrink-0" loading="lazy" />
+              <span className="truncate">{player.team.team_name}</span>
+            </div>
+            <div className="text-sm">
+              <span className="text-white">{player.win_rate}</span>
+              <span className="text-white/40 ml-1 text-xs">({player.wins}W-{player.losses}L)</span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 
