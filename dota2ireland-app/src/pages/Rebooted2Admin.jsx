@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 
-const emptyPlayer = () => ({ name: '', dotabuff: '' });
+const emptyPlayer = () => ({ name: '', dotabuff: '', position: '', is_standin: false });
+
 
 const Rebooted2Admin = () => {
   const [teams, setTeams] = useState([]);
@@ -116,6 +117,19 @@ const Rebooted2Admin = () => {
       prev.map(t => {
         if (t.seed !== seed) return t;
         const players = t.players.filter((_, i) => i !== playerIdx);
+        return { ...t, players };
+      })
+    );
+  };
+
+  const movePlayer = (seed, playerIdx, direction) => {
+    setTeams(prev =>
+      prev.map(t => {
+        if (t.seed !== seed) return t;
+        const players = [...t.players];
+        const swapIdx = playerIdx + direction;
+        if (swapIdx < 0 || swapIdx >= players.length) return t;
+        [players[playerIdx], players[swapIdx]] = [players[swapIdx], players[playerIdx]];
         return { ...t, players };
       })
     );
@@ -237,6 +251,18 @@ const Rebooted2Admin = () => {
               />
             </div>
 
+            {/* Team ID */}
+            <div className="px-4 py-3 border-b border-zinc-800 flex flex-col gap-2">
+              <label className="text-white/30 text-xs font-bold uppercase tracking-wider">Team ID</label>
+              <input
+                type="text"
+                placeholder="e.g. Imprint / Dotabuff team ID"
+                value={team.team_id || ''}
+                onChange={e => updateTeamField(team.seed, 'team_id', e.target.value)}
+                className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 text-white text-sm rounded focus:outline-none focus:border-primary placeholder-white/20"
+              />
+            </div>
+
             {/* Logo URL */}
             <div className="px-4 py-3 border-b border-zinc-800 flex flex-col gap-2">
               <label className="text-white/30 text-xs font-bold uppercase tracking-wider">Logo URL</label>
@@ -260,11 +286,25 @@ const Rebooted2Admin = () => {
             </div>
 
             {/* Players */}
-            <div className="px-4 py-3 flex flex-col gap-2">
+            <div className="px-4 py-3 flex flex-col gap-3">
               <label className="text-white/30 text-xs font-bold uppercase tracking-wider">Players</label>
               {(team.players || []).map((player, i) => (
-                <div key={i} className="flex items-center gap-2">
-                  <div className="flex-1 flex flex-col gap-1.5">
+                <div key={i} className="flex gap-2">
+                  {/* Up/down reorder */}
+                  <div className="flex flex-col justify-center gap-0.5 flex-shrink-0">
+                    <button
+                      onClick={() => movePlayer(team.seed, i, -1)}
+                      disabled={i === 0}
+                      className="w-5 h-5 flex items-center justify-center text-white/20 hover:text-white/60 disabled:opacity-0 transition-colors text-xs leading-none"
+                    >▲</button>
+                    <button
+                      onClick={() => movePlayer(team.seed, i, 1)}
+                      disabled={i === (team.players.length - 1)}
+                      className="w-5 h-5 flex items-center justify-center text-white/20 hover:text-white/60 disabled:opacity-0 transition-colors text-xs leading-none"
+                    >▼</button>
+                  </div>
+
+<div className="flex-1 flex flex-col gap-1.5">
                     <input
                       type="text"
                       placeholder="Player name"
@@ -275,18 +315,27 @@ const Rebooted2Admin = () => {
                     <input
                       type="text"
                       placeholder="Dotabuff URL"
-                      value={player.dotabuff}
+                      value={player.dotabuff || ''}
                       onChange={e => updatePlayer(team.seed, i, 'dotabuff', e.target.value)}
                       className="w-full px-3 py-1.5 bg-zinc-800 border border-zinc-700 text-white/60 text-xs rounded focus:outline-none focus:border-primary placeholder-white/20"
                     />
+                    {/* Standin toggle */}
+                    <label className="flex items-center gap-2 cursor-pointer select-none w-fit">
+                      <input
+                        type="checkbox"
+                        checked={!!player.is_standin}
+                        onChange={e => updatePlayer(team.seed, i, 'is_standin', e.target.checked)}
+                        className="w-3.5 h-3.5 accent-orange-400"
+                      />
+                      <span className="text-white/30 text-xs">Stand-in</span>
+                    </label>
                   </div>
+
                   <button
                     onClick={() => removePlayer(team.seed, i)}
-                    className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors text-lg leading-none"
+                    className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-white/20 hover:text-red-400 transition-colors text-lg leading-none mt-1"
                     title="Remove player"
-                  >
-                    ×
-                  </button>
+                  >×</button>
                 </div>
               ))}
 

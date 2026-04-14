@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
 
@@ -123,7 +124,10 @@ const Rebooted2Tables = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('format');
+  const [expandedStandins, setExpandedStandins] = useState(new Set());
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get('tab') || 'format';
+  const setActiveTab = (tab) => setSearchParams({ tab }, { replace: true });
 
   const TAB_LABELS = {
     'group-stage': 'Group Stage',
@@ -142,7 +146,6 @@ const Rebooted2Tables = () => {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
-  const [isDemoMode, setIsDemoMode] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState(false);
@@ -170,6 +173,13 @@ const Rebooted2Tables = () => {
       setLoading(false);
     });
   }, []);
+
+  // Default to group stage tab once data loads and tournament has started (only if no tab in URL)
+  useEffect(() => {
+    if (!loading && assigned.length > 0 && !searchParams.get('tab')) {
+      setSearchParams({ tab: 'group-stage' }, { replace: true });
+    }
+  }, [loading]);
 
   // Spectator polling
   useEffect(() => {
@@ -319,16 +329,25 @@ const Rebooted2Tables = () => {
       activeCount++;
     }
 
-    const newState = { results: newResults, assigned: newAssigned };
+    // Store current state as prev for undo
+    const newState = {
+      results: newResults,
+      assigned: newAssigned,
+      prev: { results: tableState.results, assigned: tableState.assigned },
+    };
     setTableState(newState);
     await persist(newState);
     setFinishingGame(null);
     setSaving(false);
   };
 
-  const handleDemoFinish = (key) => {
-    const [a, b] = parseKey(key);
-    handleFinishGame(key, Math.random() < 0.5 ? a : b);
+  const handleUndo = async () => {
+    if (saving || !tableState.prev) return;
+    setSaving(true);
+    const newState = { results: tableState.prev.results, assigned: tableState.prev.assigned };
+    setTableState(newState);
+    await persist(newState);
+    setSaving(false);
   };
 
   const handleReset = async () => {
@@ -370,16 +389,15 @@ const Rebooted2Tables = () => {
           </span>
           {isAdmin && tournamentStarted && !tournamentComplete && (
             <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsDemoMode(d => !d)}
-                className={`text-xs px-3 py-1 rounded font-medium transition-colors ${
-                  isDemoMode
-                    ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
-                    : 'bg-zinc-800 text-white/40 hover:text-white/70'
-                }`}
-              >
-                {isDemoMode ? 'Demo on' : 'Demo off'}
-              </button>
+              {tableState.prev && (
+                <button
+                  onClick={handleUndo}
+                  disabled={saving}
+                  className="text-xs text-white/40 hover:text-white/70 transition-colors disabled:opacity-40"
+                >
+                  Undo last result
+                </button>
+              )}
               <button
                 onClick={() => setShowResetConfirm(true)}
                 className="text-xs text-white/25 hover:text-red-400 transition-colors"
@@ -542,22 +560,13 @@ const Rebooted2Tables = () => {
                           {/* Action slot — only occupies space when admin is logged in */}
                           {isAdmin && (
                             <div className="flex-shrink-0 w-16 flex justify-end pl-3">
-                              {game.isActive && !isDemoMode && (
+                              {game.isActive && (
                                 <button
                                   onClick={() => setFinishingGame(game.key)}
                                   disabled={saving}
                                   className="px-2.5 py-1 bg-zinc-700 hover:bg-zinc-600 text-white/50 hover:text-white text-xs font-medium rounded transition-colors disabled:opacity-40"
                                 >
                                   Finish
-                                </button>
-                              )}
-                              {game.isActive && isDemoMode && (
-                                <button
-                                  onClick={() => handleDemoFinish(game.key)}
-                                  disabled={saving}
-                                  className="px-2.5 py-1 bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 text-xs font-medium rounded border border-orange-500/20 transition-colors disabled:opacity-40"
-                                >
-                                  Rnd
                                 </button>
                               )}
                             </div>
@@ -658,31 +667,74 @@ const Rebooted2Tables = () => {
 
       {/* ── Rosters tab ── */}
       {activeTab === 'rosters' && (
-        <div className="px-4 pt-4 pb-4 flex flex-col gap-3">
-          {teams.map(team => (
-            <div key={team.seed} className="bg-zinc-900 border border-zinc-800 rounded-lg overflow-hidden">
-              <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800/60">
-                {team.logo_url && <img src={team.logo_url} alt="" className="w-8 h-8 object-contain flex-shrink-0" />}
-                <span className="font-black text-white text-base">{team.name || `Seed ${team.seed}`}</span>
-              </div>
-              {team.players?.length > 0 && (
-                <div className="divide-y divide-zinc-800/40">
-                  {team.players.map((player, i) => (
-                    <div key={i} className="flex items-center justify-between px-4 py-2.5">
-                      <span className="text-white/70 text-sm">{player.name}</span>
-                      {player.dotabuff && (
-                        <a href={player.dotabuff} target="_blank" rel="noopener noreferrer"
-                          className="text-primary/60 hover:text-primary text-xs font-medium transition-colors">
-                          Dotabuff
-                        </a>
+        <div className="px-4 pt-4 pb-4 grid grid-cols-3 gap-3">
+          {[...teams].sort((a, b) => [4,8,2,6,10,1,7,3,9,5].indexOf(a.seed) - [4,8,2,6,10,1,7,3,9,5].indexOf(b.seed)).map(team => (
+            <div key={team.seed} className="bg-zinc-900 border border-zinc-700/50 flex flex-col">
+              {(() => {
+                const POS_IMG = { 1: 'Carry', 2: 'Middle', 3: 'Offlane', 4: 'SoftSupport', 5: 'HardSupport' };
+                const main = (team.players || []).filter(p => !p.is_standin);
+                const standins = (team.players || []).filter(p => p.is_standin);
+                const expanded = expandedStandins.has(team.seed);
+                const toggleStandins = () => setExpandedStandins(prev => {
+                  const next = new Set(prev);
+                  expanded ? next.delete(team.seed) : next.add(team.seed);
+                  return next;
+                });
+                return (
+                  <>
+                    <div className="flex items-center gap-2 px-3 py-2.5 border-b border-zinc-800/60">
+                      {team.logo_url && <img src={team.logo_url} alt="" className="w-6 h-6 object-contain flex-shrink-0" />}
+                      <span className="font-black text-white text-sm truncate flex-1">{team.name || `Seed ${team.seed}`}</span>
+                      {standins.length > 0 && (
+                        <div className="flex items-center gap-1 flex-shrink-0">
+                          <button
+                            onClick={toggleStandins}
+                            className={`text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 border transition-colors ${expanded ? 'border-orange-400/50 text-orange-400' : 'border-orange-400/20 text-orange-400/40 hover:border-orange-400/40 hover:text-orange-400/70'}`}
+                          >
+                            {standins.length} sub{standins.length > 1 ? 's' : ''}
+                          </button>
+                          <div className="relative group">
+                            <span className="text-white/20 group-hover:text-white/50 text-[10px] cursor-default transition-colors leading-none">ⓘ</span>
+                            <div className="absolute right-0 top-5 w-48 bg-zinc-800 border border-zinc-700 text-white/60 text-[10px] leading-snug px-2 py-1.5 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                              Teams will inform you beforehand if they are using stand-ins for your match.
+                            </div>
+                          </div>
+                        </div>
                       )}
+                      {!standins.length && team.team_id && <span className="text-white/25 text-xs font-mono flex-shrink-0">{team.team_id}</span>}
                     </div>
-                  ))}
-                </div>
-              )}
-              {(!team.players || team.players.length === 0) && (
-                <p className="px-4 py-3 text-white/20 text-sm italic">No roster added yet</p>
-              )}
+                    {main.length > 0 ? (
+                      <div className={`divide-y ${expanded ? 'divide-transparent' : 'divide-zinc-800/40'}`}>
+                        {Array.from({ length: main.length }, (_, i) => {
+                          const player = expanded ? standins[i] : main[i];
+                          return (
+                            <div key={i} className="px-3 py-2 flex items-center gap-1.5">
+                              {!expanded
+                                ? <img src={`/img/${POS_IMG[i + 1]}.png`} alt="" className="flex-shrink-0 w-4 h-4 object-contain opacity-70" />
+                                : <span className="flex-shrink-0 w-4 h-4" />
+                              }
+                              {player ? (
+                                player.dotabuff ? (
+                                  <a href={player.dotabuff} target="_blank" rel="noopener noreferrer"
+                                    className={`text-xs font-medium transition-colors truncate flex-1 ${expanded ? 'text-white/50 hover:text-primary' : 'text-white/70 hover:text-primary'}`}>
+                                    {player.name}
+                                  </a>
+                                ) : (
+                                  <span className={`text-xs truncate flex-1 ${expanded ? 'text-white/40' : 'text-white/50'}`}>{player.name}</span>
+                                )
+                              ) : (
+                                <span className="flex-1" />
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <p className="px-3 py-2 text-white/20 text-xs italic">No roster yet</p>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           ))}
         </div>
@@ -863,7 +915,7 @@ const Rebooted2Tables = () => {
       <div className="fixed bottom-6 right-6 z-40">
         {isAdmin ? (
           <button
-            onClick={() => { setIsAdmin(false); setIsDemoMode(false); setAdminPassword(''); }}
+            onClick={() => { setIsAdmin(false); setAdminPassword(''); }}
             className="flex items-center gap-2 px-4 py-2 bg-primary text-black text-sm font-bold rounded-full shadow-lg hover:bg-green-400 transition-colors"
           >
             <span>✓</span> Admin
