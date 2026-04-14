@@ -685,6 +685,7 @@ const Rebooted2Tables = () => {
                     <div className="flex items-center gap-2 px-3 py-2.5 border-b border-zinc-800/60">
                       {team.logo_url && <img src={team.logo_url} alt="" className="w-6 h-6 object-contain flex-shrink-0" />}
                       <span className="font-black text-white text-sm truncate flex-1">{team.name || `Seed ${team.seed}`}</span>
+                      {team.team_id && <span className="text-white/25 text-xs font-mono flex-shrink-0">{team.team_id}</span>}
                       {standins.length > 0 && (
                         <div className="flex items-center gap-1 flex-shrink-0">
                           <button
@@ -701,7 +702,6 @@ const Rebooted2Tables = () => {
                           </div>
                         </div>
                       )}
-                      {!standins.length && team.team_id && <span className="text-white/25 text-xs font-mono flex-shrink-0">{team.team_id}</span>}
                     </div>
                     {main.length > 0 ? (
                       <div className={`divide-y ${expanded ? 'divide-transparent' : 'divide-zinc-800/40'}`}>
