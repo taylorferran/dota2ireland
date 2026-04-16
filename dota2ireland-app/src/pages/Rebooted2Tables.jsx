@@ -151,7 +151,6 @@ const Rebooted2Tables = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const [finishingGame, setFinishingGame] = useState(null);
-  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -329,34 +328,16 @@ const Rebooted2Tables = () => {
       activeCount++;
     }
 
-    // Store current state as prev for undo
-    const newState = {
-      results: newResults,
-      assigned: newAssigned,
-      prev: { results: tableState.results, assigned: tableState.assigned },
-    };
+    // Push current state onto history stack (cap at 20)
+    const prevHistory = tableState.history || [];
+    const newHistory = [...prevHistory, { results: tableState.results, assigned: tableState.assigned }].slice(-20);
+    const newState = { results: newResults, assigned: newAssigned, history: newHistory };
     setTableState(newState);
     await persist(newState);
     setFinishingGame(null);
     setSaving(false);
   };
 
-  const handleUndo = async () => {
-    if (saving || !tableState.prev) return;
-    setSaving(true);
-    const newState = { results: tableState.prev.results, assigned: tableState.prev.assigned };
-    setTableState(newState);
-    await persist(newState);
-    setSaving(false);
-  };
-
-  const handleReset = async () => {
-    setSaving(true);
-    setTableState(EMPTY_STATE);
-    await persist(EMPTY_STATE);
-    setShowResetConfirm(false);
-    setSaving(false);
-  };
 
   if (loading) {
     return (
@@ -387,25 +368,6 @@ const Rebooted2Tables = () => {
               ? `${gamesCompleted} / 45 games · ${gamesActive} live`
               : 'Not started'}
           </span>
-          {isAdmin && tournamentStarted && !tournamentComplete && (
-            <div className="flex items-center gap-3">
-              {tableState.prev && (
-                <button
-                  onClick={handleUndo}
-                  disabled={saving}
-                  className="text-xs text-white/40 hover:text-white/70 transition-colors disabled:opacity-40"
-                >
-                  Undo last result
-                </button>
-              )}
-              <button
-                onClick={() => setShowResetConfirm(true)}
-                className="text-xs text-white/25 hover:text-red-400 transition-colors"
-              >
-                Reset
-              </button>
-            </div>
-          )}
         </div>
         <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
           <div
@@ -637,17 +599,6 @@ const Rebooted2Tables = () => {
             </div>
           )}
 
-          {/* Reset button — only shown to admin once all 45 games are done */}
-          {isAdmin && tournamentComplete && (
-            <div className="flex justify-center pt-2">
-              <button
-                onClick={() => setShowResetConfirm(true)}
-                className="text-xs text-white/25 hover:text-red-400 transition-colors"
-              >
-                Reset tournament
-              </button>
-            </div>
-          )}
         </div>
       )}
 
@@ -986,19 +937,6 @@ const Rebooted2Tables = () => {
         </div>
       )}
 
-      {/* Reset confirm modal */}
-      {showResetConfirm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
-          <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-6 w-full max-w-sm flex flex-col gap-4">
-            <h3 className="text-white font-bold text-lg">Reset Tournament?</h3>
-            <p className="text-white/50 text-sm">This clears all games. Cannot be undone.</p>
-            <div className="flex gap-3">
-              <button onClick={handleReset} disabled={saving} className="flex-1 py-2 bg-red-600 hover:bg-red-500 text-white font-bold rounded transition-colors disabled:opacity-40">Reset</button>
-              <button onClick={() => setShowResetConfirm(false)} className="flex-1 py-2 bg-zinc-800 text-white/60 rounded hover:bg-zinc-700 transition-colors">Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
 
     </main>
   );

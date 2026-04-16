@@ -14,7 +14,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { password, state } = req.body;
+    const { password, state, key = 'table_state' } = req.body;
 
     if (!password || password !== process.env.REBOOTED2_ADMIN_PASSWORD) {
       res.status(401).json({ error: 'Unauthorized' });
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         Prefer: 'resolution=merge-duplicates',
       },
-      body: JSON.stringify({ key: 'table_state', value: state }),
+      body: JSON.stringify({ key, value: state }),
     });
 
     if (!response.ok) {

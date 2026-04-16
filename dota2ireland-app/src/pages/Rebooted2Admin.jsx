@@ -21,25 +21,110 @@ const Rebooted2Admin = () => {
   // Per-team save result: { [seed]: 'ok' | 'error' }
   const [saveResult, setSaveResult] = useState({});
 
+  // Tournament state controls
+  const [tournamentState, setTournamentState] = useState(null);
+  const [tournamentSaving, setTournamentSaving] = useState(false);
+  const [backupStatus, setBackupStatus] = useState(null);
+
   useEffect(() => {
-    supabase
-      .from('rebooted2_teams')
-      .select('*')
-      .order('seed')
-      .then(({ data, error }) => {
-        if (error) console.error('Failed to load teams:', error);
-        if (data) {
-          // Ensure all 10 seeds exist, filling gaps with empty placeholders
-          const byKey = Object.fromEntries(data.map(t => [t.seed, t]));
-          const full = Array.from({ length: 10 }, (_, i) => {
-            const seed = i + 1;
-            return byKey[seed] ?? { seed, name: '', logo_url: '', players: [] };
-          });
-          setTeams(full);
-        }
-        setLoading(false);
-      });
+    Promise.all([
+      supabase.from('rebooted2_teams').select('*').order('seed'),
+      supabase.from('rebooted2_config').select('*').eq('key', 'table_state').maybeSingle(),
+    ]).then(([teamsRes, configRes]) => {
+      if (teamsRes.error) console.error('Failed to load teams:', teamsRes.error);
+      if (teamsRes.data) {
+        const byKey = Object.fromEntries(teamsRes.data.map(t => [t.seed, t]));
+        const full = Array.from({ length: 10 }, (_, i) => {
+          const seed = i + 1;
+          return byKey[seed] ?? { seed, name: '', logo_url: '', players: [] };
+        });
+        setTeams(full);
+      }
+      if (configRes.data?.value) setTournamentState(configRes.data.value);
+      setLoading(false);
+    });
   }, []);
+
+  const persistTournament = async (state) => {
+    const res = await fetch('/api/rebooted2-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password: adminPassword, state, key: 'table_state' }),
+    });
+    if (!res.ok && res.status !== 401) {
+      // Dev fallback
+      const serviceKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
+      const url = import.meta.env.VITE_SUPABASE_URL;
+      if (serviceKey && url) {
+        const adminClient = createClient(url, serviceKey);
+        await adminClient.from('rebooted2_config').upsert({ key: 'table_state', value: state }, { onConflict: 'key' });
+      }
+    }
+  };
+
+  const handleUndo = async () => {
+    if (tournamentSaving || !tournamentState) return;
+    const history = tournamentState.history || [];
+    if (history.length === 0) return;
+    setTournamentSaving(true);
+    const prev = history[history.length - 1];
+    const newState = { ...tournamentState, results: prev.results, assigned: prev.assigned, history: history.slice(0, -1) };
+    setTournamentState(newState);
+    await persistTournament(newState);
+    setTournamentSaving(false);
+  };
+
+  const handleSaveBackup = async () => {
+    if (!tournamentState) return;
+    setBackupStatus('saving');
+    try {
+      const res = await fetch('/api/rebooted2-update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: adminPassword, state: tournamentState, key: 'table_state_backup' }),
+      });
+      if (!res.ok && res.status !== 401) {
+        const serviceKey = import.meta.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
+        const url = import.meta.env.VITE_SUPABASE_URL;
+        if (serviceKey && url) {
+          const adminClient = createClient(url, serviceKey);
+          await adminClient.from('rebooted2_config').upsert({ key: 'table_state_backup', value: tournamentState }, { onConflict: 'key' });
+          setBackupStatus('saved');
+          setTimeout(() => setBackupStatus(null), 3000);
+          return;
+        }
+      }
+      setBackupStatus(res.ok ? 'saved' : 'error');
+    } catch { setBackupStatus('error'); }
+    setTimeout(() => setBackupStatus(null), 3000);
+  };
+
+  const handleRestoreBackup = async () => {
+    setTournamentSaving(true);
+    setBackupStatus('restoring');
+    try {
+      const { data } = await supabase.from('rebooted2_config').select('*').eq('key', 'table_state_backup').maybeSingle();
+      if (data?.value) {
+        const restored = { ...data.value, history: [] };
+        setTournamentState(restored);
+        await persistTournament(restored);
+        setBackupStatus('restored');
+      } else {
+        setBackupStatus('error');
+      }
+    } catch { setBackupStatus('error'); }
+    setTournamentSaving(false);
+    setTimeout(() => setBackupStatus(null), 3000);
+  };
+
+  const handleReset = async () => {
+    if (!window.confirm('Reset all tournament results? This cannot be undone.')) return;
+    setTournamentSaving(true);
+    const empty = { results: {}, assigned: [], history: [] };
+    setTournamentState(empty);
+    await persistTournament(empty);
+    setTournamentSaving(false);
+  };
 
   const handleUnlock = async (e) => {
     e.preventDefault();
@@ -233,6 +318,55 @@ const Rebooted2Admin = () => {
           >
             Lock
           </button>
+        </div>
+
+        {/* Tournament controls */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 flex flex-col gap-3">
+          <p className="text-white/30 text-xs font-bold uppercase tracking-wider">Tournament Controls</p>
+          {tournamentState ? (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/50">Games complete</span>
+                <span className="text-white font-bold">{Object.keys(tournamentState.results || {}).length} / 45</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-white/50">Undo steps available</span>
+                <span className="text-white font-bold">{(tournamentState.history || []).length}</span>
+              </div>
+              <div className="flex gap-2 pt-1">
+                <button
+                  onClick={handleUndo}
+                  disabled={tournamentSaving || !(tournamentState.history?.length > 0)}
+                  className="flex-1 py-2 bg-zinc-800 border border-zinc-700 text-white/60 hover:text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-30"
+                >
+                  Undo ({(tournamentState.history || []).length})
+                </button>
+                <button
+                  onClick={handleSaveBackup}
+                  disabled={tournamentSaving || backupStatus === 'saving'}
+                  className="flex-1 py-2 bg-zinc-800 border border-zinc-700 text-white/60 hover:text-white text-sm font-medium rounded-lg transition-colors disabled:opacity-30"
+                >
+                  {backupStatus === 'saving' ? 'Saving…' : backupStatus === 'saved' ? 'Backed up ✓' : 'Save backup'}
+                </button>
+                <button
+                  onClick={handleRestoreBackup}
+                  disabled={tournamentSaving || backupStatus === 'restoring'}
+                  className="flex-1 py-2 bg-zinc-800 border border-zinc-700 text-yellow-400/60 hover:text-yellow-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-30"
+                >
+                  {backupStatus === 'restoring' ? 'Restoring…' : backupStatus === 'restored' ? 'Restored ✓' : backupStatus === 'error' ? 'Error' : 'Restore backup'}
+                </button>
+                <button
+                  onClick={handleReset}
+                  disabled={tournamentSaving}
+                  className="flex-1 py-2 bg-zinc-800 border border-zinc-700 text-red-400/50 hover:text-red-400 text-sm font-medium rounded-lg transition-colors disabled:opacity-30"
+                >
+                  Reset
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="text-white/20 text-sm italic">Tournament not started</p>
+          )}
         </div>
 
         {/* Team cards */}
