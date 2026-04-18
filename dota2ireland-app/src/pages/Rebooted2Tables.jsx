@@ -7,7 +7,8 @@ const matchKey = (a, b) => `${Math.min(a, b)}-${Math.max(a, b)}`;
 const parseKey = (key) => key.split('-').map(Number);
 
 // assigned: [{ key: string, roundNum: number }]
-const EMPTY_STATE = { results: {}, assigned: [] };
+// pinned: [{ key: string }] — admin-requested matches to schedule next when both seeds are free
+const EMPTY_STATE = { results: {}, assigned: [], pinned: [] };
 
 // How many games this seed has completed
 const completedGamesFor = (seed, results) =>
@@ -50,51 +51,73 @@ const isPairingSafe = (a, b, blocked, readySeeds, busySeeds) => {
 };
 
 // Find the next game that can be scheduled.
-// Checks each round level (0–8) for seeds that have completed exactly rIdx games
-// and aren't currently active. Among those, picks the first safe pair.
-const getNextMatch = (results, assigned) => {
+// Checks pinned matches first, then falls back to normal round-robin algorithm.
+const getNextMatch = (results, assigned, pinned = []) => {
   const active = getActiveSeedSet(assigned, results);
   const assignedKeys = new Set(assigned.map(g => g.key));
-  // Treat both completed games AND currently-scheduled games as unavailable
-  // so the safety check never considers an active matchup as replayable.
   const blocked = new Set([...Object.keys(results), ...assignedKeys]);
 
+  // Try pinned matches first — schedule them as soon as both seeds are free & at same round level
+  for (const { key } of pinned) {
+    if (blocked.has(key)) continue;
+    const [a, b] = parseKey(key);
+    if (active.has(a) || active.has(b)) continue;
+    const cA = completedGamesFor(a, results);
+    const cB = completedGamesFor(b, results);
+    if (cA !== cB) continue; // not at same round level yet
+    const rIdx = cA;
+    const roundNum = rIdx + 1;
+    const inThisRound = new Set();
+    assigned.filter(g => g.roundNum === roundNum).forEach(g => parseKey(g.key).forEach(s => inThisRound.add(s)));
+    if (inThisRound.has(a) || inThisRound.has(b)) continue;
+    const ready = [];
+    for (let s = 1; s <= 10; s++) {
+      if (completedGamesFor(s, results) === rIdx && !active.has(s) && !inThisRound.has(s)) ready.push(s);
+    }
+    const busy = [];
+    for (let s = 1; s <= 10; s++) {
+      if (completedGamesFor(s, results) < rIdx && !inThisRound.has(s)) busy.push(s);
+    }
+    if (isPairingSafe(a, b, blocked, ready, busy)) return { key, roundNum };
+  }
+
+  // Seeds that must wait for a pending pin — don't let the normal algorithm grab them
+  const pinnedHeld = new Set();
+  for (const { key } of pinned) {
+    if (!blocked.has(key)) {
+      parseKey(key).forEach(s => pinnedHeld.add(s));
+    }
+  }
+
+  // Normal round-robin algorithm
   for (let rIdx = 0; rIdx < 9; rIdx++) {
     const roundNum = rIdx + 1;
-
-    // Seeds already scheduled in this round (don't double-book them)
     const inThisRound = new Set();
     assigned.filter(g => g.roundNum === roundNum).forEach(g =>
       parseKey(g.key).forEach(s => inThisRound.add(s))
     );
-
-    // Seeds ready to play round N: completed exactly rIdx games, not active, not already in this round
-    const ready = [];
+    // allReadyAtLevel includes pinnedHeld seeds — needed so the safety check
+    // accounts for them (they're neither in ready nor busy, so without this
+    // hasPerfectMatching gets an incomplete pool and incorrectly fails).
+    const allReadyAtLevel = [];
+    const ready = []; // only seeds eligible for normal pairing (excludes pinnedHeld)
     for (let s = 1; s <= 10; s++) {
       if (completedGamesFor(s, results) === rIdx && !active.has(s) && !inThisRound.has(s)) {
-        ready.push(s);
+        allReadyAtLevel.push(s);
+        if (!pinnedHeld.has(s)) ready.push(s);
       }
     }
     if (ready.length < 2) continue;
-
-    // Seeds that will eventually need a round-N game but aren't ready yet
-    // (still playing an earlier round game)
     const busy = [];
     for (let s = 1; s <= 10; s++) {
-      if (completedGamesFor(s, results) < rIdx && !inThisRound.has(s)) {
-        busy.push(s);
-      }
+      if (completedGamesFor(s, results) < rIdx && !inThisRound.has(s)) busy.push(s);
     }
-
-    // Try every pair of ready seeds; pick first safe one
     for (let i = 0; i < ready.length; i++) {
       for (let j = i + 1; j < ready.length; j++) {
         const a = ready[i], b = ready[j];
         const key = matchKey(a, b);
-        if (blocked.has(key)) continue; // already played or assigned
-        if (isPairingSafe(a, b, blocked, ready, busy)) {
-          return { key, roundNum };
-        }
+        if (blocked.has(key)) continue;
+        if (isPairingSafe(a, b, blocked, allReadyAtLevel, busy)) return { key, roundNum };
       }
     }
   }
@@ -151,6 +174,8 @@ const Rebooted2Tables = () => {
   const [passwordError, setPasswordError] = useState(false);
 
   const [finishingGame, setFinishingGame] = useState(null);
+  const [pinSeedA, setPinSeedA] = useState('');
+  const [pinSeedB, setPinSeedB] = useState('');
 
   useEffect(() => {
     Promise.all([
@@ -257,6 +282,28 @@ const Rebooted2Tables = () => {
     });
   };
 
+  const handleAddPin = async () => {
+    const a = Number(pinSeedA);
+    const b = Number(pinSeedB);
+    if (!a || !b || a === b) return;
+    const key = matchKey(a, b);
+    const pinned = tableState.pinned || [];
+    if (pinned.some(p => p.key === key)) return; // already pinned
+    if (tableState.results[key]) return; // already played
+    if ((tableState.assigned || []).some(g => g.key === key && !tableState.results[g.key])) return; // already active
+    const newState = { ...tableState, pinned: [...pinned, { key }] };
+    setTableState(newState);
+    await persist(newState);
+    setPinSeedA('');
+    setPinSeedB('');
+  };
+
+  const handleRemovePin = async (key) => {
+    const newState = { ...tableState, pinned: (tableState.pinned || []).filter(p => p.key !== key) };
+    setTableState(newState);
+    await persist(newState);
+  };
+
   const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -313,25 +360,66 @@ const Rebooted2Tables = () => {
     setSaving(false);
   };
 
+  const handleUndo = async () => {
+    if (saving) return;
+    const history = tableState.history || [];
+    if (history.length === 0) return;
+    setSaving(true);
+    const prevState = history[history.length - 1];
+    const newHistory = history.slice(0, -1);
+    const newState = { ...prevState, history: newHistory };
+    setTableState(newState);
+    await persist(newState);
+    setSaving(false);
+  };
+
+  // Used when scheduling gets stuck (0 active games, <5 should be running).
+  // Re-runs the fill loop without needing a game result trigger.
+  const handleReschedule = async () => {
+    if (saving) return;
+    setSaving(true);
+    const currentPinned = tableState.pinned || [];
+    let newPinned = [...currentPinned];
+    let newAssigned = [...assigned];
+    let activeCount = newAssigned.filter(g => !tableState.results[g.key]).length;
+    while (activeCount < 5) {
+      const next = getNextMatch(tableState.results, newAssigned, newPinned);
+      if (!next) break;
+      newPinned = newPinned.filter(p => p.key !== next.key);
+      newAssigned = [...newAssigned, next];
+      activeCount++;
+    }
+    if (newAssigned.length > assigned.length) {
+      const newState = { ...tableState, assigned: newAssigned, pinned: newPinned };
+      setTableState(newState);
+      await persist(newState);
+    }
+    setSaving(false);
+  };
+
   const handleFinishGame = async (key, winnerSeed) => {
     if (saving) return;
     setSaving(true);
     const newResults = { ...tableState.results, [key]: winnerSeed };
     let newAssigned = [...assigned];
 
-    // Fill up to 5 concurrent active games, only scheduling safe pairs
+    // Fill up to 5 concurrent active games, honouring pinned overrides
+    const currentPinned = tableState.pinned || [];
+    let newPinned = [...currentPinned];
     let activeCount = newAssigned.filter(g => !newResults[g.key]).length;
     while (activeCount < 5) {
-      const next = getNextMatch(newResults, newAssigned);
+      const next = getNextMatch(newResults, newAssigned, newPinned);
       if (!next) break;
+      // Consume the pin if this match was pinned
+      newPinned = newPinned.filter(p => p.key !== next.key);
       newAssigned = [...newAssigned, next];
       activeCount++;
     }
 
     // Push current state onto history stack (cap at 20)
     const prevHistory = tableState.history || [];
-    const newHistory = [...prevHistory, { results: tableState.results, assigned: tableState.assigned }].slice(-20);
-    const newState = { results: newResults, assigned: newAssigned, history: newHistory };
+    const newHistory = [...prevHistory, { results: tableState.results, assigned: tableState.assigned, pinned: tableState.pinned || [] }].slice(-20);
+    const newState = { results: newResults, assigned: newAssigned, pinned: newPinned, history: newHistory };
     setTableState(newState);
     await persist(newState);
     setFinishingGame(null);
@@ -378,10 +466,10 @@ const Rebooted2Tables = () => {
       </div>
 
       {/* Start button */}
-      {isAdmin && !tournamentStarted && (
+      {!tournamentStarted && (
         <div className="flex justify-center px-4 pb-6">
           <button
-            onClick={handleStartTournament}
+            onClick={() => isAdmin ? handleStartTournament() : setShowPasswordModal(true)}
             disabled={saving}
             className="px-8 py-3 bg-primary text-black font-black text-lg rounded-lg hover:bg-green-400 transition-colors disabled:opacity-50"
           >
@@ -413,6 +501,79 @@ const Rebooted2Tables = () => {
       {/* ── Group Stage tab ── */}
       {activeTab === 'group-stage' && tournamentStarted && (
         <div className="px-4 pt-4 flex flex-col gap-3">
+
+          {/* Admin: pin a specific matchup */}
+          {isAdmin && !tournamentComplete && (
+            <div className="bg-zinc-900 border border-zinc-800 rounded-lg px-4 py-3 flex flex-col gap-3">
+              <p className="text-white/30 text-xs font-bold uppercase tracking-wider">Schedule specific match next</p>
+              <div className="flex items-center gap-2">
+                <select
+                  value={pinSeedA}
+                  onChange={e => setPinSeedA(e.target.value)}
+                  className="flex-1 px-2 py-1.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded focus:outline-none focus:border-primary"
+                >
+                  <option value="">Team A</option>
+                  {teams.map(t => <option key={t.seed} value={t.seed}>{t.name || `Seed ${t.seed}`}</option>)}
+                </select>
+                <span className="text-white/30 text-xs font-bold">vs</span>
+                <select
+                  value={pinSeedB}
+                  onChange={e => setPinSeedB(e.target.value)}
+                  className="flex-1 px-2 py-1.5 bg-zinc-800 border border-zinc-700 text-white text-sm rounded focus:outline-none focus:border-primary"
+                >
+                  <option value="">Team B</option>
+                  {teams.map(t => <option key={t.seed} value={t.seed}>{t.name || `Seed ${t.seed}`}</option>)}
+                </select>
+                <button
+                  onClick={handleAddPin}
+                  disabled={!pinSeedA || !pinSeedB || pinSeedA === pinSeedB}
+                  className="px-3 py-1.5 bg-primary text-black text-sm font-bold rounded transition-colors hover:bg-green-400 disabled:opacity-30"
+                >
+                  Queue
+                </button>
+              </div>
+              {(tableState.pinned || []).length > 0 && (
+                <div className="flex flex-col gap-1">
+                  {(tableState.pinned || []).map(({ key }) => {
+                    const [a, b] = parseKey(key);
+                    const nameA = teams.find(t => t.seed === a)?.name || `Seed ${a}`;
+                    const nameB = teams.find(t => t.seed === b)?.name || `Seed ${b}`;
+                    return (
+                      <div key={key} className="flex items-center justify-between px-2 py-1 bg-zinc-800 rounded text-sm">
+                        <span className="text-white/60">{nameA} <span className="text-white/30">vs</span> {nameB}</span>
+                        <button onClick={() => handleRemovePin(key)} className="text-white/20 hover:text-red-400 transition-colors text-lg leading-none ml-2">×</button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Admin: undo / reschedule recovery tools */}
+          {isAdmin && !tournamentComplete && (
+            <div className="flex gap-2">
+              {(tableState.history || []).length > 0 && (
+                <button
+                  onClick={handleUndo}
+                  disabled={saving}
+                  className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 text-white/50 hover:text-white text-xs font-bold rounded transition-colors disabled:opacity-40"
+                >
+                  ↩ Undo last result
+                </button>
+              )}
+              {gamesActive === 0 && !tournamentComplete && (
+                <button
+                  onClick={handleReschedule}
+                  disabled={saving}
+                  className="flex-1 px-3 py-2 bg-zinc-800 border border-zinc-700 text-white/50 hover:text-white text-xs font-bold rounded transition-colors disabled:opacity-40"
+                >
+                  ⟳ Force schedule next games
+                </button>
+              )}
+            </div>
+          )}
+
           {tournamentComplete && (
             <div className="px-4 py-3 bg-primary/10 border border-primary/30 rounded-lg text-center">
               <p className="text-primary font-bold">All 45 games complete!</p>
