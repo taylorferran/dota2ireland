@@ -367,7 +367,15 @@ const Rebooted2Tables = () => {
     setSaving(true);
     const prevState = history[history.length - 1];
     const newHistory = history.slice(0, -1);
-    const newState = { ...prevState, history: newHistory };
+    // Only restore results and pinned — never roll back assigned.
+    // Once a match is queued it stays queued, preventing pairings from
+    // changing when a result is corrected and re-entered.
+    const newState = {
+      ...tableState,
+      results: prevState.results,
+      pinned: prevState.pinned,
+      history: newHistory,
+    };
     setTableState(newState);
     await persist(newState);
     setSaving(false);
@@ -375,6 +383,8 @@ const Rebooted2Tables = () => {
 
   // Used when scheduling gets stuck (0 active games, <5 should be running).
   // Re-runs the fill loop without needing a game result trigger.
+  // Falls back to brute-force pairing (no safety check) if the normal algorithm
+  // returns null — this unblocks genuinely stuck states.
   const handleReschedule = async () => {
     if (saving) return;
     setSaving(true);
@@ -382,6 +392,8 @@ const Rebooted2Tables = () => {
     let newPinned = [...currentPinned];
     let newAssigned = [...assigned];
     let activeCount = newAssigned.filter(g => !tableState.results[g.key]).length;
+
+    // Normal pass (with safety checks)
     while (activeCount < 5) {
       const next = getNextMatch(tableState.results, newAssigned, newPinned);
       if (!next) break;
@@ -389,6 +401,36 @@ const Rebooted2Tables = () => {
       newAssigned = [...newAssigned, next];
       activeCount++;
     }
+
+    // Force-schedule fallback: safety check blocked everything, pick any valid unplayed pair
+    if (activeCount < 5) {
+      const assignedKeys = new Set(newAssigned.map(g => g.key));
+      const blocked = new Set([...Object.keys(tableState.results), ...assignedKeys]);
+      const active = getActiveSeedSet(newAssigned, tableState.results);
+      outer: for (let rIdx = 0; rIdx < 9 && activeCount < 5; rIdx++) {
+        const roundNum = rIdx + 1;
+        const inThisRound = new Set();
+        newAssigned.filter(g => g.roundNum === roundNum).forEach(g =>
+          parseKey(g.key).forEach(s => inThisRound.add(s))
+        );
+        for (let a = 1; a <= 10; a++) {
+          if (completedGamesFor(a, tableState.results) !== rIdx) continue;
+          if (active.has(a) || inThisRound.has(a)) continue;
+          for (let b = a + 1; b <= 10; b++) {
+            if (completedGamesFor(b, tableState.results) !== rIdx) continue;
+            if (active.has(b) || inThisRound.has(b)) continue;
+            const key = matchKey(a, b);
+            if (blocked.has(key)) continue;
+            newAssigned = [...newAssigned, { key, roundNum }];
+            inThisRound.add(a); inThisRound.add(b);
+            activeCount++;
+            if (activeCount >= 5) break outer;
+            break; // move to next seed pair
+          }
+        }
+      }
+    }
+
     if (newAssigned.length > assigned.length) {
       const newState = { ...tableState, assigned: newAssigned, pinned: newPinned };
       setTableState(newState);
@@ -416,9 +458,10 @@ const Rebooted2Tables = () => {
       activeCount++;
     }
 
-    // Push current state onto history stack (cap at 20)
+    // Push current state onto history stack (cap at 20).
+    // Only snapshot results + pinned — assigned is never rolled back.
     const prevHistory = tableState.history || [];
-    const newHistory = [...prevHistory, { results: tableState.results, assigned: tableState.assigned, pinned: tableState.pinned || [] }].slice(-20);
+    const newHistory = [...prevHistory, { results: tableState.results, pinned: tableState.pinned || [] }].slice(-20);
     const newState = { results: newResults, assigned: newAssigned, pinned: newPinned, history: newHistory };
     setTableState(newState);
     await persist(newState);
