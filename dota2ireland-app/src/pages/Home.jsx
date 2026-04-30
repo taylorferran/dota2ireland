@@ -102,11 +102,10 @@ const Home = () => {
 
           {/* Card 3 - Merch */}
           <div className="flex h-full flex-col gap-4 rounded-lg bg-white/5 border border-white/10 transition-all hover:border-white/20 hover:bg-white/10 overflow-hidden">
-            <div className="w-full aspect-video bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center">
-              <svg className="w-20 h-20 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M16.24 11.51l1.57-9.51h-4.12c-.24-1.15-1.23-2-2.41-2H8.72c-1.18 0-2.17.85-2.41 2H2.19l1.57 9.51L6 9.62V21h8V9.62l2.24 1.89zM9.5 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm5 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-              </svg>
-            </div>
+            <div
+              className="w-full bg-center bg-no-repeat aspect-video bg-cover"
+              style={{ backgroundImage: 'url(/img/merch.png)' }}
+            ></div>
             <div className="flex flex-col flex-1 justify-between p-4 pt-0 gap-4">
               <div>
                 <p className="text-white text-lg font-bold">Official Merch</p>

@@ -1,33 +1,4 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-
 const Rebooted2 = () => {
-  const [tickets, setTickets] = useState({});
-
-  useEffect(() => {
-    supabase
-      .from('tickets')
-      .select('id, total, sold')
-      .then(({ data }) => {
-        if (data) {
-          const map = {};
-          data.forEach((t) => { map[t.id] = t; });
-          setTickets(map);
-        }
-      });
-  }, []);
-
-  const getRemaining = (id) => {
-    const t = tickets[id];
-    if (!t) return null;
-    return t.total - t.sold;
-  };
-
-  const isSoldOut = (id) => {
-    const remaining = getRemaining(id);
-    return remaining !== null && remaining <= 0;
-  };
-
   return (
     <main className="flex flex-col gap-6 mt-2">
       {/* Hero Section */}
@@ -52,25 +23,9 @@ const Rebooted2 = () => {
           />
           <h3 className="text-white text-xl font-bold">QUB Compsci Building — Player Ticket</h3>
           <p className="text-primary text-2xl font-bold">£60.00</p>
-          {getRemaining('qub_player') !== null && (
-            <p className={`text-sm font-mono ${isSoldOut('qub_player') ? 'text-red-400' : 'text-white/50'}`}>
-              {isSoldOut('qub_player') ? 'SOLD OUT' : `${getRemaining('qub_player')} remaining`}
-            </p>
-          )}
-          {isSoldOut('qub_player') ? (
-            <div className="flex w-full items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-zinc-700 text-zinc-400 text-base font-bold leading-normal tracking-wide cursor-not-allowed">
-              Sold Out
-            </div>
-          ) : (
-            <a
-              href="https://buy.stripe.com/eVq00jcch4pxfzC1KXefC02"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors"
-            >
-              Buy Player Ticket
-            </a>
-          )}
+          <div className="flex w-full items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-zinc-700 text-zinc-400 text-base font-bold leading-normal tracking-wide cursor-not-allowed">
+            Event Finished
+          </div>
         </div>
 
         {/* Reboot Cafe */}
@@ -82,25 +37,9 @@ const Rebooted2 = () => {
           />
           <h3 className="text-white text-xl font-bold">Reboot Cafe — Team Ticket</h3>
           <p className="text-primary text-2xl font-bold">£325.00</p>
-          {getRemaining('reboot_team') !== null && (
-            <p className={`text-sm font-mono ${isSoldOut('reboot_team') ? 'text-red-400' : 'text-white/50'}`}>
-              {isSoldOut('reboot_team') ? 'SOLD OUT' : `${getRemaining('reboot_team')} remaining`}
-            </p>
-          )}
-          {isSoldOut('reboot_team') ? (
-            <div className="flex w-full items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-zinc-700 text-zinc-400 text-base font-bold leading-normal tracking-wide cursor-not-allowed">
-              Sold Out
-            </div>
-          ) : (
-            <a
-              href="https://buy.stripe.com/4gMcN5b8d4pxgDGblxefC03"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors"
-            >
-              Buy Team Ticket
-            </a>
-          )}
+          <div className="flex w-full items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-zinc-700 text-zinc-400 text-base font-bold leading-normal tracking-wide cursor-not-allowed">
+            Event Finished
+          </div>
         </div>
       </section>
 
