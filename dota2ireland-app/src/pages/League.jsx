@@ -1091,8 +1091,40 @@ const League = () => {
             </button>
 
             {/* Render appropriate form or view */}
-            {currentSeasonForm === 'register' && <AddTeamForm divisionId={selectedDivision} />}
-            {currentSeasonForm === 'join' && <JoinTeamForm />}
+            {currentSeasonForm === 'register' && (
+              isAuthenticated ? <AddTeamForm divisionId={selectedDivision} /> : (
+                <div className="max-w-4xl mx-auto">
+                  <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10 text-center space-y-4">
+                    <span className="material-symbols-outlined text-5xl text-white/40">lock</span>
+                    <h2 className="text-2xl font-bold text-white">Login Required</h2>
+                    <p className="text-white/60">You need to be logged in to register a team.</p>
+                    <button
+                      onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
+                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-primary/80 transition-colors"
+                    >
+                      Log In
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
+            {currentSeasonForm === 'join' && (
+              isAuthenticated ? <JoinTeamForm /> : (
+                <div className="max-w-4xl mx-auto">
+                  <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10 text-center space-y-4">
+                    <span className="material-symbols-outlined text-5xl text-white/40">lock</span>
+                    <h2 className="text-2xl font-bold text-white">Login Required</h2>
+                    <p className="text-white/60">You need to be logged in to join a team.</p>
+                    <button
+                      onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
+                      className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-primary/80 transition-colors"
+                    >
+                      Log In
+                    </button>
+                  </div>
+                </div>
+              )
+            )}
             {currentSeasonForm === 'lft' && (
               <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
                 <h2 className="text-2xl font-bold mb-4 text-white">Looking for Team - Season 7</h2>

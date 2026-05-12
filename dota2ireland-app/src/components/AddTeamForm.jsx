@@ -112,7 +112,20 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (isSubmitting || !user?.sub || !teamImage) return;
+    if (isSubmitting) return;
+
+    if (!user?.sub) {
+      toast.error('You must be logged in to register a team');
+      return;
+    }
+    if (!supabaseToken) {
+      toast.error('Authentication error — please log out and back in');
+      return;
+    }
+    if (!teamImage) {
+      toast.error('Please upload a team logo');
+      return;
+    }
 
     setIsSubmitting(true);
 
@@ -218,7 +231,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
                   <label htmlFor="team-image-upload" className="cursor-pointer">
                     <span className="material-symbols-outlined text-5xl text-white/40 mb-4 block">upload</span>
                     <p className="text-white mb-2">Click to upload team logo</p>
-                    <p className="text-sm text-white/60">PNG, JPG up to 5MB</p>
+                    <p className="text-sm text-white/60">Any image format, max 5MB. Automatically resized.</p>
                   </label>
                 </div>
               ) : (
