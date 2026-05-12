@@ -1,8 +1,9 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/Layout';
+import { ToastProvider } from './components/ToastProvider';
 
 // Lazy load pages for better code splitting
 const Home = lazy(() => import('./pages/Home'));
@@ -19,15 +20,29 @@ const Rebooted2Admin = lazy(() => import('./pages/Rebooted2Admin'));
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
 
-// Loading fallback component
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[50vh]">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
   </div>
 );
 
+function Auth0ProviderWithNavigate({ children }) {
+  const navigate = useNavigate();
+  return (
+    <Auth0Provider
+      domain={domain}
+      clientId={clientId}
+      authorizationParams={{ redirect_uri: window.location.origin }}
+      useRefreshTokens={true}
+      cacheLocation="localstorage"
+      onRedirectCallback={(appState) => navigate(appState?.returnTo ?? '/')}
+    >
+      {children}
+    </Auth0Provider>
+  );
+}
+
 function App() {
-  // Hide splash screen after app loads (with extra 0.5s delay)
   useEffect(() => {
     const splash = document.getElementById('splash-screen');
     if (splash) {
@@ -39,16 +54,9 @@ function App() {
   }, []);
 
   return (
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      authorizationParams={{
-        redirect_uri: window.location.origin
-      }}
-      useRefreshTokens={true}
-      cacheLocation="localstorage"
-    >
-      <Router>
+    <Router>
+      <Auth0ProviderWithNavigate>
+        <ToastProvider>
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Layout />}>
@@ -57,8 +65,8 @@ function App() {
               <Route path="events/rebooted2" element={<Rebooted2 />} />
               <Route path="events/rebooted2-tournament" element={<Rebooted2Tables />} />
               <Route path="merch" element={<Merch />} />
-              {/* League routes - redirect /league to /league/s6 (default to Season 6) */}
-              <Route path="league" element={<Navigate to="/league/s6" replace />} />
+              {/* League routes - redirect /league to /league/s7 (default to Season 7) */}
+              <Route path="league" element={<Navigate to="/league/s7" replace />} />
               <Route path="league/:season" element={<League />} />
               <Route path="league/:season/:divisionOrView" element={<League />} />
               <Route path="league/:season/:divisionOrView/:view" element={<League />} />
@@ -71,9 +79,10 @@ function App() {
             <Route path="/rebooted2-admin" element={<Rebooted2Admin />} />
           </Routes>
         </Suspense>
-      </Router>
-      <Analytics />
-    </Auth0Provider>
+        <Analytics />
+        </ToastProvider>
+      </Auth0ProviderWithNavigate>
+    </Router>
   );
 }
 

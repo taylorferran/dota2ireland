@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { useToast } from '../components/ToastProvider';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { supabase, getSupabaseClient } from '../lib/supabase';
@@ -6,6 +7,7 @@ import { useAuth } from '../hooks/useAuth';
 import { divisionMatches as season4Matches } from '../data/matchData';
 import { divisionMatches as season5Matches } from '../data/matchDataSeason5';
 import { divisionMatches as season6Matches } from '../data/matchDataSeason6';
+import { divisionMatches as season7Matches } from '../data/matchDataSeason7';
 import { KnockoutBracket } from '../components/KnockoutBracket';
 import { AddTeamForm } from '../components/AddTeamForm';
 import { JoinTeamForm } from '../components/JoinTeamForm';
@@ -112,29 +114,33 @@ const season6TeamNames = {
   winner_d4w6m2: "Winner SF2",
 };
 
+const season7TeamNames = {
+  bye_week: "Bye Week",
+};
+
 const League = () => {
   const { season: seasonParam, divisionOrView, view: viewParam } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
   const { isAuthenticated, loginWithRedirect, logout, user } = useAuth0();
   const { supabaseToken } = useAuth();
   const { team: myTeam, loading: myTeamLoading, mutate: mutateMyTeam } = useMyTeam();
   
   // Parse URL params to derive state
   const selectedSeason = useMemo(() => {
-    if (!seasonParam) return 6;
+    if (!seasonParam) return 7;
     const match = seasonParam.match(/^s(\d+)$/);
-    return match ? parseInt(match[1]) : 6;
+    return match ? parseInt(match[1]) : 7;
   }, [seasonParam]);
 
-  // For season 6, check if divisionOrView is a form/view or a division
-  const season6Form = useMemo(() => {
-    if (selectedSeason !== 6) return null;
+  // For seasons 6 & 7, check if divisionOrView is a form/view route or a division
+  const currentSeasonForm = useMemo(() => {
+    if (selectedSeason !== 7) return null;
     if (!divisionOrView) return null;
-    // Map URL path to form state
-    const formMap = { 
-      lft: 'viewlft', 
-      join_team: 'join', 
-      my_team: 'viewmyteam', 
+    const formMap = {
+      lft: 'viewlft',
+      join_team: 'join',
+      my_team: 'viewmyteam',
       teams: 'viewteams',
       register: 'register',
       lft_form: 'lft'
@@ -142,24 +148,21 @@ const League = () => {
     return formMap[divisionOrView] || null;
   }, [divisionOrView, selectedSeason]);
 
-  // For seasons 4, 5, & 6 divisionOrView is division (d1, d2, d3, d4)
-  // But for season 6, also check if it's a form route
   const selectedDivision = useMemo(() => {
-    if (selectedSeason === 6 && season6Form) return 1; // Default to Division 1 if showing a form
+    if (selectedSeason === 7 && currentSeasonForm) return 1;
     if (!divisionOrView) return 1;
     const match = divisionOrView.match(/^d(\d+)$/);
     return match ? parseInt(match[1]) : 1;
-  }, [divisionOrView, selectedSeason, season6Form]);
+  }, [divisionOrView, selectedSeason, currentSeasonForm]);
 
-  // For seasons 4, 5, & 6 view is standings, matches, or teams
   const selectedView = useMemo(() => {
-    if (selectedSeason === 6 && season6Form) return 'standings'; // Default view if showing a form
+    if (selectedSeason === 7 && currentSeasonForm) return 'standings';
     if (!viewParam) return 'standings';
-    // Map URL path to view id
     const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters' };
     return viewMap[viewParam] || 'standings';
-  }, [viewParam, selectedSeason, season6Form]);
+  }, [viewParam, selectedSeason, currentSeasonForm]);
 
+  const [showLFTBanner, setShowLFTBanner] = useState(false);
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [standingsView, setStandingsView] = useState('group'); // 'group' or 'knockout'
   const [teams, setTeams] = useState([]);
@@ -174,7 +177,11 @@ const League = () => {
 
   // Navigation helpers
   const navigateToSeason = (seasonId) => {
-    navigate(`/league/s${seasonId}/d1/standings`);
+    if (seasonId === 7) {
+      navigate('/league/s7');
+    } else {
+      navigate(`/league/s${seasonId}/d1/standings`);
+    }
   };
 
   const navigateToDivision = (divisionId) => {
@@ -187,30 +194,29 @@ const League = () => {
     navigate(`/league/s${selectedSeason}/d${selectedDivision}/${viewMap[viewId]}`);
   };
 
-  const navigateToSeason6Form = (formId) => {
+  const navigateToCurrentSeasonForm = (formId) => {
     if (!formId) {
-      navigate('/league/s6');
+      navigate(`/league/s${selectedSeason}`);
       return;
     }
-    // Map form state to URL path
-    const formMap = { 
-      register: 'register', 
-      join: 'join_team', 
+    const formMap = {
+      register: 'register',
+      join: 'join_team',
       lft: 'lft_form',
-      viewlft: 'lft', 
-      viewteams: 'teams', 
-      viewmyteam: 'my_team' 
+      viewlft: 'lft',
+      viewteams: 'teams',
+      viewmyteam: 'my_team'
     };
-    navigate(`/league/s6/${formMap[formId]}`);
+    navigate(`/league/s${selectedSeason}/${formMap[formId]}`);
   };
 
   // Get match data based on selected season
-  const matchData = selectedSeason === 4 ? season4Matches : selectedSeason === 5 ? season5Matches : season6Matches;
-  const teamNamesMap = selectedSeason === 4 ? season4TeamNames : selectedSeason === 5 ? season5TeamNames : season6TeamNames;
+  const matchData = selectedSeason === 4 ? season4Matches : selectedSeason === 5 ? season5Matches : selectedSeason === 6 ? season6Matches : season7Matches;
+  const teamNamesMap = selectedSeason === 4 ? season4TeamNames : selectedSeason === 5 ? season5TeamNames : selectedSeason === 6 ? season6TeamNames : season7TeamNames;
   const divisionMatchData = matchData[selectedDivision] || [];
   
-  // Get max week for matches (exclude knockout weeks for season 6)
-  const groupStageMatchData = selectedSeason === 6
+  // Get max week for matches (exclude knockout weeks for seasons 6 & 7)
+  const groupStageMatchData = (selectedSeason === 6 || selectedSeason === 7)
     ? divisionMatchData.filter(m => !m.isKnockout)
     : divisionMatchData;
   const maxWeek = groupStageMatchData.length > 0
@@ -221,6 +227,7 @@ const League = () => {
     { id: 4, name: 'Season 4', active: true },
     { id: 5, name: 'Season 5', active: true },
     { id: 6, name: 'Season 6', active: true },
+    { id: 7, name: 'Season 7', active: true },
   ];
 
   const divisions = [
@@ -243,11 +250,14 @@ const League = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // For Season 6, fetch roster data from database AND calculate standings from match data
-      if (selectedSeason === 6) {
+      // For Season 6 & 7, fetch roster data from database AND calculate standings from match data
+      if (selectedSeason === 6 || selectedSeason === 7) {
+        const seasonTable = selectedSeason === 7 ? 'teams_s7' : 'teams_s6';
+        const seasonMatches = selectedSeason === 7 ? season7Matches : season6Matches;
+        const seasonTeamNames = selectedSeason === 7 ? season7TeamNames : season6TeamNames;
         // STEP 1: Fetch roster data from database (for players, captain names, etc.)
         const { data: teamsData, error: teamsError } = await supabase
-          .from('teams_s6')
+          .from(seasonTable)
           .select('*')
           .order('division_id', { ascending: true });
 
@@ -274,7 +284,7 @@ const League = () => {
           });
 
           // STEP 2: Calculate standings from match data
-          const calculatedStandings = calculateAllDivisionStandings(season6Matches, season6TeamNames);
+          const calculatedStandings = calculateAllDivisionStandings(seasonMatches, seasonTeamNames);
 
           // STEP 3: Merge - keep ALL database data but override ONLY standings fields
           const mergedTeams = parsedTeams.map((dbTeam) => {
@@ -379,7 +389,7 @@ const League = () => {
       3: { src: 'https://challonge.com/i29sl3qz/module', title: 'Division 3 Playoff Bracket' },
       4: { src: 'https://challonge.com/u5s96bzm/module', title: 'Division 4 Playoff Bracket' },
     };
-    const embed = selectedSeason === 6 && challongeEmbeds[selectedDivision];
+    const embed = (selectedSeason === 6) && challongeEmbeds[selectedDivision];
     if (embed) {
       return (
         <div className="pb-8">
@@ -409,7 +419,7 @@ const League = () => {
 
   // Render matches schedule with week selector
   const renderMatches = () => {
-    const weekMatches = divisionMatchData.filter(m => m.week === selectedWeek && !m.isByeWeek && !(selectedSeason === 6 && m.isKnockout));
+    const weekMatches = divisionMatchData.filter(m => m.week === selectedWeek && !m.isByeWeek && !((selectedSeason === 6 || selectedSeason === 7) && m.isKnockout));
     
     return (
       <div className="space-y-6">
@@ -675,21 +685,18 @@ const League = () => {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
+        toast.error('Please select a valid image file');
         return;
       }
       
       if (file.size > 5 * 1024 * 1024) {
-        alert('Image size must be less than 5MB');
+        toast.error('Image size must be less than 5MB');
         return;
       }
 
       setNewTeamImage(file);
-      
       const reader = new FileReader();
-      reader.onload = (e) => {
-        setImagePreview(e.target?.result);
-      };
+      reader.onloadend = () => { setImagePreview(reader.result); };
       reader.readAsDataURL(file);
     }
   };
@@ -699,47 +706,55 @@ const League = () => {
     setImagePreview(null);
   };
 
-  // Note: Team logo updates are now manual - admin needs to update the image in public/img/teams/
+  const compressImage = (file) =>
+    new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 192;
+          const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/webp', 0.8));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
   const handleUpdateTeamImage = async () => {
     if (!myTeam || !newTeamImage || !supabaseToken) return;
 
-    // Check if user is captain (first player)
     const isTeamCaptain = myTeam.players && myTeam.players[0]?.auth_id === user?.sub;
     if (!isTeamCaptain) {
-      alert('Only the team captain can update the logo');
+      toast.error('Only the team captain can update the logo');
       return;
     }
 
     setIsUploadingImage(true);
 
     try {
-      // Generate the local image path
-      const fileExt = newTeamImage.name.split('.').pop();
-      const sanitizedName = myTeam.name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '_')
-        .replace(/^_+|_+$/g, '');
-      const localImagePath = `/img/teams/${sanitizedName}.${fileExt}`;
+      const imageDataUrl = await compressImage(newTeamImage);
 
       const authenticatedClient = getSupabaseClient(supabaseToken);
+      const activeTable = selectedSeason === 6 ? "teams_s6" : "teams_s7";
       const { error: updateError } = await authenticatedClient
-        .from("teams_s6")
-        .update({ 
-          image_url: localImagePath,
-          pending_image: true // Flag for admin to update
-        })
+        .from(activeTable)
+        .update({ image_url: imageDataUrl, pending_image: false })
         .eq("id", myTeam.id);
 
       if (updateError) throw updateError;
 
-      // Refresh the team data
       mutateMyTeam();
       setNewTeamImage(null);
       setImagePreview(null);
-      alert('Team logo update requested! An admin will update the logo shortly.');
+      toast.success('Team logo updated!');
     } catch (err) {
       console.error("Error updating team image:", err);
-      alert('Failed to update team logo. Please try again.');
+      toast.error('Failed to update team logo. Please try again.');
     } finally {
       setIsUploadingImage(false);
     }
@@ -798,17 +813,16 @@ const League = () => {
                     <thead>
                       <tr className="border-b border-white/10">
                         <th className="text-left text-xs text-white/60 uppercase pb-2 px-2 w-[140px]">Player</th>
-                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[80px]">Rank</th>
-                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[100px]">Dotabuff</th>
+                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[80px]">MMR</th>
                       </tr>
                     </thead>
                     <tbody>
                       {players.map((player, index) => (
                         <tr key={index} className="border-b border-white/5 last:border-0">
                           <td className="py-2 px-2">
-                            {player.steamProfile && player.steamProfile !== 'https://steamcommunity.com/my/' ? (
+                            {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' ? (
                               <a
-                                href={player.steamProfile}
+                                href={player.dotabuffProfile}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-primary hover:text-primary/80 transition-colors text-xs flex items-center gap-1 overflow-hidden"
@@ -825,22 +839,6 @@ const League = () => {
                             <span className="text-xs px-2 py-1 bg-primary/20 text-primary rounded inline-block">
                               {player.rank || 'N/A'}
                             </span>
-                          </td>
-                          <td className="py-2 px-2 text-center">
-                            {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' ? (
-                              <a
-                                href={player.dotabuffProfile}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 px-2 py-1 bg-zinc-700 hover:bg-zinc-600 text-white text-xs rounded transition-colors"
-                                title="Dotabuff Profile"
-                              >
-                                <span className="material-symbols-outlined text-xs">open_in_new</span>
-                                Dotabuff
-                              </a>
-                            ) : (
-                              <span className="text-white/40 text-xs">-</span>
-                            )}
                           </td>
                         </tr>
                       ))}
@@ -921,7 +919,7 @@ const League = () => {
   );
 
   return (
-    <main className="flex-1">
+    <main className="flex-1 animate-page-in" key={`${selectedSeason}-${selectedDivision}-${selectedView}`}>
       {/* Hero Section with Auth */}
       <section className="py-2 md:py-3">
         <div className="flex justify-between items-center mb-4">
@@ -946,7 +944,7 @@ const League = () => {
               </div>
             ) : (
               <button
-                onClick={() => loginWithRedirect()}
+                onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
                 className="px-6 py-2 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
               >
                 Sign In
@@ -958,7 +956,7 @@ const League = () => {
 
       {/* Season Selector */}
       <section className="py-1">
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className={`flex flex-wrap gap-2 ${selectedSeason !== 7 ? 'mb-6' : 'mb-0'}`}>
           {seasons.map((season) => (
             <button
               key={season.id}
@@ -974,56 +972,190 @@ const League = () => {
           ))}
         </div>
 
-        {/* Division Selector - Show for all seasons when not viewing Season 6 forms */}
-        {!(selectedSeason === 6 && season6Form) && (
+        {/* Division Selector - hidden for s7 (divisions TBD), and filters out Div 4 for s4/s5 */}
+        {selectedSeason !== 7 && !(selectedSeason === 7 && currentSeasonForm) && (
           <div className="flex flex-wrap gap-2 mt-4">
-            {divisions.map((division) => (
-              <button
-                key={division.id}
-                onClick={() => navigateToDivision(division.id)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  selectedDivision === division.id
-                    ? 'bg-primary/20 text-primary border border-primary'
-                    : 'bg-white/5 text-white/70 hover:bg-white/10'
-                }`}
-              >
-                {division.name}
-              </button>
-            ))}
+            {divisions
+              .filter(d => !(d.id === 4 && (selectedSeason === 4 || selectedSeason === 5)))
+              .map((division) => (
+                <button
+                  key={division.id}
+                  onClick={() => navigateToDivision(division.id)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    selectedDivision === division.id
+                      ? 'bg-primary/20 text-primary border border-primary'
+                      : 'bg-white/5 text-white/70 hover:bg-white/10'
+                  }`}
+                >
+                  {division.name}
+                </button>
+              ))}
           </div>
         )}
       </section>
 
-      {/* Season 6 Registration/Team Management - Show when form route is active */}
-      {selectedSeason === 6 && season6Form && (
+      {/* Season 7 Signup Banner - shown when viewing s7 and no form is active */}
+      {selectedSeason === 7 && !currentSeasonForm && (
+        <section className="my-6">
+          <div className="bg-primary/10 border border-primary/40 rounded-xl p-10 flex flex-col items-center gap-6 text-center min-h-[220px] justify-center">
+            {showLFTBanner ? (
+              <>
+                <div>
+                  <h2 className="text-white font-black text-3xl mb-2">Looking for Team - Season 7</h2>
+                  <p className="text-white/70 text-base">
+                    Post yourself as looking for a team, or browse players looking for a squad.
+                  </p>
+                </div>
+                <div className="flex flex-wrap justify-center gap-3">
+                  <button
+                    onClick={() => setShowLFTBanner(false)}
+                    className="px-6 py-3 bg-white/10 text-white rounded-lg text-base font-medium hover:bg-white/20 transition-all flex items-center gap-2"
+                  >
+                    <span className="material-symbols-outlined text-base">arrow_back</span>
+                    Back
+                  </button>
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdxm9QzeiYiNVzWQI03wF3rt8IPvNtBZLhAt-Md8oZp9khyvw/viewform?usp=sharing&ouid=108530844905570802795"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-primary text-black rounded-lg text-base font-bold hover:bg-opacity-90 transition-all"
+                  >
+                    Submit LFT Form
+                  </a>
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1zSwNDXZ5qyImw0965AsHLtvaVSStuTE_YE9KCcfECqs/edit?resourcekey=&gid=1410751443#gid=1410751443"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-6 py-3 bg-white/10 text-white rounded-lg text-base font-medium hover:bg-white/20 transition-all"
+                  >
+                    View LFT Sheet
+                  </a>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <h2 className="text-white font-black text-3xl mb-2">Season 7 Signups Open!</h2>
+                  <p className="text-white/70 text-base">
+                    Signups close <span className="text-primary font-semibold">24th May 2026 at 5pm</span>. Register your team, join an existing one, or post yourself as looking for a team.
+                  </p>
+                </div>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {myTeam ? (
+                    <button
+                      onClick={() => navigate('/league/s7/my_team')}
+                      className="px-6 py-3 bg-primary text-black rounded-lg text-base font-bold hover:bg-opacity-90 transition-all"
+                    >
+                      View My Team
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => navigate('/league/s7/register')}
+                        className="px-6 py-3 bg-primary text-black rounded-lg text-base font-bold hover:bg-opacity-90 transition-all"
+                      >
+                        Register Team
+                      </button>
+                      <button
+                        onClick={() => navigate('/league/s7/join_team')}
+                        className="px-6 py-3 bg-white/10 text-white rounded-lg text-base font-medium hover:bg-white/20 transition-all"
+                      >
+                        Join a Team
+                      </button>
+                    </>
+                  )}
+                  <button
+                    onClick={() => setShowLFTBanner(true)}
+                    className="px-6 py-3 bg-white/10 text-white rounded-lg text-base font-medium hover:bg-white/20 transition-all"
+                  >
+                    Looking for Team
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* Season 7 Registration/Team Management - Show when form route is active */}
+      {selectedSeason === 7 && currentSeasonForm && (
         <section className="py-4 mb-8">
           <div>
             {/* Back button */}
             <button
-              onClick={() => navigate('/league/s6/d1/standings')}
+              onClick={() => navigate('/league/s7/d1/standings')}
               className="mb-6 flex items-center gap-2 text-white/70 hover:text-white transition-colors"
             >
               <span className="material-symbols-outlined">arrow_back</span>
-              Back to Season 6 League
+              Back to Season 7 League
             </button>
 
             {/* Render appropriate form or view */}
-            {season6Form === 'register' && <AddTeamForm divisionId={selectedDivision} />}
-            {season6Form === 'join' && <JoinTeamForm />}
-            {season6Form === 'lft' && <LFTForm />}
-            {season6Form === 'viewlft' && (
+            {currentSeasonForm === 'register' && <AddTeamForm divisionId={selectedDivision} />}
+            {currentSeasonForm === 'join' && <JoinTeamForm />}
+            {currentSeasonForm === 'lft' && (
               <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
-                <h2 className="text-2xl font-bold mb-6 text-white">Looking for Team Players</h2>
-                {renderLFT()}
+                <h2 className="text-2xl font-bold mb-4 text-white">Looking for Team - Season 7</h2>
+                <p className="text-white/60 mb-6">
+                  Fill in the Google Form below to add yourself to the Season 7 LFT list. Captains looking for players can view the sheet.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdxm9QzeiYiNVzWQI03wF3rt8IPvNtBZLhAt-Md8oZp9khyvw/viewform?usp=sharing&ouid=108530844905570802795"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
+                  >
+                    <span className="material-symbols-outlined">edit</span>
+                    Submit LFT Form
+                  </a>
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1zSwNDXZ5qyImw0965AsHLtvaVSStuTE_YE9KCcfECqs/edit?resourcekey=&gid=1410751443#gid=1410751443"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-full font-bold hover:bg-white/20 transition-all"
+                  >
+                    <span className="material-symbols-outlined">table_view</span>
+                    View LFT Sheet
+                  </a>
+                </div>
               </div>
             )}
-            {season6Form === 'viewteams' && (
+            {currentSeasonForm === 'viewlft' && (
               <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
-                <h2 className="text-2xl font-bold mb-6 text-white">Season 6 Teams</h2>
+                <h2 className="text-2xl font-bold mb-4 text-white">Looking for Team - Season 7</h2>
+                <p className="text-white/60 mb-6">
+                  Players looking for a team for Season 7 are listed in the sheet below.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1zSwNDXZ5qyImw0965AsHLtvaVSStuTE_YE9KCcfECqs/edit?resourcekey=&gid=1410751443#gid=1410751443"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
+                  >
+                    <span className="material-symbols-outlined">table_view</span>
+                    View LFT Sheet
+                  </a>
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSdxm9QzeiYiNVzWQI03wF3rt8IPvNtBZLhAt-Md8oZp9khyvw/viewform?usp=sharing&ouid=108530844905570802795"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 text-white rounded-full font-bold hover:bg-white/20 transition-all"
+                  >
+                    <span className="material-symbols-outlined">edit</span>
+                    Submit LFT Form
+                  </a>
+                </div>
+              </div>
+            )}
+            {currentSeasonForm === 'viewteams' && (
+              <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
+                <h2 className="text-2xl font-bold mb-6 text-white">Season 7 Teams</h2>
                 {renderRosters()}
               </div>
             )}
-            {season6Form === 'viewmyteam' && (
+            {currentSeasonForm === 'viewmyteam' && (
               <div className="bg-zinc-800 rounded-lg shadow-lg p-8 border border-white/10">
                 {myTeamLoading ? (
                   <div className="text-center text-white/60 py-8">Loading...</div>
@@ -1031,10 +1163,10 @@ const League = () => {
                   <div className="text-center py-8">
                     <h2 className="text-2xl font-bold mb-4 text-white">You're Not on a Team Yet</h2>
                     <p className="text-white/60 mb-6">
-                      Register a new team or join an existing one to participate in Season 6.
+                      Register a new team or join an existing one to participate in Season 7.
                     </p>
                     <button
-                      onClick={() => navigate('/league/s6/d1/standings')}
+                      onClick={() => navigate('/league/s7/d1/standings')}
                       className="px-6 py-3 bg-primary text-black rounded-full font-bold hover:bg-opacity-90 transition-all"
                     >
                       Back to League
@@ -1133,7 +1265,7 @@ const League = () => {
                             <button
                               onClick={() => {
                                 navigator.clipboard.writeText(myTeam.id);
-                                alert('Team ID copied to clipboard!');
+                                toast.success('Team ID copied to clipboard!');
                               }}
                               className="px-4 py-2 bg-primary text-black rounded-lg hover:bg-primary/80 transition-colors text-sm font-medium"
                             >
@@ -1195,8 +1327,87 @@ const League = () => {
         </section>
       )}
 
-      {/* View Selector */}
-      <section className="pt-4 pb-4">
+      {/* Season 7 signed-up teams (roster cards, no standings yet) */}
+      {selectedSeason === 7 && !currentSeasonForm && (
+        <section className="pb-4">
+          <div className="bg-zinc-900 rounded-lg shadow-md p-6 border border-white/10">
+            <h2 className="text-white font-bold text-lg mb-6 text-center">Teams Signed Up</h2>
+            {loading ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              </div>
+            ) : teams.length === 0 ? (
+              <p className="text-white/50 text-sm py-4">No teams registered yet, be the first!</p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {teams.map((team) => {
+                  const players = parsePlayerData(team.players || []);
+                  const teamImagePath = getTeamImagePath(team);
+                  const filledSlots = Array.from({ length: 5 }, (_, i) => players[i] || null);
+                  return (
+                    <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
+                      {/* Team Header */}
+                      <div className="bg-zinc-900 p-4 border-b border-white/10">
+                        <div className="flex items-center gap-3">
+                          {teamImagePath ? (
+                            <img src={teamImagePath} alt={`${team.name} logo`} className="w-10 h-10 rounded object-contain bg-zinc-800" />
+                          ) : (
+                            <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center text-primary font-bold text-lg">
+                              {team.name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                          <span className="text-white font-bold truncate flex-1">{team.name}</span>
+                          {user && players[0]?.auth_id === user.sub && (
+                            <button
+                              onClick={() => navigate('/league/s7/my_team')}
+                              className="text-xs px-3 py-1 bg-primary/20 text-primary border border-primary/40 rounded hover:bg-primary/30 transition-colors shrink-0"
+                            >
+                              My Team
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                      {/* Player Slots */}
+                      <div className="divide-y divide-white/5">
+                        {filledSlots.map((player, i) => (
+                          <div key={i} className="px-4 py-2 flex items-center gap-3">
+                            <span className="text-white/30 text-xs w-4">{i + 1}</span>
+                            {player ? (
+                              <>
+                                <span className="text-sm font-medium flex-1 truncate">
+                                  {player.dotabuffProfile && player.dotabuffProfile !== 'https://www.dotabuff.com/players/' ? (
+                                    <a
+                                      href={player.dotabuffProfile}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="text-primary hover:text-primary/80 transition-colors"
+                                    >
+                                      {player.name}
+                                    </a>
+                                  ) : (
+                                    <span className="text-white">{player.name}</span>
+                                  )}
+                                  {i === 0 && <span className="ml-2 text-xs px-1.5 py-0.5 bg-primary/20 text-primary rounded">Captain</span>}
+                                </span>
+                                <span className="text-white/40 text-xs">{player.rank}</span>
+                              </>
+                            ) : (
+                              <span className="text-white/20 text-sm italic">Empty slot</span>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* View Selector — hidden for Season 7 until divisions/schedule are set */}
+      {selectedSeason !== 7 && <section className="pt-4 pb-4">
           <div className="bg-zinc-900 rounded-lg shadow-md p-6 border border-white/10">
             <div className="flex flex-wrap gap-2 mb-6 items-center justify-between">
               <div className="flex gap-2">
@@ -1353,7 +1564,7 @@ const League = () => {
             {selectedView === 'matches' && renderMatches()}
             {selectedView === 'rosters' && renderRosters()}
           </div>
-        </section>
+        </section>}
     </main>
   );
 };

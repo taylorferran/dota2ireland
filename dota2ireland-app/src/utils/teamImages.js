@@ -8,26 +8,13 @@
  */
 export function getTeamImagePath(team) {
   if (!team) return null;
-  
-  // If team has a local image reference, use it
-  if (team.local_image) {
-    return team.local_image;
-  }
-  
-  // If team has image_url, check if it's already a local path
+  if (team.local_image) return team.local_image;
   if (team.image_url) {
-    if (team.image_url.startsWith('/img/teams/')) {
+    // Accept local paths and any http(s) URL (Supabase Storage, etc.)
+    if (team.image_url.startsWith('/img/teams/') || team.image_url.startsWith('http') || team.image_url.startsWith('data:')) {
       return team.image_url;
     }
-    
-    // If it's still a Supabase URL, try to map it
-    // This is for backwards compatibility during migration
-    if (team.image_url.includes('supabase')) {
-      console.warn(`Team ${team.name} still has Supabase URL. Please migrate to local images.`);
-      return null;
-    }
   }
-  
   return null;
 }
 

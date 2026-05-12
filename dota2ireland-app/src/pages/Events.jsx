@@ -3,6 +3,17 @@ import { Link } from 'react-router-dom';
 const Events = () => {
   const upcomingEvents = [];
 
+  const ongoingEvents = [
+    {
+      id: 1,
+      title: "Irish Dota League Season 7",
+      date: "June 2026",
+      image: "/img/idl.png",
+      linkUrl: "/league/s7",
+      linkText: "View League"
+    }
+  ];
+
   const pastEvents = [
     {
       id: 1,
@@ -101,6 +112,38 @@ const Events = () => {
                   className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors"
                 >
                   <span className="truncate">{event.buttonText}</span>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Ongoing Events Section */}
+      {ongoingEvents.length > 0 && (
+        <section>
+          <h2 className="text-white text-2xl font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 border-b-2 border-primary w-fit mb-6">
+            Ongoing Events
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-2">
+            {ongoingEvents.map((event) => (
+              <div
+                key={event.id}
+                className="flex flex-col gap-4 p-6 bg-zinc-900 border border-zinc-800 rounded-lg transition-all hover:border-primary"
+              >
+                <div
+                  className="w-full bg-center bg-no-repeat aspect-video bg-contain rounded-md bg-zinc-800"
+                  style={{ backgroundImage: `url("${event.image}")` }}
+                ></div>
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-white text-xl font-bold leading-normal">{event.title}</h3>
+                  <p className="font-mono text-sm text-white/70">{event.date}</p>
+                </div>
+                <Link
+                  to={event.linkUrl}
+                  className="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-md h-12 px-6 bg-primary text-black text-base font-bold leading-normal tracking-wide hover:bg-green-400 transition-colors"
+                >
+                  <span className="truncate">{event.linkText}</span>
                 </Link>
               </div>
             ))}

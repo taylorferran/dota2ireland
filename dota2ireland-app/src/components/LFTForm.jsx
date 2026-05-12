@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { supabase } from "../lib/supabase";
+import { supabase, getSupabaseClient } from "../lib/supabase";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../hooks/useAuth";
 import { useMyTeam } from "../hooks/useMyTeam";
 import { Link } from "react-router-dom";
 
@@ -30,6 +31,7 @@ export const LFTForm = ({ onSubmitSuccess }) => {
   const [checkingLFT, setCheckingLFT] = useState(true);
   const [isRemoving, setIsRemoving] = useState(false);
   const { user } = useAuth0();
+  const { supabaseToken } = useAuth();
   const { team: existingTeam, loading: checkingTeam } = useMyTeam();
 
   // Check if user already has an LFT entry
@@ -80,16 +82,6 @@ export const LFTForm = ({ onSubmitSuccess }) => {
     }));
   };
 
-  const ranks = [
-    "Herald",
-    "Guardian",
-    "Crusader",
-    "Archon",
-    "Legend",
-    "Ancient",
-    "Divine",
-    "Immortal",
-  ];
 
   const handleRemoveLFT = async () => {
     if (!user?.sub || !existingLFT) return;
@@ -235,7 +227,7 @@ export const LFTForm = ({ onSubmitSuccess }) => {
 
       // Map positions to roles for database compatibility
       const { positions, ...restFormData } = formData;
-      const { data, error: submitError } = await supabase.from("lft_players").insert([
+      const { data, error: submitError } = await getSupabaseClient(supabaseToken).from("lft_players").insert([
         {
           ...restFormData,
           roles: positions, // Map positions to roles column
@@ -319,21 +311,19 @@ export const LFTForm = ({ onSubmitSuccess }) => {
 
             <div>
               <label className="block text-sm font-medium text-white mb-2">
-                Rank
+                MMR
               </label>
-              <select
+              <input
+                type="number"
+                min="0"
+                max="15000"
                 value={formData.rank}
                 onChange={(e) => handleChange("rank", e.target.value)}
-                className={selectClasses}
+                className={inputClasses}
+                placeholder="e.g. 3500"
                 required
-              >
-                <option value="">Select Rank</option>
-                {ranks.map((rank) => (
-                  <option key={rank} value={rank}>
-                    {rank}
-                  </option>
-                ))}
-              </select>
+              />
+              <p className="text-xs text-white/50 mt-1">If unranked, put your last known MMR</p>
             </div>
 
             <div>

@@ -15,7 +15,7 @@ export const useMyTeam = () => {
     }
 
     try {
-      const { data, error } = await supabase.from("teams_s6").select("*");
+      const { data, error } = await supabase.from("teams_s7").select("*");
 
       if (error) throw error;
 

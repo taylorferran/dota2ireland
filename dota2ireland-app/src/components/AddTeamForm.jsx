@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { getSupabaseClient } from "../lib/supabase";
 import { useAuth } from "../hooks/useAuth";
+import { useToast } from "./ToastProvider";
 import { useMyTeam } from "../hooks/useMyTeam";
 import { sanitizeTeamName } from "../utils/teamImages";
 
 const initialPlayerState = {
   name: "",
+  discordId: "",
   steamProfile: "",
   dotabuffProfile: "",
   rank: "",
@@ -31,6 +33,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const { user, supabaseToken } = useAuth();
+  const toast = useToast();
   const { team: existingTeam, loading } = useMyTeam();
 
   const handlePlayerChange = (field, value) => {
@@ -44,12 +47,12 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        alert('Please select a valid image file');
+        toast.error('Please select a valid image file');
         return;
       }
       
       if (file.size > 5 * 1024 * 1024) {
-        alert('Image size must be less than 5MB');
+        toast.error('Image size must be less than 5MB');
         return;
       }
 
@@ -88,6 +91,25 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
     );
   }
 
+  const compressImage = (file) =>
+    new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 192;
+          const scale = Math.min(MAX / img.width, MAX / img.height, 1);
+          const canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          resolve(canvas.toDataURL('image/webp', 0.8));
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting || !user?.sub || !teamImage) return;
@@ -96,11 +118,10 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
 
     try {
       const country = await getCountry();
+      const client = getSupabaseClient(supabaseToken);
 
-      // Generate the local image path
-      const fileExt = teamImage.name.split('.').pop();
-      const sanitizedName = sanitizeTeamName(teamName);
-      const localImagePath = `/img/teams/${sanitizedName}.${fileExt}`;
+      // Compress image and store as base64 data URL (no external storage needed)
+      const imageDataUrl = await compressImage(teamImage);
 
       const playerWithAuthId = {
         ...player,
@@ -116,11 +137,11 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
         losses: 0,
         draws: 0,
         division_id: divisionId,
-        image_url: localImagePath, // Store local path
-        pending_image: true, // Flag to indicate admin needs to add image
+        image_url: imageDataUrl,
+        pending_image: false,
       };
 
-      const { data, error } = await supabase.from("teams_s6").insert([newTeam]).select().single();
+      const { data, error } = await client.from("teams_s7").insert([newTeam]).select().single();
 
       if (error) throw error;
       if (data) {
@@ -132,7 +153,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
       }
     } catch (err) {
       console.error("Error adding team:", err);
-      alert("Error creating team. Please try again.");
+      toast.error(`Error creating team: ${err?.message || err}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -148,7 +169,7 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
             </div>
             <h2 className="text-2xl font-bold text-white">Team Successfully Registered!</h2>
             <p className="text-white/80">
-              Your team has been registered for Season 6 of the Irish Dota League.
+              Your team has been registered for Season 7 of the Irish Dota League.
             </p>
           </div>
         </div>
@@ -156,7 +177,6 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
     );
   }
 
-  const ranks = ["Herald", "Guardian", "Crusader", "Archon", "Legend", "Ancient", "Divine", "Immortal"];
   const positions = ["Carry", "Mid", "Offlane", "Support", "Hard Support"];
 
   const inputClasses = "w-full px-4 py-2 bg-zinc-900 border-2 border-white/10 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors text-white placeholder-white/40";
@@ -235,6 +255,17 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
                   />
                 </div>
                 <div>
+                  <label className="block text-sm font-medium text-white mb-2">Discord Username</label>
+                  <input
+                    type="text"
+                    value={player.discordId}
+                    onChange={(e) => handlePlayerChange("discordId", e.target.value)}
+                    className={inputClasses}
+                    placeholder="e.g. username or username#1234"
+                    required
+                  />
+                </div>
+                <div>
                   <label className="block text-sm font-medium text-white mb-2">Position</label>
                   <select
                     value={player.position}
@@ -273,20 +304,18 @@ export const AddTeamForm = ({ divisionId = 1 }) => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">Rank</label>
-                  <select
+                  <label className="block text-sm font-medium text-white mb-2">MMR</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="15000"
                     value={player.rank}
                     onChange={(e) => handlePlayerChange("rank", e.target.value)}
-                    className={selectClasses}
+                    className={inputClasses}
+                    placeholder="e.g. 3500"
                     required
-                  >
-                    <option value="">Select Rank</option>
-                    {ranks.map((rank) => (
-                      <option key={rank} value={rank}>
-                        {rank}
-                      </option>
-                    ))}
-                  </select>
+                  />
+                  <p className="text-xs text-white/50 mt-1">If unranked, put your last known MMR</p>
                 </div>
               </div>
             </div>

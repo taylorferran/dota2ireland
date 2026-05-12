@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { getSupabaseClient } from "../lib/supabase";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth } from "../hooks/useAuth";
 import { useMyTeam } from "../hooks/useMyTeam";
 import { Link } from "react-router-dom";
 
@@ -30,6 +31,7 @@ export const JoinTeamForm = () => {
   const [error, setError] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
   const { user } = useAuth0();
+  const { supabaseToken } = useAuth();
   const { team: existingTeam, loading } = useMyTeam();
 
   const handlePlayerChange = (field, value) => {
@@ -63,9 +65,10 @@ export const JoinTeamForm = () => {
     setIsSubmitting(true);
 
     try {
+      const client = getSupabaseClient(supabaseToken);
       // First, fetch the current team data
-      const { data: teamData, error: fetchError } = await supabase
-        .from("teams_s6")
+      const { data: teamData, error: fetchError } = await client
+        .from("teams_s7")
         .select("players")
         .eq("id", teamId)
         .single();
@@ -107,8 +110,8 @@ export const JoinTeamForm = () => {
       ];
 
       // Update the team with the new player
-      const { error: updateError } = await supabase
-        .from("teams_s6")
+      const { error: updateError } = await client
+        .from("teams_s7")
         .update({ players: updatedPlayers })
         .eq("id", teamId);
 
@@ -144,7 +147,6 @@ export const JoinTeamForm = () => {
     );
   }
 
-  const ranks = ["Herald", "Guardian", "Crusader", "Archon", "Legend", "Ancient", "Divine", "Immortal"];
   const positions = ["Carry", "Mid", "Offlane", "Support", "Hard Support"];
 
   const inputClasses = "w-full px-4 py-2 bg-zinc-900 border-2 border-white/10 rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-colors text-white placeholder-white/40";
@@ -230,20 +232,18 @@ export const JoinTeamForm = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">Rank</label>
-                  <select
+                  <label className="block text-sm font-medium text-white mb-2">MMR</label>
+                  <input
+                    type="number"
+                    min="0"
+                    max="15000"
                     value={player.rank}
                     onChange={(e) => handlePlayerChange("rank", e.target.value)}
-                    className={selectClasses}
+                    className={inputClasses}
+                    placeholder="e.g. 3500"
                     required
-                  >
-                    <option value="">Select Rank</option>
-                    {ranks.map((rank) => (
-                      <option key={rank} value={rank}>
-                        {rank}
-                      </option>
-                    ))}
-                  </select>
+                  />
+                  <p className="text-xs text-white/50 mt-1">If unranked, put your last known MMR</p>
                 </div>
               </div>
             </div>
