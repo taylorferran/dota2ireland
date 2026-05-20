@@ -1372,10 +1372,20 @@ const League = () => {
               <p className="text-white/50 text-sm py-4">No teams registered yet, be the first!</p>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {teams.map((team) => {
+                {[...teams].sort((a, b) => {
+                  const avgMmr = (t) => {
+                    const ps = parsePlayerData(t.players || []).filter(p => p && Number(p.rank) > 0);
+                    return ps.length ? ps.reduce((sum, p) => sum + Number(p.rank), 0) / ps.length : 0;
+                  };
+                  return avgMmr(b) - avgMmr(a);
+                }).map((team) => {
                   const players = parsePlayerData(team.players || []);
                   const teamImagePath = getTeamImagePath(team);
                   const filledSlots = Array.from({ length: 5 }, (_, i) => players[i] || null);
+                  const rankedPlayers = players.filter(p => p && Number(p.rank) > 0);
+                  const avgMmr = rankedPlayers.length
+                    ? Math.round(rankedPlayers.reduce((sum, p) => sum + Number(p.rank), 0) / rankedPlayers.length)
+                    : null;
                   return (
                     <div key={team.id} className="bg-zinc-800 rounded-lg border border-white/10 overflow-hidden">
                       {/* Team Header */}
@@ -1389,6 +1399,9 @@ const League = () => {
                             </div>
                           )}
                           <span className="text-white font-bold truncate flex-1">{team.name}</span>
+                          {avgMmr !== null && (
+                            <span className="text-xs text-white/50 shrink-0">avg <span className="text-primary font-semibold">{avgMmr.toLocaleString()}</span></span>
+                          )}
                           {user && players[0]?.auth_id === user.sub && (
                             <button
                               onClick={() => navigate('/league/s7/my_team')}
