@@ -13,6 +13,7 @@ const League = lazy(() => import('./pages/League'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Imprint = lazy(() => import('./pages/Imprint'));
 const Casters = lazy(() => import('./pages/Casters'));
+const S7Availability = lazy(() => import('./pages/S7Availability'));
 const Rebooted2 = lazy(() => import('./pages/Rebooted2'));
 const Rebooted2Tables = lazy(() => import('./pages/Rebooted2Tables'));
 const Rebooted2Admin = lazy(() => import('./pages/Rebooted2Admin'));
@@ -67,6 +68,7 @@ function App() {
               <Route path="merch" element={<Merch />} />
               {/* League routes - redirect /league to /league/s7 (default to Season 7) */}
               <Route path="league" element={<Navigate to="/league/s7" replace />} />
+              <Route path="league/s7/availability" element={<S7Availability />} />
               <Route path="league/:season" element={<League />} />
               <Route path="league/:season/:divisionOrView" element={<League />} />
               <Route path="league/:season/:divisionOrView/:view" element={<League />} />
