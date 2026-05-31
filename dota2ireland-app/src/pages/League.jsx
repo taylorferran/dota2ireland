@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../components/ToastProvider';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { supabase, getSupabaseClient } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
@@ -126,7 +126,7 @@ const season7TeamNames = {
   wongwongbakery: "WONGWONGBAKERY",
   last_hit_academy: "Last Hit Academy",
   shishuli: "ShiShuli",
-  // Division 2A
+  // Division 2 (split into Groups 2A / 2B / 2C by MMR seeding - see division_id in DB)
   joonsquad_next: "JoonSquad: Next Jooneration",
   runners: "RUNNERS",
   imprint_esports: "Imprint Esports",
@@ -134,7 +134,6 @@ const season7TeamNames = {
   fost_team: "Fost team",
   mmr_famine: "MMR Famine",
   secretshop: "SecretShop",
-  // Division 2B
   random: "Random",
   d2ire_rejects: "D2Ire Rejects",
   mikes_army: "Mikes Army",
@@ -142,6 +141,7 @@ const season7TeamNames = {
   missprint_esports: "Missprint Esports",
   cavan_creche: "Cavan Creche",
   the_chumps_people: "The Chump's People",
+  owen_morris_cummers: "Owen Morris and the CUMMERS",
   // Division 3
   grumpy_old_men: "Grumpy Old Men",
   bord_na_mona: "Bord na Mona",
@@ -184,7 +184,7 @@ const League = () => {
     if (selectedSeason === 7 && currentSeasonForm) return 1;
     if (!divisionOrView) return 1;
     if (selectedSeason === 7) {
-      const s7Map = { d1: 1, d2a: 2, d2b: 22, d3: 3 };
+      const s7Map = { d1: 1, d2a: 2, d2b: 22, d2c: 23, d3: 3 };
       if (s7Map[divisionOrView] !== undefined) return s7Map[divisionOrView];
     }
     const match = divisionOrView.match(/^d(\d+)$/);
@@ -217,7 +217,7 @@ const League = () => {
 
   const divisionUrlParam = (divId) => {
     if (selectedSeason === 7) {
-      const map = { 1: 'd1', 2: 'd2a', 22: 'd2b', 3: 'd3' };
+      const map = { 1: 'd1', 2: 'd2a', 22: 'd2b', 23: 'd2c', 3: 'd3' };
       return map[divId] ?? `d${divId}`;
     }
     return `d${divId}`;
@@ -266,6 +266,7 @@ const League = () => {
         { id: 1, name: 'Division 1' },
         { id: 2, name: 'Division 2A' },
         { id: 22, name: 'Division 2B' },
+        { id: 23, name: 'Division 2C' },
         { id: 3, name: 'Division 3' },
       ]
     : selectedSeason === 4 || selectedSeason === 5
@@ -937,6 +938,12 @@ const League = () => {
             </h1>
             <p className="text-white/60 text-lg mt-2">
               Compete with the best Irish Dota 2 teams
+              <Link
+                to="/league/rules"
+                className="ml-3 text-sm font-medium text-primary hover:text-primary/80 transition-colors whitespace-nowrap"
+              >
+                Rules
+              </Link>
             </p>
           </div>
           <div>

@@ -4,8 +4,12 @@ const DIV_CONFIG = {
   1:  { label: 'D1',  color: '#FACC15', bg: 'rgba(250,204,21,0.13)'  },
   2:  { label: 'D2A', color: '#60A5FA', bg: 'rgba(96,165,250,0.13)'  },
   22: { label: 'D2B', color: '#C084FC', bg: 'rgba(192,132,252,0.13)' },
+  23: { label: 'D2C', color: '#F472B6', bg: 'rgba(244,114,182,0.13)' },
   3:  { label: 'D3',  color: '#4ADE80', bg: 'rgba(74,222,128,0.13)'  },
 };
+
+// Explicit display order (object key iteration would sort numerically: 1,2,3,22,23).
+const DIV_ORDER = [1, 2, 22, 23, 3];
 
 const PRIMARY = '#13ec5b';
 const DAY_NAMES = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -76,10 +80,10 @@ export default function S7FullCalendar({ matches, teamNamesMap, myTeamId }) {
       {/* Top bar: legend + My Games */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-5 flex-wrap">
-          {Object.entries(DIV_CONFIG).map(([div, cfg]) => (
+          {DIV_ORDER.map((div) => DIV_CONFIG[div] && (
             <div key={div} className="flex items-center gap-2">
-              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: cfg.color }} />
-              <span className="text-xs text-white/50 font-medium">{cfg.label}</span>
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: DIV_CONFIG[div].color }} />
+              <span className="text-xs text-white/50 font-medium">{DIV_CONFIG[div].label}</span>
             </div>
           ))}
         </div>
@@ -174,9 +178,9 @@ export default function S7FullCalendar({ matches, teamNamesMap, myTeamId }) {
                           )}
                         </div>
 
-                        {/* Event chips — sorted D1→D2A→D2B→D3 */}
+                        {/* Event chips — sorted D1→D2A→D2B→D2C→D3 */}
                         {[...dayMatches]
-                          .sort((a, b) => [1, 2, 22, 3].indexOf(a.division) - [1, 2, 22, 3].indexOf(b.division))
+                          .sort((a, b) => DIV_ORDER.indexOf(a.division) - DIV_ORDER.indexOf(b.division))
                           .map(m => {
                             const cfg  = DIV_CONFIG[m.division];
                             const mine = isMyMatch(m);

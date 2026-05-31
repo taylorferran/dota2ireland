@@ -17,6 +17,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Scheduler exports (contain player auth_ids / availability)
+division-*.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -4,6 +4,7 @@ const DIV_LABELS = {
   1: { label: 'D1', className: 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' },
   2: { label: 'D2A', className: 'bg-blue-500/20 text-blue-300 border border-blue-500/30' },
   22: { label: 'D2B', className: 'bg-purple-500/20 text-purple-300 border border-purple-500/30' },
+  23: { label: 'D2C', className: 'bg-pink-500/20 text-pink-300 border border-pink-500/30' },
   3: { label: 'D3', className: 'bg-green-500/20 text-green-300 border border-green-500/30' },
 };
 
@@ -13,13 +14,17 @@ function fmtDate(dateStr) {
   });
 }
 
-function fmtWeekRange(matches) {
-  if (!matches.length) return '';
-  const dates = matches.map(m => m.date).sort();
-  const first = new Date(dates[0] + 'T12:00:00');
-  const last  = new Date(dates[dates.length - 1] + 'T12:00:00');
+const LEAGUE_START = '2026-06-01'; // Monday of Week 1
+
+// Full Monday–Sunday calendar week for a given week number, independent of which
+// days actually have matches scheduled.
+function fmtWeekRange(week) {
+  const monday = new Date(LEAGUE_START + 'T12:00:00');
+  monday.setDate(monday.getDate() + 7 * (week - 1));
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
   const opts = { day: 'numeric', month: 'short' };
-  return `${first.toLocaleDateString('en-IE', opts)} – ${last.toLocaleDateString('en-IE', opts)}`;
+  return `${monday.toLocaleDateString('en-IE', opts)} – ${sunday.toLocaleDateString('en-IE', opts)}`;
 }
 
 export default function S7MatchCalendar({ matches, teamNamesMap, myTeamId, showDivisionBadge = false }) {
@@ -90,7 +95,7 @@ export default function S7MatchCalendar({ matches, teamNamesMap, myTeamId, showD
             {/* Week header */}
             <div className="px-4 py-3 border-b border-white/10 flex items-center justify-between">
               <span className="text-white font-bold">Week {week}</span>
-              <span className="text-white/40 text-xs">{fmtWeekRange(weekMatches)}</span>
+              <span className="text-white/40 text-xs">{fmtWeekRange(Number(week))}</span>
             </div>
 
             {/* Date groups */}
