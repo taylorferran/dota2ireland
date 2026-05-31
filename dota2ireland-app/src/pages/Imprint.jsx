@@ -24,7 +24,7 @@ const getPositionInfo = (position) => {
 
 const Imprint = () => {
   const [activeTab, setActiveTab] = useState("leaderboard");
-  const [selectedSeason, setSelectedSeason] = useState(6); // Default to Season 6
+  const [selectedSeason, setSelectedSeason] = useState(7); // Default to Season 7 (current)
   const [players, setPlayers] = useState([]);
   const [heroes, setHeroes] = useState([]);
   const [teams, setTeams] = useState([]);
@@ -198,6 +198,16 @@ const Imprint = () => {
             {/* Season Selector */}
             <div className="flex flex-wrap justify-center items-center gap-3">
               <button
+                onClick={() => setSelectedSeason(7)}
+                className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
+                  selectedSeason === 7
+                    ? "bg-primary text-black shadow-lg shadow-primary/30"
+                    : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
+                }`}
+              >
+                Season 7
+              </button>
+              <button
                 onClick={() => setSelectedSeason(6)}
                 className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-all ${
                   selectedSeason === 6
@@ -205,7 +215,7 @@ const Imprint = () => {
                     : "bg-zinc-800 text-white/70 hover:text-white hover:bg-zinc-700"
                 }`}
               >
-                Season 6
+                Season 6 (Archive)
               </button>
               <button
                 onClick={() => setSelectedSeason(5)}

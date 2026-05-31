@@ -150,6 +150,9 @@ const season7TeamNames = {
   team_sosal: "Team Sosal",
 };
 
+// Dota position numbers: 1 Carry, 2 Mid, 3 Offlane, 4 Support, 5 Hard Support
+const POSITION_NUM = { carry: 1, mid: 2, offlane: 3, support: 4, 'hard support': 5 };
+
 const League = () => {
   const { season: seasonParam, divisionOrView, view: viewParam } = useParams();
   const navigate = useNavigate();
@@ -201,7 +204,6 @@ const League = () => {
   const [selectedWeek, setSelectedWeek] = useState(1);
   const [standingsView, setStandingsView] = useState('group'); // 'group' or 'knockout'
   const [teams, setTeams] = useState([]);
-  const [availabilitySet, setAvailabilitySet] = useState(new Set()); // auth_ids who submitted
   const [loading, setLoading] = useState(true);
   const [newTeamImage, setNewTeamImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
@@ -363,16 +365,6 @@ const League = () => {
           });
 
           setTeams(mergedTeams);
-
-          // For s7, fetch who has submitted availability
-          if (selectedSeason === 7) {
-            const { data: availData } = await supabase
-              .from('s7_availability')
-              .select('auth_id');
-            if (availData) {
-              setAvailabilitySet(new Set(availData.map(r => r.auth_id)));
-            }
-          }
         }
       } else {
         // For other seasons, fetch from database
@@ -871,17 +863,13 @@ const League = () => {
                       <tr className="border-b border-white/10">
                         <th className="text-left text-xs text-white/60 uppercase pb-2 px-2 w-[140px]">Player</th>
                         <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[80px]">MMR</th>
-                        {selectedSeason === 7 && (
-                          <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[40px]" title="Availability submitted">Avail</th>
-                        )}
+                        <th className="text-center text-xs text-white/60 uppercase pb-2 px-2 w-[40px]" title="Position: 1 Carry, 2 Mid, 3 Offlane, 4 Support, 5 Hard Support">Pos</th>
                       </tr>
                     </thead>
                     <tbody>
                       {[...players].sort((a, b) => {
-                        const order = { carry: 1, mid: 2, offlane: 3, support: 4, 'hard support': 5 };
-                        return (order[a?.position?.toLowerCase()] ?? 9) - (order[b?.position?.toLowerCase()] ?? 9);
+                        return (POSITION_NUM[a?.position?.toLowerCase()] ?? 9) - (POSITION_NUM[b?.position?.toLowerCase()] ?? 9);
                       }).map((player, index) => {
-                        const hasAvailability = selectedSeason === 7 && player.auth_id && availabilitySet.has(player.auth_id);
                         return (
                         <tr key={index} className="border-b border-white/5 last:border-0">
                           <td className="py-2 px-2">
@@ -905,11 +893,11 @@ const League = () => {
                               {player.rank || 'N/A'}
                             </span>
                           </td>
-                          {selectedSeason === 7 && (
-                            <td className="py-2 px-2 text-center text-base" title={hasAvailability ? 'Availability submitted' : 'Not submitted'}>
-                              {hasAvailability ? '✅' : '❌'}
-                            </td>
-                          )}
+                          <td className="py-2 px-2 text-center" title={player.position || ''}>
+                            <span className="text-xs px-2 py-1 bg-white/10 text-white/80 rounded inline-block">
+                              {POSITION_NUM[player.position?.toLowerCase()] ?? '-'}
+                            </span>
+                          </td>
                         </tr>
                         );
                       })}
@@ -1476,25 +1464,6 @@ const League = () => {
             )}
             {selectedView === 'rosters' && (
               <>
-                {selectedSeason === 7 && (
-                  <div className="mb-4 flex items-center justify-between p-3 bg-primary/10 border border-primary/30 rounded-lg">
-                    <div className="text-sm text-white/80">
-                      <span className="text-primary font-medium">✅/❌</span> shows whether each player has submitted their availability
-                    </div>
-                    {isAuthenticated && myTeam && (
-                      <button
-                        onClick={() => navigate('/league/s7/availability')}
-                        className="relative px-4 py-1.5 bg-primary text-black text-sm font-bold rounded-full hover:bg-primary/80 transition-colors flex items-center gap-1.5"
-                      >
-                        {!availabilitySet.has(user?.sub) && (
-                          <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[11px] text-white font-black leading-none">!</span>
-                        )}
-                        <span className="material-symbols-outlined text-sm">calendar_month</span>
-                        Submit Availability
-                      </button>
-                    )}
-                  </div>
-                )}
                 {renderRosters()}
               </>
             )}
