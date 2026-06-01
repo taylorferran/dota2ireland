@@ -18,6 +18,7 @@ const Rules = lazy(() => import('./pages/Rules'));
 const Rebooted2 = lazy(() => import('./pages/Rebooted2'));
 const Rebooted2Tables = lazy(() => import('./pages/Rebooted2Tables'));
 const Rebooted2Admin = lazy(() => import('./pages/Rebooted2Admin'));
+const Season7Availability = lazy(() => import('./pages/Season7Availability'));
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
@@ -81,6 +82,8 @@ function App() {
             <Route path="/casters" element={<Casters />} />
             {/* Hidden admin page for Rebooted2 team management */}
             <Route path="/rebooted2-admin" element={<Rebooted2Admin />} />
+            {/* Hidden admin page: Season 7 player availability (read-only) */}
+            <Route path="/season7availability" element={<Season7Availability />} />
           </Routes>
         </Suspense>
         <Analytics />
