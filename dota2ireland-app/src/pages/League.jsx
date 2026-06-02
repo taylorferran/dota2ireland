@@ -19,7 +19,7 @@ import { calculateAllDivisionStandings } from '../utils/calculateStandings';
 import { season7Schedule } from '../data/matchScheduleSeason7';
 import { SEASON_LEAGUE_IDS } from '../services/leaderboardApi';
 import { loadS7Aggregate } from '../services/s7ResultsApi';
-import { buildNameToKey, indexSeries, enrichSchedule, toDivisionMatches, resolveSeriesKeys } from '../utils/s7Results';
+import { buildNameToKey, indexSeries, enrichSchedule, toDivisionMatches, resolveSeriesKeys, normTeamName } from '../utils/s7Results';
 import S7MatchCalendar from '../components/S7MatchCalendar';
 import S7FullCalendar from '../components/S7FullCalendar';
 
@@ -378,9 +378,9 @@ const League = () => {
             const divisionStandings = calculatedStandings[dbTeam.division_id] || [];
             
             // Try to match by team name since team_id might not exist in database.
-            // Normalise to tolerate trailing whitespace/newlines in DB team names.
-            const normName = (s) => (s ?? '').toString().trim().toLowerCase();
-            const calculatedTeam = divisionStandings.find(t => normName(t.name) === normName(dbTeam.name));
+            // Normalise (punctuation/whitespace-insensitive) to tolerate apostrophes and
+            // trailing whitespace/newlines in DB team names.
+            const calculatedTeam = divisionStandings.find(t => normTeamName(t.name) === normTeamName(dbTeam.name));
 
             if (calculatedTeam) {
               // Keep everything from database, but override standings with calculated values

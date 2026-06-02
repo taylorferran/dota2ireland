@@ -12,7 +12,25 @@
 // These functions are framework-free so both the React app and the Node lock-in script
 // (scripts/syncS7Results.mjs) can use them.
 
-const norm = (s) => (s ?? '').toString().trim().toLowerCase().replace(/\s+/g, ' ');
+// Normalise a team name for matching: lowercase, drop punctuation (so "Mike's Army"
+// matches "Mikes Army"), collapse whitespace. Exported so the standings/DB merge uses
+// the exact same rule.
+export const normTeamName = (s) =>
+  (s ?? '')
+    .toString()
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]+/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+const norm = normTeamName;
+
+// Manual overrides for Valve team_ids that Imprint can't name correctly — e.g. a team
+// played a game under the wrong / unregistered team set, so it comes through as
+// "Unknown Team". Maps Valve team_id -> our internal team key. Checked before name matching.
+const TEAM_ID_OVERRIDES = {
+  10157436: 'random', // RANDOM played a game vs MMR Famine under the wrong team set
+};
 
 /** Map of normalised team display name -> internal team key (from season7TeamNames). */
 export function buildNameToKey(teamNames) {
@@ -24,6 +42,7 @@ export function buildNameToKey(teamNames) {
 }
 
 function keyForTeam(team, nameToKey) {
+  if (team?.team_id != null && TEAM_ID_OVERRIDES[team.team_id]) return TEAM_ID_OVERRIDES[team.team_id];
   return nameToKey.get(norm(team?.team_name)) ?? null;
 }
 
@@ -39,8 +58,55 @@ export function resolveSeriesKeys(series, nameToKey) {
   return kA && kB ? [kA, kB] : null;
 }
 
+// S7 group stage is best-of-2. Imprint sometimes returns one series with 2 games and
+// sometimes splits a Bo2 into two single-game series, so we can't trust one series = one
+// fixture — we merge all games for a matchup and treat the first 2 as the Bo2.
+const SERIES_LENGTH = 2;
+
+// Build the per-game result object from a /match detail. `idToKey` maps Valve team_id -> key.
+function buildGame(id, m, idToKey) {
+  if (!m || !Array.isArray(m.teams)) {
+    return { matchId: id, parsed: false, timestamp: null };
+  }
+  const gameTeams = m.teams.map((t) => ({
+    teamId: t.team_id,
+    name: t.team_name,
+    win: !!t.win,
+    kills: t.kills,
+    players: (t.players || [])
+      .map((p) => ({
+        accountId: p.account_id,
+        name: p.account_name,
+        position: p.position,
+        hero: p.hero?.name ?? null,
+        heroIcon: p.hero?.icon_src ?? null,
+        heroPortrait: p.hero?.static_portrait_src ?? null,
+        kills: p.kills,
+        deaths: p.deaths,
+        assists: p.assists,
+        rating: p.imprint_rating,
+      }))
+      .sort((a, b) => (a.position ?? 99) - (b.position ?? 99)),
+  }));
+  const winnerTeam = gameTeams.find((t) => t.win);
+  return {
+    matchId: id,
+    parsed: true,
+    timestamp: m.timestamp ?? null,
+    duration: m.duration ?? null,
+    winnerId: winnerTeam ? winnerTeam.teamId : null,
+    winnerKey: winnerTeam ? idToKey[winnerTeam.teamId] : null,
+    winnerName: winnerTeam ? winnerTeam.name : null,
+    teams: gameTeams,
+  };
+}
+
 /**
- * Build a lookup of completed series keyed by an order-independent team pair.
+ * Build a lookup of series results keyed by an order-independent team pair.
+ *
+ * Games are merged across every series that shares a matchup (Imprint may split a Bo2
+ * into multiple single-game series), deduped by match id, ordered chronologically, and
+ * the first SERIES_LENGTH used as the Bo2.
  *
  * @param {Array}  series      - the `series` array from /league/{id}/matches
  * @param {Map}    detailById  - Map<matchId, matchDetail> from /match/{id}
@@ -48,82 +114,46 @@ export function resolveSeriesKeys(series, nameToKey) {
  * @returns {Map<string, object>} pairKey ("keyA|keyB" sorted) -> result
  */
 export function indexSeries(series, detailById, nameToKey) {
-  const byPair = new Map();
-
+  // 1) Bucket every mappable game by matchup, deduped by match id.
+  const buckets = new Map(); // pairKey -> { keys:[kA,kB], games: Map<id, game> }
   for (const s of series) {
     // Skip series whose teams aren't in our league display (e.g. unmapped / wrong league)
     const keys = resolveSeriesKeys(s, nameToKey);
     if (!keys) continue;
     const [kA, kB] = keys;
     const teams = s.teams;
-
     const idToKey = { [teams[0].team_id]: kA, [teams[1].team_id]: kB };
+    const pairKey = [kA, kB].sort().join('|');
 
-    // The /league/{id}/matches `matches` array isn't ordered chronologically, so sort
-    // by each game's start time (match ids are also chronological as a fallback).
-    const orderedIds = [...(s.matches || [])].sort((a, b) => {
-      const ta = detailById.get(a)?.timestamp;
-      const tb = detailById.get(b)?.timestamp;
-      if (ta && tb && ta !== tb) return ta < tb ? -1 : 1;
-      return a - b;
-    });
+    if (!buckets.has(pairKey)) buckets.set(pairKey, { keys: [kA, kB], games: new Map() });
+    const bucket = buckets.get(pairKey);
+    for (const id of s.matches || []) {
+      if (!bucket.games.has(id)) bucket.games.set(id, buildGame(id, detailById.get(id), idToKey));
+    }
+  }
 
-    const games = orderedIds.map((id, idx) => {
-      const m = detailById.get(id);
-      if (!m || !Array.isArray(m.teams)) {
-        return { game: idx + 1, matchId: id, parsed: false };
-      }
-      const gameTeams = m.teams.map((t) => ({
-        teamId: t.team_id,
-        name: t.team_name,
-        win: !!t.win,
-        kills: t.kills,
-        players: (t.players || [])
-          .map((p) => ({
-            accountId: p.account_id,
-            name: p.account_name,
-            position: p.position,
-            hero: p.hero?.name ?? null,
-            heroIcon: p.hero?.icon_src ?? null,
-            heroPortrait: p.hero?.static_portrait_src ?? null,
-            kills: p.kills,
-            deaths: p.deaths,
-            assists: p.assists,
-            rating: p.imprint_rating,
-          }))
-          .sort((a, b) => (a.position ?? 99) - (b.position ?? 99)),
-      }));
-      const winnerTeam = gameTeams.find((t) => t.win);
-      return {
-        game: idx + 1,
-        matchId: id,
-        parsed: true,
-        duration: m.duration ?? null,
-        winnerId: winnerTeam ? winnerTeam.teamId : null,
-        winnerKey: winnerTeam ? idToKey[winnerTeam.teamId] : null,
-        winnerName: winnerTeam ? winnerTeam.name : null,
-        teams: gameTeams,
-      };
-    });
+  // 2) Per matchup: order games by start time, cap at the Bo2 length, tally the score.
+  const byPair = new Map();
+  for (const [pairKey, bucket] of buckets) {
+    const [kA, kB] = bucket.keys;
+    const games = [...bucket.games.values()]
+      .sort((a, b) => {
+        if (a.timestamp && b.timestamp && a.timestamp !== b.timestamp) return a.timestamp < b.timestamp ? -1 : 1;
+        return a.matchId - b.matchId;
+      })
+      .slice(0, SERIES_LENGTH)
+      .map((g, i) => ({ ...g, game: i + 1 }));
 
     const winsByKey = { [kA]: 0, [kB]: 0 };
     for (const g of games) {
       if (g.parsed && g.winnerKey != null) winsByKey[g.winnerKey] += 1;
     }
 
-    const expected = s.match_count || games.length;
+    // Complete once we have the full Bo2 with a winner recorded for each game.
     const complete =
-      games.length > 0 &&
-      games.length >= expected &&
-      games.every((g) => g.parsed && g.winnerKey != null);
+      games.length >= SERIES_LENGTH && games.every((g) => g.parsed && g.winnerKey != null);
 
-    byPair.set([kA, kB].sort().join('|'), {
-      seriesId: s.series_id,
-      keys: [kA, kB],
-      winsByKey,
-      games,
-      complete,
-    });
+    byPair.set(pairKey, { keys: [kA, kB], winsByKey, games, complete });
   }
 
   return byPair;
