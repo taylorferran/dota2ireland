@@ -52,7 +52,10 @@ const Imprint = () => {
           setPlayers(filteredPlayers);
         } else if (activeTab === "heroes") {
           const data = await fetchHeroStatistics(leagueId);
-          setHeroes(data.hero_statistics.heroes.sort((a, b) => b.match_count - a.match_count));
+          // Imprint's `match_count` now counts picks + bans, which inflates "games played".
+          // Sort/display by `picks` (actual games the hero was in); fall back for older data.
+          const games = (h) => h.picks ?? h.match_count;
+          setHeroes(data.hero_statistics.heroes.sort((a, b) => games(b) - games(a)));
         } else {
           const data = await fetchTeams(leagueId);
           setTeams(data.teams.sort((a, b) => b.average_team_imprint_rating - a.average_team_imprint_rating));
@@ -132,7 +135,7 @@ const Imprint = () => {
                     <span className="font-medium">{hero.name}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-white">{hero.match_count}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-white">{hero.picks ?? hero.match_count}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-white">
                   <span className={hero.wins > hero.losses ? "text-green-400" : "text-red-400"}>{hero.win_rate}</span>
                   <div className="text-xs text-white/60">
