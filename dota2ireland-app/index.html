@@ -135,25 +135,29 @@
     <!-- Handle lazy loaded images -->
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
-        lazyImages.forEach(img => {
+        const markLoaded = (img) => {
           if (img.complete) {
             img.classList.add('loaded');
           } else {
             img.addEventListener('load', () => img.classList.add('loaded'));
+            // An image that fails to load should not stay invisible forever.
+            img.addEventListener('error', () => img.classList.add('loaded'));
           }
-        });
-        
-        // Also handle dynamically added images
+        };
+
+        document.querySelectorAll('img[loading="lazy"]').forEach(markLoaded);
+
+        // Also handle dynamically added images — including ones nested inside a
+        // larger subtree (e.g. React rendering a component that contains images),
+        // which the previous direct-node check missed.
         const observer = new MutationObserver(mutations => {
           mutations.forEach(mutation => {
             mutation.addedNodes.forEach(node => {
+              if (node.nodeType !== 1) return; // element nodes only
               if (node.nodeName === 'IMG' && node.loading === 'lazy') {
-                if (node.complete) {
-                  node.classList.add('loaded');
-                } else {
-                  node.addEventListener('load', () => node.classList.add('loaded'));
-                }
+                markLoaded(node);
+              } else if (node.querySelectorAll) {
+                node.querySelectorAll('img[loading="lazy"]').forEach(markLoaded);
               }
             });
           });

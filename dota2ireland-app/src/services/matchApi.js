@@ -26,5 +26,5 @@ export const fetchMatchDetails = (matchId) =>
       console.error("Error fetching match data:", error);
       throw error;
     }
-  }, TTL.IMMUTABLE);
+  }, TTL.MATCH);
 

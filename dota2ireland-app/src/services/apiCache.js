@@ -1,8 +1,9 @@
 // localStorage-backed cache for Imprint.gg API responses, with per-entry TTL.
 //
 // Why localStorage (survives page reloads) rather than a session-only cache:
-//   - completed match details are immutable, so they can be cached for a long time
-//     and never need refetching, even across reloads / return visits;
+//   - completed match details rarely change, so they get a multi-day TTL and are only
+//     refetched occasionally — Imprint can revise ratings after re-running their models,
+//     so this is a few days rather than "forever";
 //   - leaderboards / teams / hero stats change as matches are played, so they get a
 //     short TTL and refresh automatically once it expires.
 //
@@ -15,8 +16,9 @@ const inflight = new Map();
 
 // Named TTLs (ms) for callers.
 export const TTL = {
+  SHORT: 5 * 60 * 1000,               // 5 min   — live results / series list (in-progress)
   DYNAMIC: 30 * 60 * 1000,            // 30 min  — leaderboards, teams, hero stats
-  IMMUTABLE: 30 * 24 * 60 * 60 * 1000, // 30 days — completed match details
+  MATCH: 5 * 24 * 60 * 60 * 1000,     // 5 days  — completed match details (ratings may be revised on model re-runs)
 };
 
 const readStore = (key) => {

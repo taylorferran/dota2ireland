@@ -9,7 +9,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "download-team-images": "node scripts/download-team-images.js"
+    "download-team-images": "node scripts/download-team-images.js",
+    "sync-s7-results": "node scripts/syncS7Results.mjs"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.9.0",

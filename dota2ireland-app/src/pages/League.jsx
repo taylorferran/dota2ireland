@@ -17,6 +17,9 @@ import { fetchMatchDetails } from '../services/matchApi';
 import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
 import { calculateAllDivisionStandings } from '../utils/calculateStandings';
 import { season7Schedule } from '../data/matchScheduleSeason7';
+import { SEASON_LEAGUE_IDS } from '../services/leaderboardApi';
+import { loadS7Aggregate } from '../services/s7ResultsApi';
+import { buildNameToKey, indexSeries, enrichSchedule, toDivisionMatches, resolveSeriesKeys } from '../utils/s7Results';
 import S7MatchCalendar from '../components/S7MatchCalendar';
 import S7FullCalendar from '../components/S7FullCalendar';
 
@@ -211,6 +214,8 @@ const League = () => {
   const [selectedGameId, setSelectedGameId] = useState(null);
   const [matchDetails, setMatchDetails] = useState(null);
   const [loadingMatch, setLoadingMatch] = useState(false);
+  // Season 7 schedule enriched with live Imprint results (scores + per-game detail)
+  const [s7Schedule, setS7Schedule] = useState(season7Schedule);
 
   // Navigation helpers
   const navigateToSeason = (seasonId) => {
@@ -287,7 +292,7 @@ const League = () => {
   const views = selectedSeason === 7
     ? [
         { id: 'standings', name: 'Standings' },
-        { id: 'matches', name: 'Schedule' },
+        { id: 'matches', name: 'Group Stage' },
         { id: 'rosters', name: 'Team Rosters' },
       ]
     : [
@@ -306,8 +311,36 @@ const League = () => {
       // For Season 6 & 7, fetch roster data from database AND calculate standings from match data
       if (selectedSeason === 6 || selectedSeason === 7) {
         const seasonTable = selectedSeason === 7 ? 'teams_s7' : 'teams_s6';
-        const seasonMatches = selectedSeason === 7 ? season7Matches : season6Matches;
+        let seasonMatches = selectedSeason === 7 ? season7Matches : season6Matches;
         const seasonTeamNames = selectedSeason === 7 ? season7TeamNames : season6TeamNames;
+
+        // Season 7 results are pulled live from Imprint and merged onto the schedule —
+        // standings + the matches view update without a redeploy as games are played.
+        if (selectedSeason === 7) {
+          try {
+            const nameToKey = buildNameToKey(season7TeamNames);
+            // Only fetch /match details for series in the division being viewed — keeps
+            // Imprint API usage minimal (one series-list call + only this division's games).
+            const divisionPairs = new Set(
+              season7Schedule
+                .filter((m) => m.division === selectedDivision)
+                .map((m) => [m.team1Id, m.team2Id].sort().join('|')),
+            );
+            const seriesFilter = (s) => {
+              const keys = resolveSeriesKeys(s, nameToKey);
+              return !!keys && divisionPairs.has([...keys].sort().join('|'));
+            };
+            const { series, detailById } = await loadS7Aggregate(SEASON_LEAGUE_IDS[7], seriesFilter);
+            const byPair = indexSeries(series, detailById, nameToKey);
+            const enriched = enrichSchedule(season7Schedule, byPair);
+            setS7Schedule(enriched);
+            seasonMatches = toDivisionMatches(enriched);
+          } catch (e) {
+            console.error('Failed to load Season 7 results; showing schedule without scores', e);
+            setS7Schedule(season7Schedule);
+            seasonMatches = toDivisionMatches(season7Schedule);
+          }
+        }
         // STEP 1: Fetch roster data from database (for players, captain names, etc.)
         const { data: teamsData, error: teamsError } = await supabase
           .from(seasonTable)
@@ -344,8 +377,10 @@ const League = () => {
             // Find the calculated standings for this team
             const divisionStandings = calculatedStandings[dbTeam.division_id] || [];
             
-            // Try to match by team name since team_id might not exist in database
-            const calculatedTeam = divisionStandings.find(t => t.name === dbTeam.name);
+            // Try to match by team name since team_id might not exist in database.
+            // Normalise to tolerate trailing whitespace/newlines in DB team names.
+            const normName = (s) => (s ?? '').toString().trim().toLowerCase();
+            const calculatedTeam = divisionStandings.find(t => normName(t.name) === normName(dbTeam.name));
 
             if (calculatedTeam) {
               // Keep everything from database, but override standings with calculated values
@@ -1396,9 +1431,10 @@ const League = () => {
                         <tbody className="divide-y divide-white/10">
                           {loading ? (
                             <tr>
-                              <td colSpan={7} className="px-6 py-8 text-center">
-                                <div className="flex justify-center">
+                              <td colSpan={7} className="px-6 py-10 text-center">
+                                <div className="flex flex-col items-center justify-center gap-3">
                                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                                  <span className="text-sm text-white/50">Loading standings…</span>
                                 </div>
                               </td>
                             </tr>
@@ -1448,7 +1484,7 @@ const League = () => {
 
             {selectedView === 'matches' && selectedSeason === 7 && (
               <S7MatchCalendar
-                matches={season7Schedule.filter(m => m.division === selectedDivision)}
+                matches={s7Schedule.filter(m => m.division === selectedDivision)}
                 teamNamesMap={season7TeamNames}
                 myTeamId={myTeamKey}
                 showDivisionBadge={false}
@@ -1457,7 +1493,7 @@ const League = () => {
             {selectedView === 'matches' && selectedSeason !== 7 && renderMatches()}
             {selectedView === 'calendar' && selectedSeason === 7 && (
               <S7FullCalendar
-                matches={season7Schedule}
+                matches={s7Schedule}
                 teamNamesMap={season7TeamNames}
                 myTeamId={myTeamKey}
               />
