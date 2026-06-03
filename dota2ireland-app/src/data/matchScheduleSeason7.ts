@@ -97,11 +97,28 @@ export const season7Schedule: S7Match[] = [
 
   // ── Division 2C ───────────────────────────────────────────────────────────
   // 5 teams · 5 weeks · 1 bye/week — re-seeded by MMR, generated via availability scheduler.
-  // ONLY WEEK 1 PUBLISHED for now (KeY/Imprint away weeks 1–2; weeks 2–5 pending final availability).
+  // Week 1 locked/in-motion; weeks 2–5 solved around it with the KeY (Imprint) stand-in.
+  // Stand-ins: KeY/Imprint (wk1,3,4); flipper/Missprint + Lord_Shadow/VELENO (wk5 Missprint v VELENO).
 
   // Week 1 (2026-06-01 – 2026-06-07) · BYE: Missprint Esports
-  { id: 's7-d2c-w1-1', division: 23, week: 1, team1Id: 'owen_morris_cummers', team2Id: 'five_stuns_no_brains', date: '2026-06-01', time: '20:00', completed: false }, // requires hammurabi stand-in for 5 Stuns No Brains
+  { id: 's7-d2c-w1-1', division: 23, week: 1, team1Id: 'owen_morris_cummers', team2Id: 'five_stuns_no_brains', date: '2026-06-01', time: '20:00', completed: true, score: [1, 1] }, // played 1-1 (hammurabi stand-in for 5 Stuns)
   { id: 's7-d2c-w1-2', division: 23, week: 1, team1Id: 'imprint_esports',     team2Id: 'veleno',              date: '2026-06-04', time: '21:00', completed: false }, // KeY away wk1 — requires stand-in for Imprint Esports
+
+  // Week 2 (2026-06-08 – 2026-06-14) · BYE: Imprint Esports
+  { id: 's7-d2c-w2-1', division: 23, week: 2, team1Id: 'veleno',              team2Id: 'owen_morris_cummers', date: '2026-06-09', time: '21:00', completed: false },
+  { id: 's7-d2c-w2-2', division: 23, week: 2, team1Id: 'missprint_esports',   team2Id: 'five_stuns_no_brains', date: '2026-06-13', time: '18:00', completed: false },
+
+  // Week 3 (2026-06-15 – 2026-06-21) · BYE: Owen Morris and the CUMMERS
+  { id: 's7-d2c-w3-1', division: 23, week: 3, team1Id: 'missprint_esports',   team2Id: 'imprint_esports',     date: '2026-06-15', time: '20:00', completed: false }, // KeY stand-in for Imprint
+  { id: 's7-d2c-w3-2', division: 23, week: 3, team1Id: 'veleno',              team2Id: 'five_stuns_no_brains', date: '2026-06-21', time: '21:00', completed: false }, // fragile — only 1 feasible slot
+
+  // Week 4 (2026-06-22 – 2026-06-28) · BYE: VELENO
+  { id: 's7-d2c-w4-1', division: 23, week: 4, team1Id: 'missprint_esports',   team2Id: 'owen_morris_cummers', date: '2026-06-22', time: '20:00', completed: false },
+  { id: 's7-d2c-w4-2', division: 23, week: 4, team1Id: 'imprint_esports',     team2Id: 'five_stuns_no_brains', date: '2026-06-28', time: '20:00', completed: false }, // KeY stand-in for Imprint
+
+  // Week 5 (2026-06-29 – 2026-07-05) · BYE: 5 Stuns No Brains
+  { id: 's7-d2c-w5-1', division: 23, week: 5, team1Id: 'imprint_esports',     team2Id: 'owen_morris_cummers', date: '2026-07-02', time: '20:00', completed: false },
+  { id: 's7-d2c-w5-2', division: 23, week: 5, team1Id: 'missprint_esports',   team2Id: 'veleno',              date: '2026-07-04', time: '20:00', completed: false }, // stand-ins: flipper (Missprint) + Lord_Shadow (VELENO)
 
   // ── Division 3 ────────────────────────────────────────────────────────────
   // 4 teams · single round robin spread over 5 weeks (front-loaded, no byes) to keep
