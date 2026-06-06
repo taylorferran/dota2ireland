@@ -19,7 +19,8 @@ export const normTeamName = (s) =>
   (s ?? '')
     .toString()
     .toLowerCase()
-    .replace(/[^a-z0-9 ]+/g, '')
+    .replace(/['‘’]/g, '') // drop apostrophes so "Mike's Army" === "Mikes Army"
+    .replace(/[^a-z0-9]+/g, ' ')     // other separators (_, -, .) become spaces: "Last_Hit_Academy" === "Last Hit Academy"
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -30,6 +31,7 @@ const norm = normTeamName;
 // "Unknown Team". Maps Valve team_id -> our internal team key. Checked before name matching.
 const TEAM_ID_OVERRIDES = {
   10157436: 'random', // RANDOM played a game vs MMR Famine under the wrong team set
+  9180502: 'wongwongbakery', // Imprint has them registered as "Wongs Bakery"
 };
 
 /** Map of normalised team display name -> internal team key (from season7TeamNames). */
