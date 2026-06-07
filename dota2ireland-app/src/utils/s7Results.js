@@ -32,6 +32,7 @@ const norm = normTeamName;
 const TEAM_ID_OVERRIDES = {
   10157436: 'random', // RANDOM played a game vs MMR Famine under the wrong team set
   9180502: 'wongwongbakery', // Imprint has them registered as "Wongs Bakery"
+  9947890: 'business_mices', // Imprint has them registered as "Business Mice" (no trailing s)
 };
 
 /** Map of normalised team display name -> internal team key (from season7TeamNames). */
