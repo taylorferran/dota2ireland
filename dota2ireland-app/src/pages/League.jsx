@@ -17,9 +17,8 @@ import { fetchMatchDetails } from '../services/matchApi';
 import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
 import { calculateAllDivisionStandings } from '../utils/calculateStandings';
 import { season7Schedule } from '../data/matchScheduleSeason7';
-import { SEASON_LEAGUE_IDS } from '../services/leaderboardApi';
-import { loadS7Aggregate } from '../services/s7ResultsApi';
-import { buildNameToKey, indexSeries, enrichSchedule, toDivisionMatches, resolveSeriesKeys, normTeamName } from '../utils/s7Results';
+import { enrichSchedule, toDivisionMatches, normTeamName } from '../utils/s7Results';
+import { season7TeamNames } from '../data/season7Teams';
 import S7MatchCalendar from '../components/S7MatchCalendar';
 import S7FullCalendar from '../components/S7FullCalendar';
 
@@ -120,38 +119,6 @@ const season6TeamNames = {
   winner_d4w6m2: "Winner SF2",
 };
 
-const season7TeamNames = {
-  bye_week: "Bye Week",
-  // Division 1
-  business_mices: "Business Mices",
-  the_mystery_machine: "The Myst-ery Machine",
-  full_english_breakfast: "Full English Breakfast",
-  wongwongbakery: "WONGWONGBAKERY",
-  last_hit_academy: "Last Hit Academy",
-  shishuli: "ShiShuli",
-  // Division 2 (split into Groups 2A / 2B / 2C by MMR seeding - see division_id in DB)
-  joonsquad_next: "JoonSquad: Next Jooneration",
-  runners: "RUNNERS",
-  imprint_esports: "Imprint Esports",
-  the_dark_side: "The Dark Side of the Map",
-  fost_team: "Fost team",
-  mmr_famine: "MMR Famine",
-  secretshop: "SecretShop",
-  random: "Random",
-  d2ire_rejects: "D2Ire Rejects",
-  mikes_army: "Mikes Army",
-  five_stuns_no_brains: "5 Stuns No Brains",
-  missprint_esports: "Missprint Esports",
-  cavan_creche: "Cavan Creche",
-  the_chumps_people: "The Chump's People",
-  owen_morris_cummers: "Owen Morris and the CUMMERS",
-  // Division 3
-  grumpy_old_men: "Grumpy Old Men",
-  bord_na_mona: "Bord na Mona",
-  veleno: "VELENO",
-  wreck_the_herald: "Wreck the Herald",
-  team_sosal: "Team Sosal",
-};
 
 // Dota position numbers: 1 Carry, 2 Mid, 3 Offlane, 4 Support, 5 Hard Support
 const POSITION_NUM = { carry: 1, mid: 2, offlane: 3, support: 4, 'hard support': 5 };
@@ -314,29 +281,29 @@ const League = () => {
         let seasonMatches = selectedSeason === 7 ? season7Matches : season6Matches;
         const seasonTeamNames = selectedSeason === 7 ? season7TeamNames : season6TeamNames;
 
-        // Season 7 results are pulled live from Imprint and merged onto the schedule —
-        // standings + the matches view update without a redeploy as games are played.
+        // Season 7 results are read from the `s7_results` table (populated by the admin
+        // sync script), so visitors hit our DB rather than the Imprint API. Results are
+        // merged onto the static schedule for standings + the group stage view.
         if (selectedSeason === 7) {
           try {
-            const nameToKey = buildNameToKey(season7TeamNames);
-            // Only fetch /match details for series in the division being viewed — keeps
-            // Imprint API usage minimal (one series-list call + only this division's games).
-            const divisionPairs = new Set(
-              season7Schedule
-                .filter((m) => m.division === selectedDivision)
-                .map((m) => [m.team1Id, m.team2Id].sort().join('|')),
-            );
-            const seriesFilter = (s) => {
-              const keys = resolveSeriesKeys(s, nameToKey);
-              return !!keys && divisionPairs.has([...keys].sort().join('|'));
-            };
-            const { series, detailById } = await loadS7Aggregate(SEASON_LEAGUE_IDS[7], seriesFilter);
-            const byPair = indexSeries(series, detailById, nameToKey);
+            const { data: resultRows, error: resultsError } = await supabase
+              .from('s7_results')
+              .select('*');
+            if (resultsError) throw resultsError;
+
+            const byPair = new Map();
+            for (const row of resultRows || []) {
+              byPair.set(row.pair_key, {
+                winsByKey: { [row.team1_id]: row.score1, [row.team2_id]: row.score2 },
+                games: row.games || [],
+                complete: row.completed,
+              });
+            }
             const enriched = enrichSchedule(season7Schedule, byPair);
             setS7Schedule(enriched);
             seasonMatches = toDivisionMatches(enriched);
           } catch (e) {
-            console.error('Failed to load Season 7 results; showing schedule without scores', e);
+            console.error('Failed to load Season 7 results from DB; showing schedule without scores', e);
             setS7Schedule(season7Schedule);
             seasonMatches = toDivisionMatches(season7Schedule);
           }

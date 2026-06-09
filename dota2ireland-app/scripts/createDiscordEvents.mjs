@@ -16,7 +16,7 @@
 //   node scripts/createDiscordEvents.mjs <week>            # PREVIEW only (dry run)
 //   node scripts/createDiscordEvents.mjs <week> --create   # actually create events
 //   options: --division=D2C   only that division
-//            --duration=3      event length in hours (default 3, matches 20:00–23:00)
+//            --duration=3      event length in hours (default 3, matches 20:00-23:00)
 //            --location=URL    stream link (default https://www.twitch.tv/dota2ireland)
 //
 // Times in the schedule are Europe/Dublin. All Season 7 games fall in summer time
@@ -31,7 +31,7 @@ const CREATE = args.includes('--create');
 const DIV_FILTER = (args.find((a) => a.startsWith('--division=')) || '').split('=')[1];
 const DURATION_H = Number((args.find((a) => a.startsWith('--duration=')) || '').split('=')[1] || 3);
 const LOCATION = (args.find((a) => a.startsWith('--location=')) || '').split('=')[1] || 'https://www.twitch.tv/dota2ireland';
-const DUBLIN_OFFSET = '+01:00'; // IST (summer); all S7 games are June–July
+const DUBLIN_OFFSET = '+01:00'; // IST (summer); all S7 games are June-July
 
 // --- env (reads .env.local and .env; .env.local wins) ---
 const loadEnv = (file) => {
@@ -95,7 +95,7 @@ if (!weekGames.length) { console.log('No games found for that week.\n'); process
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 if (!CREATE) {
-  for (const g of weekGames) { const e = buildEvent(g); console.log(`• ${e.name}\n    ${fmt(e.scheduled_start_time)} – ${fmt(e.scheduled_end_time).split(' ').pop()}  @ ${LOCATION}`); }
+  for (const g of weekGames) { const e = buildEvent(g); console.log(`• ${e.name}\n    ${fmt(e.scheduled_start_time)} - ${fmt(e.scheduled_end_time).split(' ').pop()}  @ ${LOCATION}`); }
   console.log(`\nPreview only. Re-run with --create to publish these to Discord.\n`);
   process.exit(0);
 }

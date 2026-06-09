@@ -38,9 +38,6 @@ export default defineConfig({
           if (pathname === '/api/teams') {
             return `/league/${params.get('league_id')}/teams`;
           }
-          if (pathname === '/api/league-matches') {
-            return `/league/${params.get('league_id')}/matches`;
-          }
           return path.replace(/^\/api/, '');
         }
       }
