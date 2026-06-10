@@ -34,6 +34,7 @@ const TEAM_ID_OVERRIDES = {
   9180502: 'wongwongbakery', // Imprint has them registered as "Wongs Bakery"
   9947890: 'business_mices', // Imprint has them registered as "Business Mice" (no trailing s)
   10163871: 'full_english_breakfast', // renamed to "2 Samuel's 2 Sexy"; Imprint still shows "Full English Breakfast"
+  10032774: 'team_sosal', // Team Sosal registered the wrong team set in game 2 vs Grumpy Old Men
 };
 
 /** Map of normalised team display name -> internal team key (from season7TeamNames). */
