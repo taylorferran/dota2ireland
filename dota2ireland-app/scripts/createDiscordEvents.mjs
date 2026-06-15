@@ -46,9 +46,9 @@ const env = { ...loadEnv('.env'), ...loadEnv('.env.local') };
 const TOKEN = env.DISCORD_BOT_TOKEN;
 const GUILD = env.DISCORD_GUILD_ID;
 
-// --- slug -> display name (from League.jsx) ---
-const leagueSrc = readFileSync(new URL('../src/pages/League.jsx', import.meta.url), 'utf8');
-const namesBlock = leagueSrc.slice(leagueSrc.indexOf('season7TeamNames = {'));
+// --- slug -> display name (from src/data/season7Teams.js) ---
+const teamsSrc = readFileSync(new URL('../src/data/season7Teams.js', import.meta.url), 'utf8');
+const namesBlock = teamsSrc.slice(teamsSrc.indexOf('season7TeamNames = {'));
 const slugToName = {};
 for (const m of namesBlock.slice(0, namesBlock.indexOf('};')).matchAll(/(\w+):\s*"([^"]+)"/g)) slugToName[m[1]] = m[2];
 
