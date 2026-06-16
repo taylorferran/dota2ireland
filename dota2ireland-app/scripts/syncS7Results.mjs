@@ -23,6 +23,19 @@ const ROOT = join(__dirname, '..');
 const IMPRINT = 'https://v2.api.imprint.gg';
 const LEAGUE_ID = Number(process.argv[2] || 19763);
 
+// ── Manual corrections for games Imprint mis-ticketed ────────────────────────
+// Games played outside the league ticket (e.g. "parsed in league 0" — the lobby ticket
+// wasn't set), fetched individually and added as single-game series. Their teams are
+// named correctly in the match detail, so they resolve normally.
+const EXTRA_MATCH_IDS = [
+  8853439718, // JoonSquad vs Mike's Army, game 2 — ticketed to league 0
+];
+// Per-match team_id -> our key, for games where a team played fully unregistered
+// (team_id 0) or under a joke name. Scoped to the specific match, so the reused id 0 is safe.
+const MATCH_TEAM_FIX = {
+  8853512296: { 0: 'missprint_esports' }, // Missprint played as "#DOTA_BadGuys" vs Imprint Esports
+};
+
 function loadEnv() {
   const env = { ...process.env };
   try {
@@ -73,8 +86,8 @@ async function mapLimit(items, limit, fn) {
 // ── Fetch from Imprint ──────────────────────────────────────────────────────
 const list = await imprint(`/league/${LEAGUE_ID}/matches`);
 const series = Array.isArray(list.series) ? list.series : [];
-const ids = [...new Set(series.flatMap((s) => s.matches || []))];
-console.log(`League ${LEAGUE_ID} (${list.league_name ?? '?'}): ${series.length} series, ${ids.length} games`);
+const ids = [...new Set([...series.flatMap((s) => s.matches || []), ...EXTRA_MATCH_IDS])];
+console.log(`League ${LEAGUE_ID} (${list.league_name ?? '?'}): ${series.length} series, ${ids.length} games (incl. ${EXTRA_MATCH_IDS.length} off-ticket)`);
 
 const details = await mapLimit(ids, 4, async (id) => {
   try {
@@ -85,6 +98,29 @@ const details = await mapLimit(ids, 4, async (id) => {
   }
 });
 const detailById = new Map(ids.map((id, i) => [id, details[i]]));
+
+// Add off-ticket games (league 0) as single-game series — teams are named correctly.
+for (const id of EXTRA_MATCH_IDS) {
+  const m = detailById.get(id);
+  if (m && Array.isArray(m.teams)) {
+    series.push({
+      series_id: id,
+      match_count: 1,
+      teams: m.teams.map((t) => ({ team_id: t.team_id, team_name: t.team_name })),
+      matches: [id],
+    });
+  }
+}
+// Fix mis-named teams in specific games so they resolve to the right club.
+for (const s of series) {
+  for (const id of s.matches || []) {
+    const fix = MATCH_TEAM_FIX[id];
+    if (!fix) continue;
+    for (const t of s.teams) {
+      if (fix[t.team_id] !== undefined) t.team_name = season7TeamNames[fix[t.team_id]] ?? t.team_name;
+    }
+  }
+}
 
 // ── Compute results ─────────────────────────────────────────────────────────
 const byPair = indexSeries(series, detailById, buildNameToKey(season7TeamNames));

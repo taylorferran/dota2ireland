@@ -30,11 +30,13 @@ const norm = normTeamName;
 // played a game under the wrong / unregistered team set, so it comes through as
 // "Unknown Team". Maps Valve team_id -> our internal team key. Checked before name matching.
 const TEAM_ID_OVERRIDES = {
-  10157436: 'random', // RANDOM played a game vs MMR Famine under the wrong team set
+  10157436: 'random', // RANDOM alt team set (Imprint's naming flips between this and 5253178)
+  5253178: 'random', // RANDOM's other team set (Imprint now shows this one as "Unknown Team")
   9180502: 'wongwongbakery', // Imprint has them registered as "Wongs Bakery"
   9947890: 'business_mices', // Imprint has them registered as "Business Mice" (no trailing s)
   10163871: 'full_english_breakfast', // renamed to "2 Samuel's 2 Sexy"; Imprint still shows "Full English Breakfast"
   10032774: 'team_sosal', // Team Sosal registered the wrong team set in game 2 vs Grumpy Old Men
+  10164325: 'veleno', // VELENO — Imprint un-named this team_id (now "Unknown Team") for the Imprint Esports games
 };
 
 /** Map of normalised team display name -> internal team key (from season7TeamNames). */
