@@ -17,10 +17,12 @@ import { fetchMatchDetails } from '../services/matchApi';
 import { getTeamImagePath, getTeamInitial } from '../utils/teamImages';
 import { calculateAllDivisionStandings } from '../utils/calculateStandings';
 import { season7Schedule } from '../data/matchScheduleSeason7';
-import { enrichSchedule, toDivisionMatches, normTeamName } from '../utils/s7Results';
-import { season7TeamNames } from '../data/season7Teams';
+import { enrichSchedule, toDivisionMatches, applyForfeits, normTeamName } from '../utils/s7Results';
+import { season7TeamNames, season7DroppedTeams } from '../data/season7Teams';
 import S7MatchCalendar from '../components/S7MatchCalendar';
 import S7FullCalendar from '../components/S7FullCalendar';
+import { S7PlayoffBracket } from '../components/S7PlayoffBracket';
+import { deriveS7Seeds } from '../utils/s7PlayoffSeeds';
 
 // Team name mappings
 const season4TeamNames = {
@@ -167,7 +169,7 @@ const League = () => {
   const selectedView = useMemo(() => {
     if (selectedSeason === 7 && currentSeasonForm) return 'standings';
     if (!viewParam) return 'standings';
-    const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters', calendar: 'calendar' };
+    const viewMap = { standings: 'standings', matches: 'matches', teams: 'rosters', calendar: 'calendar', playoffs: 'playoffs' };
     return viewMap[viewParam] || 'standings';
   }, [viewParam, selectedSeason, currentSeasonForm]);
 
@@ -203,9 +205,22 @@ const League = () => {
   };
 
   const navigateToView = (viewId) => {
-    const viewMap = { standings: 'standings', matches: 'matches', rosters: 'teams', calendar: 'calendar' };
+    const viewMap = { standings: 'standings', matches: 'matches', rosters: 'teams', calendar: 'calendar', playoffs: 'playoffs' };
     navigate(`/league/s${selectedSeason}/${divisionUrlParam(selectedDivision)}/${viewMap[viewId]}`);
   };
+
+  // S7 divisions 2A/2B/2C (ids 2, 22, 23) all feed one combined Division 2 playoff bracket.
+  const playoffBracketDivision = selectedDivision === 22 || selectedDivision === 23 ? 2 : selectedDivision;
+
+  // Current playoff seeds, derived from live group standings across all S7 divisions.
+  // Forfeits for withdrawn teams are applied first, so seeds match the standings table
+  // (each survivor gets their 2-0 wins over dropped teams counted).
+  const s7PlayoffSeeds = useMemo(() => {
+    if (selectedSeason !== 7) return {};
+    const divMatches = applyForfeits(toDivisionMatches(s7Schedule), new Set(season7DroppedTeams));
+    const allStandings = calculateAllDivisionStandings(divMatches, season7TeamNames);
+    return deriveS7Seeds(playoffBracketDivision, allStandings);
+  }, [selectedSeason, s7Schedule, playoffBracketDivision]);
 
 
 
@@ -260,6 +275,7 @@ const League = () => {
     ? [
         { id: 'standings', name: 'Standings' },
         { id: 'matches', name: 'Group Stage' },
+        { id: 'playoffs', name: 'Playoffs' },
         { id: 'rosters', name: 'Team Rosters' },
       ]
     : [
@@ -301,7 +317,8 @@ const League = () => {
             }
             const enriched = enrichSchedule(season7Schedule, byPair);
             setS7Schedule(enriched);
-            seasonMatches = toDivisionMatches(enriched);
+            // Withdrawn teams forfeit every game 2-0 to the active opponent.
+            seasonMatches = applyForfeits(toDivisionMatches(enriched), new Set(season7DroppedTeams));
           } catch (e) {
             console.error('Failed to load Season 7 results from DB; showing schedule without scores', e);
             setS7Schedule(season7Schedule);
@@ -413,7 +430,15 @@ const League = () => {
   };
 
   const currentTeams = teams.filter((team) => team.division_id === selectedDivision);
+  // Withdrawn S7 teams (matched by normalised name) are struck through and sorted last.
+  const droppedNames = new Set(
+    (selectedSeason === 7 ? season7DroppedTeams : []).map((k) => normTeamName(season7TeamNames[k])),
+  );
+  const isDroppedTeam = (team) => droppedNames.has(normTeamName(team.name));
   const sortedTeams = [...currentTeams].sort((a, b) => {
+    const ad = isDroppedTeam(a);
+    const bd = isDroppedTeam(b);
+    if (ad !== bd) return ad ? 1 : -1; // withdrawn teams always at the bottom
     if (b.points !== a.points) return b.points - a.points;
     if (b.wins !== a.wins) return b.wins - a.wins;
     if (b.draws !== a.draws) return b.draws - a.draws;
@@ -1349,8 +1374,9 @@ const League = () => {
                   </a>
                 )}
 
-                {/* Group Stage / Playoffs Toggle - shown only in Standings view */}
-                {selectedView === 'standings' && (
+                {/* Group Stage / Playoffs Toggle - shown only in Standings view.
+                    S7 has a dedicated top-level Playoffs tab, so the toggle is hidden there. */}
+                {selectedView === 'standings' && selectedSeason !== 7 && (
                   <div className="flex gap-2">
                     <button
                       onClick={() => setStandingsView('group')}
@@ -1412,13 +1438,18 @@ const League = () => {
                               </td>
                             </tr>
                           ) : (
-                            sortedTeams.map((team, index) => (
-                              <tr key={team.id} className="hover:bg-white/5 transition-colors">
+                            sortedTeams.map((team, index) => {
+                              const dropped = isDroppedTeam(team);
+                              return (
+                              <tr key={team.id} className={`hover:bg-white/5 transition-colors ${dropped ? 'opacity-60' : ''}`}>
                                 <td className="px-6 py-4 text-center whitespace-nowrap text-white font-medium">
-                                  {index + 1}
+                                  {dropped ? '—' : index + 1}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap font-medium text-white">
-                                  {team.name}
+                                  <span className={dropped ? 'line-through text-white/50' : ''}>{team.name}</span>
+                                  {dropped && (
+                                    <span className="ml-2 align-middle text-[10px] font-semibold uppercase tracking-wide text-red-400/80">Withdrawn</span>
+                                  )}
                                 </td>
                                 <td className="px-6 py-4 text-center whitespace-nowrap text-white/80">
                                   {team.wins + team.draws + team.losses}
@@ -1436,7 +1467,8 @@ const League = () => {
                                   {team.points}
                                 </td>
                               </tr>
-                            ))
+                              );
+                            })
                           )}
                         </tbody>
                       </table>
@@ -1449,6 +1481,9 @@ const League = () => {
               </>
             )}
 
+            {selectedView === 'playoffs' && selectedSeason === 7 && (
+              <S7PlayoffBracket division={playoffBracketDivision} seeds={s7PlayoffSeeds} />
+            )}
             {selectedView === 'matches' && selectedSeason === 7 && (
               <S7MatchCalendar
                 matches={s7Schedule.filter(m => m.division === selectedDivision)}

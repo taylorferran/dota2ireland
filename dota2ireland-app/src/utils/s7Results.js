@@ -35,7 +35,8 @@ const TEAM_ID_OVERRIDES = {
   9180502: 'wongwongbakery', // Imprint has them registered as "Wongs Bakery"
   9947890: 'business_mices', // Imprint has them registered as "Business Mice" (no trailing s)
   10163871: 'full_english_breakfast', // renamed to "2 Samuel's 2 Sexy"; Imprint still shows "Full English Breakfast"
-  10032774: 'team_sosal', // Team Sosal registered the wrong team set in game 2 vs Grumpy Old Men
+  10032774: 'team_sosal', // Team Sosal team set (Imprint's naming flips between this and 10020699)
+  10020699: 'team_sosal', // Team Sosal's other team set
   10164325: 'veleno', // VELENO — Imprint un-named this team_id (now "Unknown Team") for the Imprint Esports games
 };
 
@@ -181,6 +182,31 @@ export function enrichSchedule(schedule, byPair) {
       games: r.games,
     };
   });
+}
+
+/**
+ * Apply forfeits for withdrawn teams to a `divisionMatches` object (in place-safe: returns
+ * a new object). Every game involving a dropped team becomes a completed 2-0 win for the
+ * active opponent (whether it was played or not); games between two dropped teams are
+ * dropped from the standings entirely.
+ *
+ * @param {object}  divisionMatches - { [div]: Match[] } from toDivisionMatches()
+ * @param {Set<string>} dropped     - set of withdrawn team keys
+ */
+export function applyForfeits(divisionMatches, dropped) {
+  if (!dropped || dropped.size === 0) return divisionMatches;
+  const out = {};
+  for (const [div, matches] of Object.entries(divisionMatches)) {
+    out[div] = matches.map((m) => {
+      const t1 = dropped.has(m.team1Id);
+      const t2 = dropped.has(m.team2Id);
+      if (!t1 && !t2) return m; // both active — real result stands
+      if (t1 && t2) return { ...m, completed: false, score: undefined }; // both out — ignore
+      // exactly one dropped → 2-0 forfeit to the active team
+      return { ...m, completed: true, score: t1 ? [0, 2] : [2, 0] };
+    });
+  }
+  return out;
 }
 
 /**

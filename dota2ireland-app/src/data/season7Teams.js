@@ -36,3 +36,11 @@ export const season7TeamNames = {
   wreck_the_herald: "Wreck the Herald",
   team_sosal: "Team Sosal",
 };
+
+// Teams that have withdrawn mid-season. Every one of their games is treated as a 2-0
+// forfeit for the opponent, and they're shown struck-through at the bottom of the table.
+export const season7DroppedTeams = [
+  'the_mystery_machine',
+  'last_hit_academy',
+  'shishuli',
+];
