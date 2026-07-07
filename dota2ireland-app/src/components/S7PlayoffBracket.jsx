@@ -12,6 +12,7 @@
 // that outcome is eliminated). These drive the hover arrows that trace where a winner
 // or loser flows next.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { s7PlayoffResults } from '../data/s7PlayoffResults';
 
 const WEEKS_4 = [
   { n: 1, dates: 'Jul 6-12' },
@@ -173,35 +174,39 @@ const BRACKETS = {
   },
 };
 
-const Slot = ({ slot, tone, seeds, hideSeeds }) => {
-  if (slot.ref) {
+// `rs` is a resolved slot: { kind:'ref', text } for an undecided feeder, or
+// { kind:'team', seed, name } for a filled slot. `status` is 'winner' | 'loser' | null.
+const Slot = ({ rs, tone, hideSeeds, status, score }) => {
+  if (rs.kind === 'ref') {
     return (
       <div className="flex items-center gap-2 py-1.5 text-[13px] text-white/55 italic border-t border-white/5 first:border-t-0">
         {!hideSeeds && <span className="w-5 shrink-0" />}
-        <span className="truncate">{slot.ref}</span>
+        <span className="truncate">{rs.text}</span>
       </div>
     );
   }
-  const name = seeds?.[slot.seed];
-  if (hideSeeds) {
-    return (
-      <div className="flex items-center py-1.5 text-[13px] border-t border-white/5 first:border-t-0">
-        <span className={`truncate ${name ? 'text-white font-medium' : 'text-white/40'}`}>{name || 'TBD'}</span>
-      </div>
-    );
-  }
-  const chipTone = tone === 'lo' ? 'bg-accent-orange text-black' : 'bg-primary text-black';
+  const { name, seed } = rs;
+  const nameCls = status === 'loser'
+    ? 'line-through text-white/35'
+    : status === 'winner'
+      ? 'text-primary font-semibold'
+      : (name ? 'text-white font-medium' : 'text-white/45');
+  const chipTone = status === 'winner' ? 'bg-primary text-black'
+    : status === 'loser' ? 'bg-white/10 text-white/40'
+    : tone === 'lo' ? 'bg-accent-orange text-black' : 'bg-primary text-black';
   return (
     <div className="flex items-center gap-2 py-1.5 text-[13px] border-t border-white/5 first:border-t-0">
-      <span className={`inline-flex items-center justify-center w-5 h-5 shrink-0 rounded text-[11px] font-bold ${chipTone}`}>
-        {slot.seed}
-      </span>
-      <span className={`truncate ${name ? 'text-white font-medium' : 'text-white/45'}`}>{name || `Seed ${slot.seed}`}</span>
+      {!hideSeeds && seed != null && (
+        <span className={`inline-flex items-center justify-center w-5 h-5 shrink-0 rounded text-[11px] font-bold ${chipTone}`}>{seed}</span>
+      )}
+      <span className={`truncate ${nameCls}`}>{name || (hideSeeds ? 'TBD' : `Seed ${seed}`)}</span>
+      {status === 'winner' && score && <span className="ml-auto shrink-0 text-[11px] font-bold text-primary">{score}</span>}
     </div>
   );
 };
 
-const MatchCard = ({ match, tone, seeds, hideSeeds, innerRef, onEnter, onLeave, highlight }) => {
+const MatchCard = ({ match, tone, hideSeeds, view, innerRef, onEnter, onLeave, highlight }) => {
+  const { slots: resolved, decided, winnerSeed, score } = view;
   const base =
     tone === 'gf' ? 'border border-primary/50 bg-gradient-to-br from-primary/10 to-accent-orange/5 shadow-[0_0_22px_rgba(19,236,91,0.12)]'
     : tone === 'lo' ? 'border border-white/10 border-l-[3px] border-l-accent-orange bg-zinc-900'
@@ -228,7 +233,12 @@ const MatchCard = ({ match, tone, seeds, hideSeeds, innerRef, onEnter, onLeave, 
         <span className={`text-[10px] font-semibold uppercase tracking-wider ${roundTone}`}>{match.round}</span>
         {match.bo && <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border ${boTone}`}>{match.bo}</span>}
       </div>
-      {match.slots.map((s, i) => <Slot key={i} slot={s} tone={tone} seeds={seeds} hideSeeds={hideSeeds} />)}
+      {resolved.map((rs, i) => {
+        const status = decided && rs.kind === 'team'
+          ? (rs.seed === winnerSeed ? 'winner' : 'loser')
+          : null;
+        return <Slot key={i} rs={rs} tone={tone} hideSeeds={hideSeeds} status={status} score={status === 'winner' ? score : null} />;
+      })}
       {match.note && <div className="mt-2 text-[10.5px] text-white/40">{match.note}</div>}
       {match.bye && (
         <div className="mt-2 text-[10.5px] text-primary text-center border border-dashed border-primary/40 rounded px-2 py-1.5">
@@ -292,6 +302,33 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
     }
     return map;
   }, [b]);
+
+  // Recorded results for this division, and winner-advancement wiring. Advancement is
+  // resolved for single-elim only (double-elim loser drops need explicit wiring, and those
+  // divisions have no results yet), but decided-match styling/scores apply to any layout.
+  const results = useMemo(() => (b ? (s7PlayoffResults[division] || {}) : {}), [b, division]);
+  const feeders = useMemo(() => {
+    const map = {};
+    if (b?.layout === 'single') {
+      b.columns.forEach((col) => col.matches.forEach((m) => {
+        if (m.win) (map[m.win] = map[m.win] || []).push(m.id);
+      }));
+    }
+    return map;
+  }, [b]);
+
+  // Resolve a match into display slots + decided/winner info.
+  const matchView = (match) => {
+    const queue = [...(feeders[match.id] || [])];
+    const slots = match.slots.map((slot) => {
+      if (slot.seed != null) return { kind: 'team', seed: slot.seed, name: seeds?.[slot.seed] ?? null };
+      const feederResult = results[queue.shift()];
+      if (feederResult) return { kind: 'team', seed: feederResult.winnerSeed, name: seeds?.[feederResult.winnerSeed] ?? null };
+      return { kind: 'ref', text: slot.ref };
+    });
+    const res = results[match.id];
+    return { slots, decided: !!res, winnerSeed: res?.winnerSeed, score: res?.score };
+  };
 
   // Measure every match-to-match connector once (per layout), so the bracket wiring is
   // always visible. Hover just restyles the relevant edges; it doesn't recompute geometry.
@@ -359,13 +396,13 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
               className="flex flex-col justify-center gap-5"
               style={{ gridColumn: cell.week + 1, gridRow: row }}
             >
-              {cell.matches.map((m) => <MatchCard key={m.id} match={m} tone={tone} seeds={seeds} hideSeeds={b.hideSeeds} {...cardProps(m.id)} />)}
+              {cell.matches.map((m) => <MatchCard key={m.id} match={m} tone={tone} hideSeeds={b.hideSeeds} view={matchView(m)} {...cardProps(m.id)} />)}
             </div>
           ))
         )}
 
         <div className="flex flex-col justify-center" style={{ gridColumn: b.gf.week + 1, gridRow: '2 / span 2' }}>
-          <MatchCard match={b.gf} tone="gf" seeds={seeds} hideSeeds={b.hideSeeds} {...cardProps(b.gf.id)} />
+          <MatchCard match={b.gf} tone="gf" hideSeeds={b.hideSeeds} view={matchView(b.gf)} {...cardProps(b.gf.id)} />
         </div>
       </div>
     );
@@ -380,7 +417,7 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
         ))}
         {b.columns.map((col, i) => (
           <div key={`c${i}`} className="flex flex-col justify-center gap-5" style={{ gridColumn: i + 1, gridRow: 2 }}>
-            {col.matches.map((m) => <MatchCard key={m.id} match={m} tone={m.tone || 'up'} seeds={seeds} hideSeeds={b.hideSeeds} {...cardProps(m.id)} />)}
+            {col.matches.map((m) => <MatchCard key={m.id} match={m} tone={m.tone || 'up'} hideSeeds={b.hideSeeds} view={matchView(m)} {...cardProps(m.id)} />)}
           </div>
         ))}
       </div>
