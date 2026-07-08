@@ -41,10 +41,10 @@ const Imprint = () => {
 
         if (activeTab === "leaderboard") {
           const data = await fetchLeaderboard(leagueId);
-          // Minimum games (a Bo2 = 2 games) to appear on the rating leaderboard. Keep this
-          // low for the active season so it populates from week 1; finished seasons use a
-          // higher bar for statistical significance.
-          const MIN_MATCHES_BY_SEASON = { 7: 1, 6: 6, 5: 3 };
+          // Minimum games (a Bo2 = 2 games) to appear on the rating leaderboard. Season 7
+          // requires 4+ games to omit stand-ins; finished seasons use their own bar for
+          // statistical significance.
+          const MIN_MATCHES_BY_SEASON = { 7: 4, 6: 6, 5: 3 };
           const minMatchCount = MIN_MATCHES_BY_SEASON[selectedSeason] ?? 3;
           const filteredPlayers = data.players
             .filter((player) => player.match_count >= minMatchCount)
