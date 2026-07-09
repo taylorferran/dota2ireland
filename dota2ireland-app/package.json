@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "download-team-images": "node scripts/download-team-images.js",
-    "sync-s7-results": "node scripts/syncS7Results.mjs"
+    "sync-s7-results": "node scripts/syncS7Results.mjs",
+    "sync-s7-playoff-games": "node scripts/syncS7PlayoffGames.mjs"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.9.0",

@@ -1,0 +1,578 @@
+{
+  "8887369973": {
+    "game": 1,
+    "matchId": 8887369973,
+    "parsed": true,
+    "duration": "40:48",
+    "teams": [
+      {
+        "teamId": 10169182,
+        "name": "Fost Team",
+        "win": true,
+        "kills": 43,
+        "players": [
+          {
+            "accountId": 289733016,
+            "name": "Fost",
+            "position": 1,
+            "hero": "Shadow Fiend",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_nevermore.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_nevermore.png",
+            "kills": 9,
+            "deaths": 3,
+            "assists": 12,
+            "rating": 63.5
+          },
+          {
+            "accountId": 318959638,
+            "name": "PBY",
+            "position": 2,
+            "hero": "Lina",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lina.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lina.png",
+            "kills": 5,
+            "deaths": 5,
+            "assists": 23,
+            "rating": 50.4
+          },
+          {
+            "accountId": 179580638,
+            "name": "323",
+            "position": 3,
+            "hero": "Beastmaster",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_beastmaster.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_beastmaster.png",
+            "kills": 12,
+            "deaths": 10,
+            "assists": 20,
+            "rating": 52.2
+          },
+          {
+            "accountId": 930937421,
+            "name": "TSkufirit.Xm",
+            "position": 4,
+            "hero": "Skywrath Mage",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_skywrath_mage.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_skywrath_mage.png",
+            "kills": 6,
+            "deaths": 6,
+            "assists": 19,
+            "rating": 56.5
+          },
+          {
+            "accountId": 68009807,
+            "name": "Bl@ckW1dow",
+            "position": 5,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 10,
+            "deaths": 6,
+            "assists": 23,
+            "rating": 77.9
+          }
+        ]
+      },
+      {
+        "teamId": 10020630,
+        "name": "Cavan Creche",
+        "win": false,
+        "kills": 30,
+        "players": [
+          {
+            "accountId": 162647317,
+            "name": "ell",
+            "position": 1,
+            "hero": "Drow Ranger",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_drow_ranger.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_drow_ranger.png",
+            "kills": 5,
+            "deaths": 7,
+            "assists": 11,
+            "rating": 34.7
+          },
+          {
+            "accountId": 998100824,
+            "name": "jojo baggins",
+            "position": 2,
+            "hero": "Queen of Pain",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_queenofpain.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_queenofpain.png",
+            "kills": 9,
+            "deaths": 7,
+            "assists": 9,
+            "rating": 36.3
+          },
+          {
+            "accountId": 294733883,
+            "name": "Coy",
+            "position": 3,
+            "hero": "Slardar",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_slardar.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_slardar.png",
+            "kills": 8,
+            "deaths": 9,
+            "assists": 9,
+            "rating": 41.7
+          },
+          {
+            "accountId": 220721994,
+            "name": "sMeli",
+            "position": 4,
+            "hero": "Ringmaster",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ringmaster.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ringmaster.png",
+            "kills": 4,
+            "deaths": 8,
+            "assists": 11,
+            "rating": 26.4
+          },
+          {
+            "accountId": 140304375,
+            "name": "R o N a T h O n",
+            "position": 5,
+            "hero": "Tusk",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tusk.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tusk.png",
+            "kills": 3,
+            "deaths": 12,
+            "assists": 17,
+            "rating": 41.5
+          }
+        ]
+      }
+    ]
+  },
+  "8887451835": {
+    "game": 1,
+    "matchId": 8887451835,
+    "parsed": true,
+    "duration": "77:11",
+    "teams": [
+      {
+        "teamId": 10020630,
+        "name": "Cavan Creche",
+        "win": false,
+        "kills": 66,
+        "players": [
+          {
+            "accountId": 162647317,
+            "name": "ell",
+            "position": 1,
+            "hero": "Gyrocopter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_gyrocopter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_gyrocopter.png",
+            "kills": 10,
+            "deaths": 10,
+            "assists": 26,
+            "rating": 49
+          },
+          {
+            "accountId": 998100824,
+            "name": "jojo baggins",
+            "position": 2,
+            "hero": "Lina",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lina.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lina.png",
+            "kills": 19,
+            "deaths": 14,
+            "assists": 19,
+            "rating": 33.8
+          },
+          {
+            "accountId": 294733883,
+            "name": "Coy",
+            "position": 3,
+            "hero": "Undying",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_undying.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_undying.png",
+            "kills": 17,
+            "deaths": 12,
+            "assists": 41,
+            "rating": 77.9
+          },
+          {
+            "accountId": 140304375,
+            "name": "R o N a T h O n",
+            "position": 4,
+            "hero": "Batrider",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_batrider.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_batrider.png",
+            "kills": 14,
+            "deaths": 14,
+            "assists": 38,
+            "rating": 69.6
+          },
+          {
+            "accountId": 220721994,
+            "name": "sMeli",
+            "position": 5,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 5,
+            "deaths": 19,
+            "assists": 37,
+            "rating": 62.1
+          }
+        ]
+      },
+      {
+        "teamId": 10169182,
+        "name": "Fost Team",
+        "win": true,
+        "kills": 69,
+        "players": [
+          {
+            "accountId": 289733016,
+            "name": "Fost",
+            "position": 1,
+            "hero": "Anti-Mage",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_antimage.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_antimage.png",
+            "kills": 28,
+            "deaths": 9,
+            "assists": 17,
+            "rating": 54
+          },
+          {
+            "accountId": 318959638,
+            "name": "PBY",
+            "position": 2,
+            "hero": "Keeper of the Light",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_keeper_of_the_light.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_keeper_of_the_light.png",
+            "kills": 12,
+            "deaths": 14,
+            "assists": 33,
+            "rating": 34.9
+          },
+          {
+            "accountId": 179580638,
+            "name": "323",
+            "position": 3,
+            "hero": "Centaur Warrunner",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_centaur.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_centaur.png",
+            "kills": 7,
+            "deaths": 18,
+            "assists": 35,
+            "rating": 45.5
+          },
+          {
+            "accountId": 930937421,
+            "name": "TSkufirit.Xm",
+            "position": 4,
+            "hero": "Zeus",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_zuus.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_zuus.png",
+            "kills": 14,
+            "deaths": 8,
+            "assists": 27,
+            "rating": 48.9
+          },
+          {
+            "accountId": 68009807,
+            "name": "Bl@ckW1dow",
+            "position": 5,
+            "hero": "Jakiro",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_jakiro.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_jakiro.png",
+            "kills": 6,
+            "deaths": 17,
+            "assists": 37,
+            "rating": 42.1
+          }
+        ]
+      }
+    ]
+  },
+  "8886053554": {
+    "game": 1,
+    "matchId": 8886053554,
+    "parsed": true,
+    "duration": "34:38",
+    "teams": [
+      {
+        "teamId": 10020161,
+        "name": "D2Ire Rejects",
+        "win": true,
+        "kills": 37,
+        "players": [
+          {
+            "accountId": 125847008,
+            "name": "Rinkusaur",
+            "position": 1,
+            "hero": "Wraith King",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_skeleton_king.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_skeleton_king.png",
+            "kills": 7,
+            "deaths": 0,
+            "assists": 21,
+            "rating": 92.1
+          },
+          {
+            "accountId": 96982592,
+            "name": "Beach Please",
+            "position": 2,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 13,
+            "deaths": 2,
+            "assists": 18,
+            "rating": 75.4
+          },
+          {
+            "accountId": 205207859,
+            "name": "barjakun is back",
+            "position": 3,
+            "hero": "Underlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_abyssal_underlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_abyssal_underlord.png",
+            "kills": 6,
+            "deaths": 5,
+            "assists": 17,
+            "rating": 45.6
+          },
+          {
+            "accountId": 384723384,
+            "name": "Punjabi",
+            "position": 4,
+            "hero": "Hoodwink",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_hoodwink.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_hoodwink.png",
+            "kills": 8,
+            "deaths": 4,
+            "assists": 18,
+            "rating": 74
+          },
+          {
+            "accountId": 79482122,
+            "name": "that normie kid",
+            "position": 5,
+            "hero": "Treant Protector",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_treant.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_treant.png",
+            "kills": 1,
+            "deaths": 4,
+            "assists": 22,
+            "rating": 74.2
+          }
+        ]
+      },
+      {
+        "teamId": 10170500,
+        "name": "VELENO",
+        "win": false,
+        "kills": 15,
+        "players": [
+          {
+            "accountId": 351461838,
+            "name": "Click",
+            "position": 1,
+            "hero": "Ursa",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ursa.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ursa.png",
+            "kills": 2,
+            "deaths": 7,
+            "assists": 7,
+            "rating": 22.5
+          },
+          {
+            "accountId": 98209547,
+            "name": "Ouros",
+            "position": 2,
+            "hero": "Necrophos",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_necrolyte.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_necrolyte.png",
+            "kills": 3,
+            "deaths": 8,
+            "assists": 1,
+            "rating": 4.6
+          },
+          {
+            "accountId": 372289922,
+            "name": "your_mama",
+            "position": 3,
+            "hero": "Timbersaw",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_shredder.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_shredder.png",
+            "kills": 2,
+            "deaths": 10,
+            "assists": 7,
+            "rating": 26.8
+          },
+          {
+            "accountId": 373169888,
+            "name": "ButAtWhatCost",
+            "position": 4,
+            "hero": "Magnus",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_magnataur.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_magnataur.png",
+            "kills": 4,
+            "deaths": 7,
+            "assists": 8,
+            "rating": 27.1
+          },
+          {
+            "accountId": 488615769,
+            "name": "Tax. Glitch",
+            "position": 5,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 2,
+            "deaths": 5,
+            "assists": 8,
+            "rating": 56.2
+          }
+        ]
+      }
+    ]
+  },
+  "8885962091": {
+    "game": 1,
+    "matchId": 8885962091,
+    "parsed": true,
+    "duration": "43:06",
+    "teams": [
+      {
+        "teamId": 10020161,
+        "name": "D2Ire Rejects",
+        "win": true,
+        "kills": 41,
+        "players": [
+          {
+            "accountId": 125847008,
+            "name": "Rinkusaur",
+            "position": 1,
+            "hero": "Necrophos",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_necrolyte.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_necrolyte.png",
+            "kills": 11,
+            "deaths": 5,
+            "assists": 19,
+            "rating": 66.3
+          },
+          {
+            "accountId": 96982592,
+            "name": "Beach Please",
+            "position": 2,
+            "hero": "Lina",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lina.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lina.png",
+            "kills": 15,
+            "deaths": 3,
+            "assists": 12,
+            "rating": 64.5
+          },
+          {
+            "accountId": 205207859,
+            "name": "barjakun is back",
+            "position": 3,
+            "hero": "Doom",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_doom_bringer.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_doom_bringer.png",
+            "kills": 7,
+            "deaths": 4,
+            "assists": 21,
+            "rating": 56.5
+          },
+          {
+            "accountId": 384723384,
+            "name": "Punjabi",
+            "position": 4,
+            "hero": "Hoodwink",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_hoodwink.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_hoodwink.png",
+            "kills": 7,
+            "deaths": 6,
+            "assists": 21,
+            "rating": 68.1
+          },
+          {
+            "accountId": 79482122,
+            "name": "that normie kid",
+            "position": 5,
+            "hero": "Treant Protector",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_treant.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_treant.png",
+            "kills": 1,
+            "deaths": 4,
+            "assists": 32,
+            "rating": 83.1
+          }
+        ]
+      },
+      {
+        "teamId": 10170500,
+        "name": "VELENO",
+        "win": false,
+        "kills": 22,
+        "players": [
+          {
+            "accountId": 351461838,
+            "name": "Click",
+            "position": 1,
+            "hero": "Juggernaut",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_juggernaut.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_juggernaut.png",
+            "kills": 4,
+            "deaths": 9,
+            "assists": 7,
+            "rating": 22.6
+          },
+          {
+            "accountId": 98209547,
+            "name": "Ouros",
+            "position": 2,
+            "hero": "Queen of Pain",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_queenofpain.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_queenofpain.png",
+            "kills": 8,
+            "deaths": 6,
+            "assists": 9,
+            "rating": 42.9
+          },
+          {
+            "accountId": 373169888,
+            "name": "ButAtWhatCost",
+            "position": 3,
+            "hero": "Dawnbreaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dawnbreaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dawnbreaker.png",
+            "kills": 6,
+            "deaths": 9,
+            "assists": 11,
+            "rating": 30.1
+          },
+          {
+            "accountId": 372289922,
+            "name": "your_mama",
+            "position": 4,
+            "hero": "Spirit Breaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_spirit_breaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_spirit_breaker.png",
+            "kills": 3,
+            "deaths": 10,
+            "assists": 14,
+            "rating": 21.4
+          },
+          {
+            "accountId": 488615769,
+            "name": "Tax. Glitch",
+            "position": 5,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 1,
+            "deaths": 7,
+            "assists": 15,
+            "rating": 58
+          }
+        ]
+      }
+    ]
+  }
+}

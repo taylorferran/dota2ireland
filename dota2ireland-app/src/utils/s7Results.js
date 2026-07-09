@@ -110,6 +110,41 @@ function buildGame(id, m, idToKey) {
 }
 
 /**
+ * Turn a raw /match detail into the display game shape used by MatchDetailPanel
+ * (teams + players, no internal-key resolution needed). For lazy on-click loading, e.g.
+ * playoff series in the bracket.
+ */
+export function gameFromMatchDetail(m, gameNum) {
+  if (!m || !Array.isArray(m.teams)) return { game: gameNum, matchId: m?.match_id ?? null, parsed: false };
+  return {
+    game: gameNum,
+    matchId: m.match_id,
+    parsed: true,
+    duration: m.duration ?? null,
+    teams: m.teams.map((t) => ({
+      teamId: t.team_id,
+      name: t.team_name,
+      win: !!t.win,
+      kills: t.kills,
+      players: (t.players || [])
+        .map((p) => ({
+          accountId: p.account_id,
+          name: p.account_name,
+          position: p.position,
+          hero: p.hero?.name ?? null,
+          heroIcon: p.hero?.icon_src ?? null,
+          heroPortrait: p.hero?.static_portrait_src ?? null,
+          kills: p.kills,
+          deaths: p.deaths,
+          assists: p.assists,
+          rating: p.imprint_rating,
+        }))
+        .sort((a, b) => (a.position ?? 99) - (b.position ?? 99)),
+    })),
+  };
+}
+
+/**
  * Build a lookup of series results keyed by an order-independent team pair.
  *
  * Games are merged across every series that shares a matchup (Imprint may split a Bo2

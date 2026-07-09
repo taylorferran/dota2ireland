@@ -13,6 +13,10 @@
 // or loser flows next.
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { s7PlayoffResults } from '../data/s7PlayoffResults';
+import s7PlayoffGames from '../data/s7PlayoffGames.json';
+import { fetchMatchDetails } from '../services/matchApi';
+import { gameFromMatchDetail } from '../utils/s7Results';
+import { MatchDetailPanel } from './MatchDetailPanel';
 
 const WEEKS_4 = [
   { n: 1, dates: 'Jul 6-12' },
@@ -205,8 +209,9 @@ const Slot = ({ rs, tone, hideSeeds, status, score }) => {
   );
 };
 
-const MatchCard = ({ match, tone, hideSeeds, view, innerRef, onEnter, onLeave, highlight }) => {
+const MatchCard = ({ match, tone, hideSeeds, view, onOpen, innerRef, onEnter, onLeave, highlight }) => {
   const { slots: resolved, decided, winnerSeed, score } = view;
+  const clickable = typeof onOpen === 'function';
   const base =
     tone === 'gf' ? 'border border-primary/50 bg-gradient-to-br from-primary/10 to-accent-orange/5 shadow-[0_0_22px_rgba(19,236,91,0.12)]'
     : tone === 'lo' ? 'border border-white/10 border-l-[3px] border-l-accent-orange bg-zinc-900'
@@ -227,7 +232,10 @@ const MatchCard = ({ match, tone, hideSeeds, view, innerRef, onEnter, onLeave, h
       onMouseLeave={onLeave}
       onFocus={onEnter}
       onBlur={onLeave}
-      className={`rounded-md p-2.5 cursor-default outline-none transition-shadow ${base} ${ring}`}
+      onClick={clickable ? onOpen : undefined}
+      onKeyDown={clickable ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onOpen(); } } : undefined}
+      role={clickable ? 'button' : undefined}
+      className={`rounded-md p-2.5 outline-none transition-shadow ${clickable ? 'cursor-pointer hover:ring-1 hover:ring-white/30' : 'cursor-default'} ${base} ${ring}`}
     >
       <div className="flex items-center justify-between mb-1.5">
         <span className={`text-[10px] font-semibold uppercase tracking-wider ${roundTone}`}>{match.round}</span>
@@ -239,6 +247,12 @@ const MatchCard = ({ match, tone, hideSeeds, view, innerRef, onEnter, onLeave, h
           : null;
         return <Slot key={i} rs={rs} tone={tone} hideSeeds={hideSeeds} status={status} score={status === 'winner' ? score : null} />;
       })}
+      {clickable && (
+        <div className="mt-2 flex items-center gap-1 text-[10.5px] text-primary">
+          <span className="material-symbols-outlined text-[13px]">bar_chart</span>
+          View games
+        </div>
+      )}
       {match.note && <div className="mt-2 text-[10.5px] text-white/40">{match.note}</div>}
       {match.bye && (
         <div className="mt-2 text-[10.5px] text-primary text-center border border-dashed border-primary/40 rounded px-2 py-1.5">
@@ -288,6 +302,9 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
   const [hovered, setHovered] = useState(null);
   const [edges, setEdges] = useState([]);
   const [tick, setTick] = useState(0);
+  const [series, setSeries] = useState(null); // { round, bo, names, winnerName, score }
+  const [seriesGames, setSeriesGames] = useState(null);
+  const [seriesLoading, setSeriesLoading] = useState(false);
 
   // Flow lookup: match id -> { win, lose } target ids.
   const flow = useMemo(() => {
@@ -327,8 +344,30 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
       return { kind: 'ref', text: slot.ref };
     });
     const res = results[match.id];
-    return { slots, decided: !!res, winnerSeed: res?.winnerSeed, score: res?.score };
+    return { slots, decided: !!res, winnerSeed: res?.winnerSeed, score: res?.score, matchIds: res?.matchIds ?? [] };
   };
+
+  // Open a decided series and lazily load its per-game detail (cached by matchApi).
+  const openSeries = async (match, view) => {
+    const ids = view.matchIds || [];
+    if (!ids.length) return;
+    const names = view.slots.filter((s) => s.kind === 'team').map((s) => s.name);
+    setSeries({ round: match.round, bo: match.bo, names, winnerName: seeds?.[view.winnerSeed] ?? null, score: view.score });
+    setSeriesGames(null);
+    setSeriesLoading(true);
+    try {
+      const games = await Promise.all(ids.map(async (id, i) => {
+        const baked = s7PlayoffGames[id]; // committed detail — no Imprint call
+        if (baked) return { ...baked, game: i + 1 };
+        const raw = await fetchMatchDetails(id).catch(() => null); // fallback for un-baked ids
+        return gameFromMatchDetail(raw, i + 1);
+      }));
+      setSeriesGames(games.filter((g) => g && g.parsed));
+    } finally {
+      setSeriesLoading(false);
+    }
+  };
+  const closeSeries = () => { setSeries(null); setSeriesGames(null); };
 
   // Measure every match-to-match connector once (per layout), so the bracket wiring is
   // always visible. Hover just restyles the relevant edges; it doesn't recompute geometry.
@@ -396,13 +435,16 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
               className="flex flex-col justify-center gap-5"
               style={{ gridColumn: cell.week + 1, gridRow: row }}
             >
-              {cell.matches.map((m) => <MatchCard key={m.id} match={m} tone={tone} hideSeeds={b.hideSeeds} view={matchView(m)} {...cardProps(m.id)} />)}
+              {cell.matches.map((m) => {
+                const view = matchView(m);
+                return <MatchCard key={m.id} match={m} tone={tone} hideSeeds={b.hideSeeds} view={view} onOpen={view.matchIds.length ? () => openSeries(m, view) : undefined} {...cardProps(m.id)} />;
+              })}
             </div>
           ))
         )}
 
         <div className="flex flex-col justify-center" style={{ gridColumn: b.gf.week + 1, gridRow: '2 / span 2' }}>
-          <MatchCard match={b.gf} tone="gf" hideSeeds={b.hideSeeds} view={matchView(b.gf)} {...cardProps(b.gf.id)} />
+          {(() => { const view = matchView(b.gf); return <MatchCard match={b.gf} tone="gf" hideSeeds={b.hideSeeds} view={view} onOpen={view.matchIds.length ? () => openSeries(b.gf, view) : undefined} {...cardProps(b.gf.id)} />; })()}
         </div>
       </div>
     );
@@ -417,7 +459,10 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
         ))}
         {b.columns.map((col, i) => (
           <div key={`c${i}`} className="flex flex-col justify-center gap-5" style={{ gridColumn: i + 1, gridRow: 2 }}>
-            {col.matches.map((m) => <MatchCard key={m.id} match={m} tone={m.tone || 'up'} hideSeeds={b.hideSeeds} view={matchView(m)} {...cardProps(m.id)} />)}
+            {col.matches.map((m) => {
+              const view = matchView(m);
+              return <MatchCard key={m.id} match={m} tone={m.tone || 'up'} hideSeeds={b.hideSeeds} view={view} onOpen={view.matchIds.length ? () => openSeries(m, view) : undefined} {...cardProps(m.id)} />;
+            })}
           </div>
         ))}
       </div>
@@ -492,6 +537,48 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
         </div>
       </div>
 
+      {/* Series detail modal (lazy-loaded on click) */}
+      {series && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/70 p-4 sm:py-10"
+          onClick={closeSeries}
+        >
+          <div
+            className="w-full max-w-2xl rounded-lg border border-white/10 bg-zinc-900 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3 px-4 py-3 border-b border-white/10">
+              <div className="min-w-0">
+                <div className="text-[11px] font-semibold uppercase tracking-wider text-white/50">
+                  {b.title} · {series.round}{series.bo ? ` · ${series.bo}` : ''}
+                </div>
+                <div className="mt-0.5 text-sm truncate">
+                  <span className="text-primary font-semibold">{series.winnerName}</span>
+                  <span className="mx-2 font-mono text-white/60">{series.score}</span>
+                  <span className="text-white/70">{series.names.find((n) => n !== series.winnerName) ?? ''}</span>
+                </div>
+              </div>
+              <button
+                onClick={closeSeries}
+                aria-label="Close"
+                className="shrink-0 text-white/50 hover:text-white"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            {seriesLoading ? (
+              <div className="flex justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+              </div>
+            ) : seriesGames && seriesGames.length ? (
+              <MatchDetailPanel games={seriesGames} />
+            ) : (
+              <div className="py-10 text-center text-sm text-white/50">Match details unavailable.</div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
