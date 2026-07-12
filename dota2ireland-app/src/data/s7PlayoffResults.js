@@ -8,8 +8,12 @@
 // Division ids: 1 = Div 1, 2 = Div 2 (combined 2A/2B/2C), 3 = Div 3.
 export const s7PlayoffResults = {
   2: {
-    // Round of 16
+    // Round of 16 (r1m6 Joonsquad vs Owen Morris not played yet)
+    r1m2: { winnerSeed: 8, score: '2-0', matchIds: [8893702286, 8893825683] }, // SecretShop (8) beat MMR Famine (9)
+    r1m3: { winnerSeed: 5, score: '2-0', matchIds: [8890363896, 8890467133] }, // 5 Stuns No Brains (5) beat The Chump's People (12)
     r1m4: { winnerSeed: 4, score: '2-0', matchIds: [8887369973, 8887451835] }, // Fost Team (4) beat Cavan Creche (13)
-    r1m7: { winnerSeed: 10, score: '2-0', matchIds: [8886053554, 8885962091] }, // D2Ire Rejects (10) beat VELENO (7)
+    r1m5: { winnerSeed: 14, score: '2-1', matchIds: [8893710886, 8893812985, 8893920881] }, // The Dark Side of the Map (14) beat Mikes Army (3)
+    r1m7: { winnerSeed: 10, score: '2-0', matchIds: [8885962091, 8886053554] }, // D2Ire Rejects (10) beat VELENO (7)
+    r1m8: { winnerSeed: 2, score: '2-0', matchIds: [8892053305, 8892139106] }, // Random (2) beat Missprint Esports (15)
   },
 };

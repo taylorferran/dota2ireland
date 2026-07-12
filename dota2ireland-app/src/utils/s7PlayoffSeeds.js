@@ -19,6 +19,8 @@ const S7_LOCKED_SEEDS = {
     9: 'mmr_famine', 10: 'd2ire_rejects', 11: 'owen_morris_cummers', 12: 'the_chumps_people',
     13: 'cavan_creche', 14: 'the_dark_side', 15: 'missprint_esports',
   },
+  // Division 3 — final group standings: Wreck 7, Grumpy 5, Team Sosal 4, Bord na Mona 0.
+  3: { 1: 'wreck_the_herald', 2: 'grumpy_old_men', 3: 'team_sosal', 4: 'bord_na_mona' },
 };
 
 /**

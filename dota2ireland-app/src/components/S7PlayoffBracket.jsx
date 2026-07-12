@@ -25,6 +25,14 @@ const WEEKS_4 = [
   { n: 4, dates: 'Jul 27 - Aug 2' },
 ];
 
+// Division 3 ran an extra group-stage week, so its playoffs run one week behind the others.
+const WEEKS_4_D3 = [
+  { n: 1, dates: 'Jul 13-19' },
+  { n: 2, dates: 'Jul 20-26' },
+  { n: 3, dates: 'Jul 27 - Aug 2' },
+  { n: 4, dates: 'Aug 3-9' },
+];
+
 const seed = (n) => ({ seed: n });
 const ref = (name) => ({ ref: name });
 const datesFor = (weeks, n) => weeks.find((w) => w.n === n)?.dates ?? '';
@@ -128,9 +136,9 @@ const BRACKETS = {
     layout: 'double',
     title: 'Division 3',
     format: '4-Team Double Elimination',
-    span: 'Jul 6 - Aug 2',
+    span: 'Jul 13 - Aug 9',
     meta: '4 teams, 4 weeks (+reset)',
-    weeks: WEEKS_4,
+    weeks: WEEKS_4_D3,
     upper: [
       {
         week: 1,
@@ -172,7 +180,7 @@ const BRACKETS = {
     gf: {
       id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo5',
       slots: [ref('Winners Final winner'), ref('Lower Final winner')],
-      note: 'Bracket reset (Bo5, Aug 3-9) if the lower bracket team wins',
+      note: 'Bracket reset (Bo5, Aug 10-16) if the lower bracket team wins',
     },
     footer: 'Teams: Bord na Mona, Grumpy Old Men, Team Sosal, Wreck the Herald. Seeded 1 to 4 by current group standings (1 v 4, 2 v 3).',
   },
