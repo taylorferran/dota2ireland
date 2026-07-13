@@ -328,31 +328,61 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
     return map;
   }, [b]);
 
-  // Recorded results for this division, and winner-advancement wiring. Advancement is
-  // resolved for single-elim only (double-elim loser drops need explicit wiring, and those
-  // divisions have no results yet), but decided-match styling/scores apply to any layout.
+  // Recorded results for this division.
   const results = useMemo(() => (b ? (s7PlayoffResults[division] || {}) : {}), [b, division]);
-  const feeders = useMemo(() => {
-    const map = {};
-    if (b?.layout === 'single') {
-      b.columns.forEach((col) => col.matches.forEach((m) => {
-        if (m.win) (map[m.win] = map[m.win] || []).push(m.id);
-      }));
+
+  // Match lookup + winner-advancement wiring (win-feeders per match, and round-name lookup).
+  const { byId, byRound, winFeeders } = useMemo(() => {
+    const byIdMap = {}, byRoundMap = {}, feed = {};
+    if (b) {
+      const all = b.layout === 'single'
+        ? b.columns.flatMap((c) => c.matches)
+        : [...b.upper.flatMap((c) => c.matches), ...b.lower.flatMap((c) => c.matches), ...(b.gf ? [b.gf] : [])];
+      all.forEach((m) => {
+        byIdMap[m.id] = m;
+        if (m.round) byRoundMap[m.round] = m;
+        if (m.win) (feed[m.win] = feed[m.win] || []).push(m.id);
+      });
     }
-    return map;
+    return { byId: byIdMap, byRound: byRoundMap, winFeeders: feed };
   }, [b]);
 
-  // Resolve a match into display slots + decided/winner info.
+  const teamSlot = (n) => ({ kind: 'team', seed: n, name: seeds?.[n] ?? null });
+
+  // Resolve a match's display slots (filling advanced teams) + decided/winner/loser.
+  // Single-elim fills ref slots from the ordered winner-feeders; double-elim resolves each
+  // ref ("<Round> winner"/"<Round> loser") from the referenced match. Recursive + memoised.
+  const viewCache = {};
   const matchView = (match) => {
-    const queue = [...(feeders[match.id] || [])];
-    const slots = match.slots.map((slot) => {
-      if (slot.seed != null) return { kind: 'team', seed: slot.seed, name: seeds?.[slot.seed] ?? null };
-      const feederResult = results[queue.shift()];
-      if (feederResult) return { kind: 'team', seed: feederResult.winnerSeed, name: seeds?.[feederResult.winnerSeed] ?? null };
-      return { kind: 'ref', text: slot.ref };
-    });
+    if (viewCache[match.id]) return viewCache[match.id];
     const res = results[match.id];
-    return { slots, decided: !!res, winnerSeed: res?.winnerSeed, score: res?.score, matchIds: res?.matchIds ?? [] };
+    let slots;
+    if (b.layout === 'single') {
+      const queue = [...(winFeeders[match.id] || [])];
+      slots = match.slots.map((slot) => {
+        if (slot.seed != null) return teamSlot(slot.seed);
+        const fr = queue.length ? matchView(byId[queue.shift()]) : null;
+        return fr && fr.decided ? teamSlot(fr.winnerSeed) : { kind: 'ref', text: slot.ref };
+      });
+    } else {
+      slots = match.slots.map((slot) => {
+        if (slot.seed != null) return teamSlot(slot.seed);
+        const parsed = slot.ref.match(/^(.*)\s+(winner|loser)$/i);
+        const feeder = parsed && byRound[parsed[1]];
+        if (feeder && feeder.id !== match.id) {
+          const fr = matchView(feeder);
+          const s = fr.decided ? (parsed[2].toLowerCase() === 'winner' ? fr.winnerSeed : fr.loserSeed) : null;
+          if (s != null) return teamSlot(s);
+        }
+        return { kind: 'ref', text: slot.ref };
+      });
+    }
+    const decided = !!res;
+    const winnerSeed = res?.winnerSeed ?? null;
+    const loserSeed = decided ? (slots.map((s) => s.seed).find((x) => x != null && x !== winnerSeed) ?? null) : null;
+    const view = { slots, decided, winnerSeed, loserSeed, score: res?.score, matchIds: res?.matchIds ?? [] };
+    viewCache[match.id] = view;
+    return view;
   };
 
   // Open a decided series and lazily load its per-game detail (cached by matchApi).

@@ -7,6 +7,11 @@
 //
 // Division ids: 1 = Div 1, 2 = Div 2 (combined 2A/2B/2C), 3 = Div 3.
 export const s7PlayoffResults = {
+  1: {
+    // 3-team double elim. Group and playoff share the same teams, so results are recorded
+    // by hand (not auto-discovered) using the playoff game ids only.
+    ws: { winnerSeed: 3, score: '2-1', matchIds: [8891970909, 8892064896, 8892144571] }, // WONGWONGBAKERY (3) beat Business Mices (2)
+  },
   2: {
     // Round of 16 (r1m6 Joonsquad vs Owen Morris not played yet)
     r1m2: { winnerSeed: 8, score: '2-0', matchIds: [8893702286, 8893825683] }, // SecretShop (8) beat MMR Famine (9)
