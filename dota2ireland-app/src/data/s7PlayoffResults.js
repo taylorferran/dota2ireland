@@ -20,7 +20,8 @@ export const s7PlayoffResults = {
     r1m5: { winnerSeed: 14, score: '2-1', matchIds: [8893710886, 8893812985, 8893920881] }, // The Dark Side of the Map (14) beat Mikes Army (3)
     r1m7: { winnerSeed: 10, score: '2-0', matchIds: [8885962091, 8886053554] }, // D2Ire Rejects (10) beat VELENO (7)
     r1m8: { winnerSeed: 2, score: '2-0', matchIds: [8892053305, 8892139106] }, // Random (2) beat Missprint Esports (15)
-    // Quarterfinals (qf1, qf3 not played yet)
+    // Quarterfinals (qf3 not played yet)
+    qf1: { winnerSeed: 1, score: '2-1', matchIds: [8896772376, 8896866599, 8896942799] }, // Imprint Esports (1) beat SecretShop (8)
     qf2: { winnerSeed: 4, score: '2-1', matchIds: [8895360535, 8895418675, 8895502719] }, // Fost Team (4) beat 5 Stuns No Brains (5)
     qf4: { winnerSeed: 10, score: '2-0', matchIds: [8895286756, 8895381918] }, // D2Ire Rejects (10) beat Random (2)
   },
