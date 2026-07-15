@@ -431,6 +431,294 @@
       }
     ]
   },
+  "8896705539": {
+    "game": 1,
+    "matchId": 8896705539,
+    "parsed": true,
+    "duration": "55:50",
+    "teams": [
+      {
+        "teamId": 9180502,
+        "name": "Wongs Bakery ",
+        "win": false,
+        "kills": 27,
+        "players": [
+          {
+            "accountId": 132957800,
+            "name": "Coral (Unmedicated) (Bot)",
+            "position": 1,
+            "hero": "Clinkz",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_clinkz.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_clinkz.png",
+            "kills": 7,
+            "deaths": 7,
+            "assists": 8,
+            "rating": 34.1
+          },
+          {
+            "accountId": 925824612,
+            "name": "soloonthefrontlines",
+            "position": 2,
+            "hero": "Ember Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ember_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ember_spirit.png",
+            "kills": 12,
+            "deaths": 7,
+            "assists": 7,
+            "rating": 31.3
+          },
+          {
+            "accountId": 261399068,
+            "name": "Brand New",
+            "position": 3,
+            "hero": "Doom",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_doom_bringer.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_doom_bringer.png",
+            "kills": 5,
+            "deaths": 8,
+            "assists": 10,
+            "rating": 27.2
+          },
+          {
+            "accountId": 136283288,
+            "name": "LVNATIC",
+            "position": 4,
+            "hero": "Tusk",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tusk.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tusk.png",
+            "kills": 2,
+            "deaths": 14,
+            "assists": 18,
+            "rating": 27.6
+          },
+          {
+            "accountId": 44634230,
+            "name": "OVOXO",
+            "position": 5,
+            "hero": "Oracle",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_oracle.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_oracle.png",
+            "kills": 1,
+            "deaths": 12,
+            "assists": 21,
+            "rating": 29.7
+          }
+        ]
+      },
+      {
+        "teamId": 10163871,
+        "name": "2 Samuel's 2 Sexy",
+        "win": true,
+        "kills": 48,
+        "players": [
+          {
+            "accountId": 384326206,
+            "name": "🌩",
+            "position": 1,
+            "hero": "Drow Ranger",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_drow_ranger.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_drow_ranger.png",
+            "kills": 20,
+            "deaths": 2,
+            "assists": 15,
+            "rating": 80
+          },
+          {
+            "accountId": 247545032,
+            "name": "maeve wiley",
+            "position": 2,
+            "hero": "Pangolier",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_pangolier.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_pangolier.png",
+            "kills": 7,
+            "deaths": 8,
+            "assists": 21,
+            "rating": 40.4
+          },
+          {
+            "accountId": 152273237,
+            "name": "cory",
+            "position": 3,
+            "hero": "Underlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_abyssal_underlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_abyssal_underlord.png",
+            "kills": 10,
+            "deaths": 4,
+            "assists": 24,
+            "rating": 71
+          },
+          {
+            "accountId": 67029306,
+            "name": "Crysen",
+            "position": 4,
+            "hero": "Hoodwink",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_hoodwink.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_hoodwink.png",
+            "kills": 6,
+            "deaths": 3,
+            "assists": 28,
+            "rating": 77.8
+          },
+          {
+            "accountId": 128281272,
+            "name": "Solar Crest",
+            "position": 5,
+            "hero": "Bane",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_bane.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_bane.png",
+            "kills": 4,
+            "deaths": 11,
+            "assists": 26,
+            "rating": 60.5
+          }
+        ]
+      }
+    ]
+  },
+  "8896816547": {
+    "game": 1,
+    "matchId": 8896816547,
+    "parsed": true,
+    "duration": "40:02",
+    "teams": [
+      {
+        "teamId": 9180502,
+        "name": "Wongs Bakery ",
+        "win": false,
+        "kills": 29,
+        "players": [
+          {
+            "accountId": 132957800,
+            "name": "Coral (Unmedicated) (Bot)",
+            "position": 1,
+            "hero": "Doom",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_doom_bringer.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_doom_bringer.png",
+            "kills": 8,
+            "deaths": 10,
+            "assists": 8,
+            "rating": 41.2
+          },
+          {
+            "accountId": 925824612,
+            "name": "soloonthefrontlines",
+            "position": 2,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 11,
+            "deaths": 11,
+            "assists": 7,
+            "rating": 36
+          },
+          {
+            "accountId": 261399068,
+            "name": "Brand New",
+            "position": 3,
+            "hero": "Primal Beast",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_primal_beast.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_primal_beast.png",
+            "kills": 4,
+            "deaths": 4,
+            "assists": 9,
+            "rating": 44.9
+          },
+          {
+            "accountId": 136283288,
+            "name": "LVNATIC",
+            "position": 4,
+            "hero": "Tusk",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tusk.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tusk.png",
+            "kills": 2,
+            "deaths": 12,
+            "assists": 13,
+            "rating": 23.6
+          },
+          {
+            "accountId": 44634230,
+            "name": "OVOXO",
+            "position": 5,
+            "hero": "Disruptor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_disruptor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_disruptor.png",
+            "kills": 1,
+            "deaths": 19,
+            "assists": 18,
+            "rating": 25
+          }
+        ]
+      },
+      {
+        "teamId": 10163871,
+        "name": "2 Samuel's 2 Sexy",
+        "win": true,
+        "kills": 56,
+        "players": [
+          {
+            "accountId": 384326206,
+            "name": "🌩",
+            "position": 1,
+            "hero": "Kez",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_kez.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_kez.png",
+            "kills": 9,
+            "deaths": 7,
+            "assists": 14,
+            "rating": 41.4
+          },
+          {
+            "accountId": 247545032,
+            "name": "maeve wiley",
+            "position": 2,
+            "hero": "Ember Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ember_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ember_spirit.png",
+            "kills": 13,
+            "deaths": 5,
+            "assists": 26,
+            "rating": 59.5
+          },
+          {
+            "accountId": 152273237,
+            "name": "cory",
+            "position": 3,
+            "hero": "Underlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_abyssal_underlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_abyssal_underlord.png",
+            "kills": 12,
+            "deaths": 6,
+            "assists": 29,
+            "rating": 77.1
+          },
+          {
+            "accountId": 67029306,
+            "name": "Crysen",
+            "position": 4,
+            "hero": "Hoodwink",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_hoodwink.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_hoodwink.png",
+            "kills": 16,
+            "deaths": 4,
+            "assists": 26,
+            "rating": 81.9
+          },
+          {
+            "accountId": 128281272,
+            "name": "Solar Crest",
+            "position": 5,
+            "hero": "Keeper of the Light",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_keeper_of_the_light.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_keeper_of_the_light.png",
+            "kills": 5,
+            "deaths": 7,
+            "assists": 36,
+            "rating": 69
+          }
+        ]
+      }
+    ]
+  },
   "8893702286": {
     "game": 1,
     "matchId": 8893702286,
