@@ -2613,7 +2613,7 @@
             "kills": 5,
             "deaths": 2,
             "assists": 6,
-            "rating": 44.1
+            "rating": 46.4
           },
           {
             "accountId": 307424266,
@@ -2637,7 +2637,7 @@
             "kills": 10,
             "deaths": 4,
             "assists": 9,
-            "rating": 61.4
+            "rating": 58.7
           },
           {
             "accountId": 1114945673,
@@ -2649,7 +2649,7 @@
             "kills": 3,
             "deaths": 8,
             "assists": 17,
-            "rating": 37.9
+            "rating": 37.7
           },
           {
             "accountId": 171350498,
@@ -2681,7 +2681,7 @@
             "kills": 8,
             "deaths": 5,
             "assists": 10,
-            "rating": 46.9
+            "rating": 47.4
           },
           {
             "accountId": 84422118,
@@ -2693,7 +2693,7 @@
             "kills": 7,
             "deaths": 5,
             "assists": 13,
-            "rating": 42
+            "rating": 42.2
           },
           {
             "accountId": 104239576,
@@ -2705,7 +2705,7 @@
             "kills": 11,
             "deaths": 2,
             "assists": 10,
-            "rating": 76.9
+            "rating": 76.2
           },
           {
             "accountId": 104193278,
@@ -2729,7 +2729,7 @@
             "kills": 2,
             "deaths": 8,
             "assists": 19,
-            "rating": 43
+            "rating": 45.3
           }
         ]
       }
@@ -2757,7 +2757,7 @@
             "kills": 15,
             "deaths": 2,
             "assists": 15,
-            "rating": 67.1
+            "rating": 67.3
           },
           {
             "accountId": 84422118,
@@ -2769,7 +2769,7 @@
             "kills": 10,
             "deaths": 3,
             "assists": 19,
-            "rating": 64.1
+            "rating": 64.5
           },
           {
             "accountId": 104239576,
@@ -2805,7 +2805,7 @@
             "kills": 2,
             "deaths": 11,
             "assists": 19,
-            "rating": 39.4
+            "rating": 39.3
           }
         ]
       },
@@ -2837,7 +2837,7 @@
             "kills": 2,
             "deaths": 9,
             "assists": 11,
-            "rating": 12.2
+            "rating": 12.1
           },
           {
             "accountId": 113604897,
@@ -2849,7 +2849,7 @@
             "kills": 12,
             "deaths": 9,
             "assists": 7,
-            "rating": 36.9
+            "rating": 36.7
           },
           {
             "accountId": 171350498,
@@ -2861,7 +2861,7 @@
             "kills": 3,
             "deaths": 5,
             "assists": 12,
-            "rating": 62.6
+            "rating": 62.5
           },
           {
             "accountId": 1114945673,
@@ -2873,7 +2873,7 @@
             "kills": 3,
             "deaths": 5,
             "assists": 15,
-            "rating": 61.4
+            "rating": 61.3
           }
         ]
       }
@@ -2901,7 +2901,7 @@
             "kills": 10,
             "deaths": 9,
             "assists": 14,
-            "rating": 42.2
+            "rating": 42.9
           },
           {
             "accountId": 307424266,
@@ -2913,7 +2913,7 @@
             "kills": 10,
             "deaths": 10,
             "assists": 20,
-            "rating": 34.1
+            "rating": 33.9
           },
           {
             "accountId": 113604897,
@@ -2925,7 +2925,7 @@
             "kills": 5,
             "deaths": 11,
             "assists": 25,
-            "rating": 46.5
+            "rating": 46.6
           },
           {
             "accountId": 171350498,
@@ -2937,7 +2937,7 @@
             "kills": 2,
             "deaths": 11,
             "assists": 23,
-            "rating": 47.7
+            "rating": 47.5
           },
           {
             "accountId": 1114945673,
@@ -2949,7 +2949,7 @@
             "kills": 7,
             "deaths": 14,
             "assists": 19,
-            "rating": 36.7
+            "rating": 38.1
           }
         ]
       },
@@ -2981,7 +2981,7 @@
             "kills": 15,
             "deaths": 2,
             "assists": 27,
-            "rating": 73.5
+            "rating": 73.6
           },
           {
             "accountId": 104239576,
@@ -2993,7 +2993,7 @@
             "kills": 17,
             "deaths": 7,
             "assists": 22,
-            "rating": 70.2
+            "rating": 70.8
           },
           {
             "accountId": 104193278,
@@ -3017,7 +3017,7 @@
             "kills": 2,
             "deaths": 12,
             "assists": 33,
-            "rating": 57
+            "rating": 57.5
           }
         ]
       }
@@ -3738,6 +3738,294 @@
             "deaths": 8,
             "assists": 27,
             "rating": 53.7
+          }
+        ]
+      }
+    ]
+  },
+  "8898361912": {
+    "game": 1,
+    "matchId": 8898361912,
+    "parsed": true,
+    "duration": "28:39",
+    "teams": [
+      {
+        "teamId": 10015147,
+        "name": "Bord Na Mona",
+        "win": false,
+        "kills": 14,
+        "players": [
+          {
+            "accountId": 154092607,
+            "name": "Pierce",
+            "position": 1,
+            "hero": "Medusa",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_medusa.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_medusa.png",
+            "kills": 2,
+            "deaths": 7,
+            "assists": 5,
+            "rating": 17.8
+          },
+          {
+            "accountId": 87679193,
+            "name": "Grekel",
+            "position": 2,
+            "hero": "Snapfire",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_snapfire.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_snapfire.png",
+            "kills": 4,
+            "deaths": 14,
+            "assists": 5,
+            "rating": 8.9
+          },
+          {
+            "accountId": 59367247,
+            "name": "Owen Morris",
+            "position": 3,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 0,
+            "deaths": 8,
+            "assists": 3,
+            "rating": 4
+          },
+          {
+            "accountId": 317703079,
+            "name": "kadinthisisyourwhateveritisaccou",
+            "position": 4,
+            "hero": "Undying",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_undying.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_undying.png",
+            "kills": 2,
+            "deaths": 13,
+            "assists": 4,
+            "rating": 1.3
+          },
+          {
+            "accountId": 205896297,
+            "name": "Res",
+            "position": 5,
+            "hero": "Crystal Maiden",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_crystal_maiden.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_crystal_maiden.png",
+            "kills": 6,
+            "deaths": 6,
+            "assists": 4,
+            "rating": 27
+          }
+        ]
+      },
+      {
+        "teamId": 10033510,
+        "name": "Wreck The Herald",
+        "win": true,
+        "kills": 48,
+        "players": [
+          {
+            "accountId": 189680910,
+            "name": "Malarkey O'Ten",
+            "position": 1,
+            "hero": "Sniper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_sniper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_sniper.png",
+            "kills": 19,
+            "deaths": 0,
+            "assists": 16,
+            "rating": 97.8
+          },
+          {
+            "accountId": 278213246,
+            "name": "MAB",
+            "position": 2,
+            "hero": "Storm Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_storm_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_storm_spirit.png",
+            "kills": 19,
+            "deaths": 5,
+            "assists": 11,
+            "rating": 76.3
+          },
+          {
+            "accountId": 192905033,
+            "name": "nub",
+            "position": 3,
+            "hero": "Mars",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_mars.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_mars.png",
+            "kills": 3,
+            "deaths": 1,
+            "assists": 22,
+            "rating": 72.4
+          },
+          {
+            "accountId": 145448013,
+            "name": "venacava",
+            "position": 4,
+            "hero": "Weaver",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_weaver.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_weaver.png",
+            "kills": 4,
+            "deaths": 5,
+            "assists": 25,
+            "rating": 73.1
+          },
+          {
+            "accountId": 57926059,
+            "name": "webios",
+            "position": 5,
+            "hero": "Hoodwink",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_hoodwink.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_hoodwink.png",
+            "kills": 3,
+            "deaths": 3,
+            "assists": 25,
+            "rating": 88
+          }
+        ]
+      }
+    ]
+  },
+  "8898408707": {
+    "game": 1,
+    "matchId": 8898408707,
+    "parsed": true,
+    "duration": "33:09",
+    "teams": [
+      {
+        "teamId": 10015147,
+        "name": "Bord Na Mona",
+        "win": false,
+        "kills": 16,
+        "players": [
+          {
+            "accountId": 154092607,
+            "name": "Pierce",
+            "position": 1,
+            "hero": "Muerta",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_muerta.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_muerta.png",
+            "kills": 3,
+            "deaths": 12,
+            "assists": 11,
+            "rating": 30.8
+          },
+          {
+            "accountId": 87679193,
+            "name": "Grekel",
+            "position": 2,
+            "hero": "Dragon Knight",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dragon_knight.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dragon_knight.png",
+            "kills": 3,
+            "deaths": 7,
+            "assists": 4,
+            "rating": 10.4
+          },
+          {
+            "accountId": 59367247,
+            "name": "Owen Morris",
+            "position": 3,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 3,
+            "deaths": 9,
+            "assists": 4,
+            "rating": 11.7
+          },
+          {
+            "accountId": 317703079,
+            "name": "kadinthisisyourwhateveritisaccou",
+            "position": 4,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 2,
+            "deaths": 15,
+            "assists": 6,
+            "rating": 1.3
+          },
+          {
+            "accountId": 205896297,
+            "name": "Res",
+            "position": 5,
+            "hero": "Keeper of the Light",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_keeper_of_the_light.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_keeper_of_the_light.png",
+            "kills": 2,
+            "deaths": 4,
+            "assists": 14,
+            "rating": 65.6
+          }
+        ]
+      },
+      {
+        "teamId": 10033510,
+        "name": "Wreck The Herald",
+        "win": true,
+        "kills": 47,
+        "players": [
+          {
+            "accountId": 189680910,
+            "name": "Malarkey O'Ten",
+            "position": 1,
+            "hero": "Juggernaut",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_juggernaut.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_juggernaut.png",
+            "kills": 12,
+            "deaths": 1,
+            "assists": 13,
+            "rating": 75.8
+          },
+          {
+            "accountId": 278213246,
+            "name": "MAB",
+            "position": 2,
+            "hero": "Pudge",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_pudge.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_pudge.png",
+            "kills": 18,
+            "deaths": 2,
+            "assists": 18,
+            "rating": 89.5
+          },
+          {
+            "accountId": 192905033,
+            "name": "nub",
+            "position": 3,
+            "hero": "Marci",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_marci.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_marci.png",
+            "kills": 9,
+            "deaths": 4,
+            "assists": 17,
+            "rating": 62.2
+          },
+          {
+            "accountId": 145448013,
+            "name": "venacava",
+            "position": 4,
+            "hero": "Spirit Breaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_spirit_breaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_spirit_breaker.png",
+            "kills": 5,
+            "deaths": 4,
+            "assists": 28,
+            "rating": 89
+          },
+          {
+            "accountId": 57926059,
+            "name": "webios",
+            "position": 5,
+            "hero": "Dark Willow",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dark_willow.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dark_willow.png",
+            "kills": 3,
+            "deaths": 5,
+            "assists": 23,
+            "rating": 79.5
           }
         ]
       }
