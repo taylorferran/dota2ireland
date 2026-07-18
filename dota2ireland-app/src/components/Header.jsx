@@ -11,16 +11,16 @@ const Header = () => {
   
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-white/10 px-4 py-4 md:px-10 relative">
-      <Link to="/" className="flex items-center gap-4">
-        <img 
-          src="/img/simple-idl-logo.png" 
-          alt="Dota2Ireland Logo" 
-          className="h-10 w-auto"
+      <Link to="/" className="flex items-center gap-2 md:gap-4 min-w-0">
+        <img
+          src="/img/simple-idl-logo.png"
+          alt="Dota2Ireland Logo"
+          className="h-10 w-auto flex-shrink-0"
         />
-        <h2 className="text-white text-xl font-bold tracking-tighter">Dota 2 Ireland</h2>
+        <h2 className="text-white text-lg md:text-xl font-bold tracking-tighter truncate">Dota 2 Ireland</h2>
       </Link>
-      
-      <div className="flex flex-1 justify-end items-center gap-4 md:gap-8">
+
+      <div className="flex justify-end items-center gap-2 md:gap-8 flex-shrink-0">
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-9">
           <Link 

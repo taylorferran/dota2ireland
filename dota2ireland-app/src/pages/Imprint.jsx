@@ -73,8 +73,8 @@ const Imprint = () => {
 
   const renderLeaderboard = () => (
     <div className="space-y-0">
-      {/* Header */}
-      <div className="grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 border-b-2 border-primary/40 text-xs font-bold text-primary uppercase tracking-wider">
+      {/* Desktop header row (hidden on mobile) */}
+      <div className="hidden md:grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 border-b-2 border-primary/40 text-xs font-bold text-primary uppercase tracking-wider">
         <div>#</div>
         <div>Player</div>
         <div>Position</div>
@@ -89,22 +89,48 @@ const Imprint = () => {
         return (
           <div
             key={player.account_id}
-            className={`grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 items-center ${index % 2 === 0 ? 'bg-zinc-800/50' : 'bg-zinc-900'} hover:bg-white/10 transition-colors ${isTop3 ? 'border-l-2 border-l-primary' : ''}`}
+            className={`${index % 2 === 0 ? 'bg-zinc-800/50' : 'bg-zinc-900'} hover:bg-white/10 transition-colors ${isTop3 ? 'border-l-2 border-l-primary' : ''}`}
           >
-            <div className={`text-sm font-bold ${isTop3 ? 'text-primary' : 'text-white/60'}`}>{index + 1}</div>
-            <div className="text-sm font-semibold text-white truncate">{player.account_name}</div>
-            <div className="flex items-center gap-2">
-              {pos.image && <img src={pos.image} alt="" className="w-5 h-5 flex-shrink-0" />}
-              <span className="text-xs text-white/60">{pos.label}</span>
+            {/* Desktop grid layout */}
+            <div className="hidden md:grid grid-cols-[40px_1fr_120px_70px_1fr_110px] gap-2 px-4 py-3 items-center">
+              <div className={`text-sm font-bold ${isTop3 ? 'text-primary' : 'text-white/60'}`}>{index + 1}</div>
+              <div className="text-sm font-semibold text-white truncate">{player.account_name}</div>
+              <div className="flex items-center gap-2">
+                {pos.image && <img src={pos.image} alt="" className="w-5 h-5 flex-shrink-0" />}
+                <span className="text-xs text-white/60">{pos.label}</span>
+              </div>
+              <div className="text-sm font-bold text-primary">{player.average_imprint_rating.toFixed(1)}</div>
+              <div className="flex items-center gap-2 text-sm text-white truncate">
+                <img src={player.team.team_logo_src} alt="" className="w-6 h-6 object-contain rounded flex-shrink-0" loading="lazy" />
+                <span className="truncate">{player.team.team_name}</span>
+              </div>
+              <div className="text-sm">
+                <span className="text-white">{player.win_rate}</span>
+                <span className="text-white/40 ml-1 text-xs">({player.wins}W-{player.losses}L)</span>
+              </div>
             </div>
-            <div className="text-sm font-bold text-primary">{player.average_imprint_rating.toFixed(1)}</div>
-            <div className="flex items-center gap-2 text-sm text-white truncate">
-              <img src={player.team.team_logo_src} alt="" className="w-6 h-6 object-contain rounded flex-shrink-0" loading="lazy" />
-              <span className="truncate">{player.team.team_name}</span>
-            </div>
-            <div className="text-sm">
-              <span className="text-white">{player.win_rate}</span>
-              <span className="text-white/40 ml-1 text-xs">({player.wins}W-{player.losses}L)</span>
+
+            {/* Mobile card layout */}
+            <div className="md:hidden px-4 py-3">
+              <div className="flex items-center gap-3">
+                <span className={`text-sm font-bold w-6 flex-shrink-0 ${isTop3 ? 'text-primary' : 'text-white/60'}`}>{index + 1}</span>
+                <span className="text-sm font-semibold text-white truncate flex-1 min-w-0">{player.account_name}</span>
+                <span className="text-base font-bold text-primary flex-shrink-0">{player.average_imprint_rating.toFixed(1)}</span>
+              </div>
+              <div className="flex items-center gap-3 mt-2 pl-9 text-xs text-white/60">
+                <div className="flex items-center gap-1.5 flex-shrink-0">
+                  {pos.image && <img src={pos.image} alt="" className="w-4 h-4 flex-shrink-0" />}
+                  <span>{pos.label}</span>
+                </div>
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <img src={player.team.team_logo_src} alt="" className="w-4 h-4 object-contain rounded flex-shrink-0" loading="lazy" />
+                  <span className="truncate">{player.team.team_name}</span>
+                </div>
+                <span className="flex-shrink-0 ml-auto">
+                  <span className="text-white">{player.win_rate}</span>
+                  <span className="text-white/40 ml-1">({player.wins}W-{player.losses}L)</span>
+                </span>
+              </div>
             </div>
           </div>
         );
@@ -195,10 +221,10 @@ const Imprint = () => {
   return (
     <main className="flex-1 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="bg-zinc-900 rounded-lg shadow-lg p-8 border border-white/10">
+        <div className="bg-zinc-900 rounded-lg shadow-lg p-4 sm:p-6 md:p-8 border border-white/10">
           {/* Header */}
           <div className="text-center space-y-6 mb-8">
-            <h1 className="text-4xl font-black text-primary tracking-wider">
+            <h1 className="text-2xl md:text-4xl font-black text-primary tracking-wider">
               Imprint Leaderboard (IDL Season {selectedSeason})
             </h1>
 
