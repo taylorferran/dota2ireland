@@ -32,5 +32,6 @@ export const s7PlayoffResults = {
     // 4-team double elim. Like Div 1, group and playoff share the same teams, so results are
     // recorded by hand using the playoff game ids only.
     sf1: { winnerSeed: 1, score: '2-0', matchIds: [8898361912, 8898408707] }, // Wreck the Herald (1) beat Bord na Mona (4)
+    sf2: { winnerSeed: 2, score: '2-1', matchIds: [8905993532, 8906073420, 8906154295] }, // Grumpy Old Men (2) beat Team Sosal (3)
   },
 };

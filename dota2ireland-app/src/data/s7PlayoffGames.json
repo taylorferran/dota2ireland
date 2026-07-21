@@ -4030,5 +4030,437 @@
         ]
       }
     ]
+  },
+  "8905993532": {
+    "game": 1,
+    "matchId": 8905993532,
+    "parsed": true,
+    "duration": "44:06",
+    "teams": [
+      {
+        "teamId": 10032774,
+        "name": "TEAM SOSAL УНІЧТОЖИТЕЛІ",
+        "win": false,
+        "kills": 21,
+        "players": [
+          {
+            "accountId": 1279682673,
+            "name": "rehab",
+            "position": 1,
+            "hero": "Ogre Magi",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ogre_magi.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ogre_magi.png",
+            "kills": 8,
+            "deaths": 6,
+            "assists": 6,
+            "rating": 58.4
+          },
+          {
+            "accountId": 1522100564,
+            "name": "Ｎｏｔｈｉｎｇ ｔｏ ｓ",
+            "position": 2,
+            "hero": "Storm Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_storm_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_storm_spirit.png",
+            "kills": 6,
+            "deaths": 4,
+            "assists": 10,
+            "rating": 37.4
+          },
+          {
+            "accountId": 1740286573,
+            "name": "Arik",
+            "position": 3,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 3,
+            "deaths": 10,
+            "assists": 9,
+            "rating": 19.1
+          },
+          {
+            "accountId": 1528826326,
+            "name": "Miposhka",
+            "position": 4,
+            "hero": "Spirit Breaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_spirit_breaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_spirit_breaker.png",
+            "kills": 2,
+            "deaths": 10,
+            "assists": 10,
+            "rating": 12.2
+          },
+          {
+            "accountId": 1703095986,
+            "name": "BLIMO",
+            "position": 5,
+            "hero": "Shadow Shaman",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_shadow_shaman.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_shadow_shaman.png",
+            "kills": 2,
+            "deaths": 10,
+            "assists": 14,
+            "rating": 33.3
+          }
+        ]
+      },
+      {
+        "teamId": 10163851,
+        "name": "Grumpy Old Men",
+        "win": true,
+        "kills": 40,
+        "players": [
+          {
+            "accountId": 26887731,
+            "name": "Tay Zondays Limp Corpse",
+            "position": 1,
+            "hero": "Medusa",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_medusa.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_medusa.png",
+            "kills": 3,
+            "deaths": 2,
+            "assists": 18,
+            "rating": 54.8
+          },
+          {
+            "accountId": 17619179,
+            "name": "Skull",
+            "position": 2,
+            "hero": "Necrophos",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_necrolyte.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_necrolyte.png",
+            "kills": 13,
+            "deaths": 4,
+            "assists": 14,
+            "rating": 61.3
+          },
+          {
+            "accountId": 43239325,
+            "name": "Lambs",
+            "position": 3,
+            "hero": "Dawnbreaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dawnbreaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dawnbreaker.png",
+            "kills": 12,
+            "deaths": 4,
+            "assists": 16,
+            "rating": 51.6
+          },
+          {
+            "accountId": 116799873,
+            "name": "Herbie",
+            "position": 4,
+            "hero": "Mirana",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_mirana.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_mirana.png",
+            "kills": 7,
+            "deaths": 3,
+            "assists": 25,
+            "rating": 82.8
+          },
+          {
+            "accountId": 1334177,
+            "name": "KravSwaga",
+            "position": 5,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 5,
+            "deaths": 9,
+            "assists": 22,
+            "rating": 63.3
+          }
+        ]
+      }
+    ]
+  },
+  "8906073420": {
+    "game": 1,
+    "matchId": 8906073420,
+    "parsed": true,
+    "duration": "67:30",
+    "teams": [
+      {
+        "teamId": 10163851,
+        "name": "Grumpy Old Men",
+        "win": false,
+        "kills": 38,
+        "players": [
+          {
+            "accountId": 17619179,
+            "name": "Skull",
+            "position": 1,
+            "hero": "Lifestealer",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_life_stealer.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_life_stealer.png",
+            "kills": 13,
+            "deaths": 10,
+            "assists": 13,
+            "rating": 33.2
+          },
+          {
+            "accountId": 26887731,
+            "name": "Tay Zondays Limp Corpse",
+            "position": 2,
+            "hero": "Death Prophet",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_death_prophet.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_death_prophet.png",
+            "kills": 8,
+            "deaths": 10,
+            "assists": 21,
+            "rating": 36.1
+          },
+          {
+            "accountId": 43239325,
+            "name": "Lambs",
+            "position": 3,
+            "hero": "Slardar",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_slardar.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_slardar.png",
+            "kills": 4,
+            "deaths": 17,
+            "assists": 27,
+            "rating": 29.2
+          },
+          {
+            "accountId": 116799873,
+            "name": "Herbie",
+            "position": 4,
+            "hero": "Mirana",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_mirana.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_mirana.png",
+            "kills": 2,
+            "deaths": 7,
+            "assists": 27,
+            "rating": 54.2
+          },
+          {
+            "accountId": 1334177,
+            "name": "KravSwaga",
+            "position": 5,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 10,
+            "deaths": 12,
+            "assists": 22,
+            "rating": 62.2
+          }
+        ]
+      },
+      {
+        "teamId": 10032774,
+        "name": "TEAM SOSAL УНІЧТОЖИТЕЛІ",
+        "win": true,
+        "kills": 56,
+        "players": [
+          {
+            "accountId": 1279682673,
+            "name": "rehab",
+            "position": 1,
+            "hero": "Ursa",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ursa.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ursa.png",
+            "kills": 19,
+            "deaths": 5,
+            "assists": 21,
+            "rating": 69.2
+          },
+          {
+            "accountId": 1522100564,
+            "name": "Ｎｏｔｈｉｎｇ ｔｏ ｓ",
+            "position": 2,
+            "hero": "Lina",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lina.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lina.png",
+            "kills": 18,
+            "deaths": 6,
+            "assists": 27,
+            "rating": 63.3
+          },
+          {
+            "accountId": 1740286573,
+            "name": "Arik",
+            "position": 3,
+            "hero": "Centaur Warrunner",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_centaur.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_centaur.png",
+            "kills": 7,
+            "deaths": 7,
+            "assists": 34,
+            "rating": 55.1
+          },
+          {
+            "accountId": 1528826326,
+            "name": "Miposhka",
+            "position": 4,
+            "hero": "Spirit Breaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_spirit_breaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_spirit_breaker.png",
+            "kills": 6,
+            "deaths": 10,
+            "assists": 32,
+            "rating": 62.1
+          },
+          {
+            "accountId": 1703095986,
+            "name": "BLIMO",
+            "position": 5,
+            "hero": "Undying",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_undying.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_undying.png",
+            "kills": 5,
+            "deaths": 11,
+            "assists": 36,
+            "rating": 61.7
+          }
+        ]
+      }
+    ]
+  },
+  "8906154295": {
+    "game": 1,
+    "matchId": 8906154295,
+    "parsed": true,
+    "duration": "41:19",
+    "teams": [
+      {
+        "teamId": 10163851,
+        "name": "Grumpy Old Men",
+        "win": true,
+        "kills": 34,
+        "players": [
+          {
+            "accountId": 26887731,
+            "name": "Tay Zondays Limp Corpse",
+            "position": 1,
+            "hero": "Juggernaut",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_juggernaut.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_juggernaut.png",
+            "kills": 12,
+            "deaths": 5,
+            "assists": 7,
+            "rating": 49.7
+          },
+          {
+            "accountId": 17619179,
+            "name": "Skull",
+            "position": 2,
+            "hero": "Zeus",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_zuus.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_zuus.png",
+            "kills": 4,
+            "deaths": 5,
+            "assists": 20,
+            "rating": 35.3
+          },
+          {
+            "accountId": 43239325,
+            "name": "Lambs",
+            "position": 3,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 10,
+            "deaths": 6,
+            "assists": 20,
+            "rating": 53.7
+          },
+          {
+            "accountId": 116799873,
+            "name": "Herbie",
+            "position": 4,
+            "hero": "Undying",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_undying.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_undying.png",
+            "kills": 6,
+            "deaths": 7,
+            "assists": 20,
+            "rating": 61
+          },
+          {
+            "accountId": 1334177,
+            "name": "KravSwaga",
+            "position": 5,
+            "hero": "Vengeful Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_vengefulspirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_vengefulspirit.png",
+            "kills": 2,
+            "deaths": 6,
+            "assists": 14,
+            "rating": 53.9
+          }
+        ]
+      },
+      {
+        "teamId": 10032774,
+        "name": "TEAM SOSAL УНІЧТОЖИТЕЛІ",
+        "win": false,
+        "kills": 29,
+        "players": [
+          {
+            "accountId": 1279682673,
+            "name": "rehab",
+            "position": 1,
+            "hero": "Anti-Mage",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_antimage.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_antimage.png",
+            "kills": 9,
+            "deaths": 3,
+            "assists": 11,
+            "rating": 58.1
+          },
+          {
+            "accountId": 1522100564,
+            "name": "Ｎｏｔｈｉｎｇ ｔｏ ｓ",
+            "position": 2,
+            "hero": "Lina",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lina.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lina.png",
+            "kills": 14,
+            "deaths": 6,
+            "assists": 11,
+            "rating": 57.3
+          },
+          {
+            "accountId": 1740286573,
+            "name": "Arik",
+            "position": 3,
+            "hero": "Wraith King",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_skeleton_king.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_skeleton_king.png",
+            "kills": 2,
+            "deaths": 9,
+            "assists": 15,
+            "rating": 34
+          },
+          {
+            "accountId": 1528826326,
+            "name": "Miposhka",
+            "position": 4,
+            "hero": "Spirit Breaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_spirit_breaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_spirit_breaker.png",
+            "kills": 1,
+            "deaths": 8,
+            "assists": 19,
+            "rating": 43
+          },
+          {
+            "accountId": 1703095986,
+            "name": "BLIMO",
+            "position": 5,
+            "hero": "Witch Doctor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_witch_doctor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_witch_doctor.png",
+            "kills": 3,
+            "deaths": 8,
+            "assists": 12,
+            "rating": 40.5
+          }
+        ]
+      }
+    ]
   }
 }
