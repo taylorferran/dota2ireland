@@ -3455,6 +3455,294 @@
       }
     ]
   },
+  "8915315785": {
+    "game": 1,
+    "matchId": 8915315785,
+    "parsed": true,
+    "duration": "37:54",
+    "teams": [
+      {
+        "teamId": 10163749,
+        "name": "Owen Morris and the CUMMERS",
+        "win": true,
+        "kills": 30,
+        "players": [
+          {
+            "accountId": 106493414,
+            "name": "Paysh [IDL Champion]",
+            "position": 1,
+            "hero": "Chaos Knight",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_chaos_knight.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_chaos_knight.png",
+            "kills": 5,
+            "deaths": 5,
+            "assists": 7,
+            "rating": 23.6
+          },
+          {
+            "accountId": 114445215,
+            "name": "MODE: bl1nkz",
+            "position": 2,
+            "hero": "Shadow Fiend",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_nevermore.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_nevermore.png",
+            "kills": 18,
+            "deaths": 2,
+            "assists": 4,
+            "rating": 77.5
+          },
+          {
+            "accountId": 111532561,
+            "name": "Strapping Young Handyman",
+            "position": 3,
+            "hero": "Rubick",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_rubick.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_rubick.png",
+            "kills": 4,
+            "deaths": 0,
+            "assists": 19,
+            "rating": 75.3
+          },
+          {
+            "accountId": 59367247,
+            "name": "Owen Morris",
+            "position": 4,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 0,
+            "deaths": 9,
+            "assists": 9,
+            "rating": 3.9
+          },
+          {
+            "accountId": 160506581,
+            "name": "Piano Man",
+            "position": 5,
+            "hero": "Ringmaster",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ringmaster.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ringmaster.png",
+            "kills": 3,
+            "deaths": 6,
+            "assists": 17,
+            "rating": 49.2
+          }
+        ]
+      },
+      {
+        "teamId": 10151223,
+        "name": "The Dark Side of the Map",
+        "win": false,
+        "kills": 22,
+        "players": [
+          {
+            "accountId": 1010247178,
+            "name": "LPANDA",
+            "position": 1,
+            "hero": "Razor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_razor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_razor.png",
+            "kills": 12,
+            "deaths": 3,
+            "assists": 7,
+            "rating": 71.4
+          },
+          {
+            "accountId": 317992803,
+            "name": "Sparto",
+            "position": 2,
+            "hero": "Beastmaster",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_beastmaster.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_beastmaster.png",
+            "kills": 2,
+            "deaths": 6,
+            "assists": 8,
+            "rating": 19.8
+          },
+          {
+            "accountId": 241158366,
+            "name": "Drregron",
+            "position": 3,
+            "hero": "Underlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_abyssal_underlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_abyssal_underlord.png",
+            "kills": 3,
+            "deaths": 7,
+            "assists": 9,
+            "rating": 31.9
+          },
+          {
+            "accountId": 153031584,
+            "name": "RedRabbit",
+            "position": 4,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 2,
+            "deaths": 6,
+            "assists": 12,
+            "rating": 44.4
+          },
+          {
+            "accountId": 108777244,
+            "name": "Antbonjela",
+            "position": 5,
+            "hero": "Clockwerk",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_rattletrap.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_rattletrap.png",
+            "kills": 3,
+            "deaths": 8,
+            "assists": 10,
+            "rating": 42
+          }
+        ]
+      }
+    ]
+  },
+  "8915412225": {
+    "game": 1,
+    "matchId": 8915412225,
+    "parsed": true,
+    "duration": "47:14",
+    "teams": [
+      {
+        "teamId": 10163749,
+        "name": "Owen Morris and the CUMMERS",
+        "win": false,
+        "kills": 35,
+        "players": [
+          {
+            "accountId": 106493414,
+            "name": "Paysh [IDL Champion]",
+            "position": 1,
+            "hero": "Chaos Knight",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_chaos_knight.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_chaos_knight.png",
+            "kills": 12,
+            "deaths": 12,
+            "assists": 12,
+            "rating": 34.7
+          },
+          {
+            "accountId": 114445215,
+            "name": "MODE: bl1nkz",
+            "position": 2,
+            "hero": "Sniper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_sniper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_sniper.png",
+            "kills": 11,
+            "deaths": 11,
+            "assists": 12,
+            "rating": 39.6
+          },
+          {
+            "accountId": 111532561,
+            "name": "Strapping Young Handyman",
+            "position": 3,
+            "hero": "Night Stalker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_night_stalker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_night_stalker.png",
+            "kills": 3,
+            "deaths": 11,
+            "assists": 11,
+            "rating": 23.2
+          },
+          {
+            "accountId": 59367247,
+            "name": "Owen Morris",
+            "position": 4,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 3,
+            "deaths": 13,
+            "assists": 9,
+            "rating": 9.4
+          },
+          {
+            "accountId": 160506581,
+            "name": "Piano Man",
+            "position": 5,
+            "hero": "Undying",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_undying.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_undying.png",
+            "kills": 5,
+            "deaths": 13,
+            "assists": 26,
+            "rating": 48.7
+          }
+        ]
+      },
+      {
+        "teamId": 10151223,
+        "name": "The Dark Side of the Map",
+        "win": true,
+        "kills": 60,
+        "players": [
+          {
+            "accountId": 1010247178,
+            "name": "LPANDA",
+            "position": 1,
+            "hero": "Sven",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_sven.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_sven.png",
+            "kills": 13,
+            "deaths": 1,
+            "assists": 17,
+            "rating": 80.5
+          },
+          {
+            "accountId": 317992803,
+            "name": "Sparto",
+            "position": 2,
+            "hero": "Earth Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_earth_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_earth_spirit.png",
+            "kills": 17,
+            "deaths": 3,
+            "assists": 25,
+            "rating": 82.7
+          },
+          {
+            "accountId": 241158366,
+            "name": "Drregron",
+            "position": 3,
+            "hero": "Timbersaw",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_shredder.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_shredder.png",
+            "kills": 17,
+            "deaths": 8,
+            "assists": 31,
+            "rating": 53
+          },
+          {
+            "accountId": 153031584,
+            "name": "RedRabbit",
+            "position": 4,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 2,
+            "deaths": 15,
+            "assists": 27,
+            "rating": 44.3
+          },
+          {
+            "accountId": 108777244,
+            "name": "Antbonjela",
+            "position": 5,
+            "hero": "Witch Doctor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_witch_doctor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_witch_doctor.png",
+            "kills": 11,
+            "deaths": 8,
+            "assists": 25,
+            "rating": 78.4
+          }
+        ]
+      }
+    ]
+  },
   "8895286756": {
     "game": 1,
     "matchId": 8895286756,
