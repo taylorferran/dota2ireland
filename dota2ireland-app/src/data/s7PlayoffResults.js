@@ -12,6 +12,7 @@ export const s7PlayoffResults = {
     // by hand (not auto-discovered) using the playoff game ids only.
     ws: { winnerSeed: 3, score: '2-1', matchIds: [8891970909, 8892064896, 8892144571] }, // WONGWONGBAKERY (3) beat Business Mices (2)
     wf: { winnerSeed: 1, score: '2-0', matchIds: [8896705539, 8896816547] }, // 2 Samuel's 2 Sexy (1) beat WONGWONGBAKERY (3)
+    lf: { winnerSeed: 2, score: '2-1', matchIds: [8916745349, 8916857866, 8916937839] }, // Business Mices (2) beat WONGWONGBAKERY (3) — Losers Final
   },
   2: {
     // Round of 16
