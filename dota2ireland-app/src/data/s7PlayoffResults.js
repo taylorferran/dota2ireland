@@ -29,8 +29,9 @@ export const s7PlayoffResults = {
     qf2: { winnerSeed: 4, score: '2-1', matchIds: [8895360535, 8895418675, 8895502719] }, // Fost Team (4) beat 5 Stuns No Brains (5)
     qf3: { winnerSeed: 14, score: '2-1', matchIds: [8915315785, 8915412225] }, // The Dark Side of the Map (14) beat Owen Morris and the CUMMERS (11) — deciding game not ticketed on Imprint
     qf4: { winnerSeed: 10, score: '2-0', matchIds: [8895286756, 8895381918] }, // D2Ire Rejects (10) beat Random (2)
-    // Semifinals (sf2 awaits qf3)
+    // Semifinals
     sf1: { winnerSeed: 4, score: '2-1', matchIds: [8911902070, 8911991314, 8912074176] }, // Fost Team (4) beat Imprint Esports (1)
+    sf2: { winnerSeed: 14, score: '2-1', matchIds: [8919842469, 8919944298, 8920048857] }, // The Dark Side of the Map (14) beat D2Ire Rejects (10)
   },
   3: {
     // 4-team double elim. Like Div 1, group and playoff share the same teams, so results are

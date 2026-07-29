@@ -4895,6 +4895,438 @@
       }
     ]
   },
+  "8919842469": {
+    "game": 1,
+    "matchId": 8919842469,
+    "parsed": true,
+    "duration": "43:25",
+    "teams": [
+      {
+        "teamId": 10151223,
+        "name": "The Dark Side of the Map",
+        "win": true,
+        "kills": 48,
+        "players": [
+          {
+            "accountId": 1010247178,
+            "name": "LPANDA",
+            "position": 1,
+            "hero": "Wraith King",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_skeleton_king.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_skeleton_king.png",
+            "kills": 5,
+            "deaths": 0,
+            "assists": 21,
+            "rating": 85
+          },
+          {
+            "accountId": 317992803,
+            "name": "Sparto",
+            "position": 2,
+            "hero": "Ember Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ember_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ember_spirit.png",
+            "kills": 16,
+            "deaths": 6,
+            "assists": 10,
+            "rating": 45.5
+          },
+          {
+            "accountId": 241158366,
+            "name": "Drregron",
+            "position": 3,
+            "hero": "Axe",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_axe.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_axe.png",
+            "kills": 9,
+            "deaths": 8,
+            "assists": 16,
+            "rating": 45.8
+          },
+          {
+            "accountId": 153031584,
+            "name": "RedRabbit",
+            "position": 4,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 7,
+            "deaths": 7,
+            "assists": 15,
+            "rating": 58.4
+          },
+          {
+            "accountId": 108777244,
+            "name": "Antbonjela",
+            "position": 5,
+            "hero": "Witch Doctor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_witch_doctor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_witch_doctor.png",
+            "kills": 11,
+            "deaths": 6,
+            "assists": 18,
+            "rating": 81.8
+          }
+        ]
+      },
+      {
+        "teamId": 10020161,
+        "name": "D2Ire Rejects",
+        "win": false,
+        "kills": 27,
+        "players": [
+          {
+            "accountId": 31639200,
+            "name": "pRO_MiKe (º_•)",
+            "position": 1,
+            "hero": "Clinkz",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_clinkz.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_clinkz.png",
+            "kills": 4,
+            "deaths": 11,
+            "assists": 9,
+            "rating": 19.4
+          },
+          {
+            "accountId": 125847008,
+            "name": "Rinkusaur",
+            "position": 2,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 9,
+            "deaths": 8,
+            "assists": 9,
+            "rating": 43.2
+          },
+          {
+            "accountId": 205207859,
+            "name": "barjakun is back",
+            "position": 3,
+            "hero": "Night Stalker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_night_stalker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_night_stalker.png",
+            "kills": 6,
+            "deaths": 8,
+            "assists": 8,
+            "rating": 17.3
+          },
+          {
+            "accountId": 384723384,
+            "name": "Punjabi",
+            "position": 4,
+            "hero": "Nature's Prophet",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_furion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_furion.png",
+            "kills": 6,
+            "deaths": 11,
+            "assists": 14,
+            "rating": 33.2
+          },
+          {
+            "accountId": 79482122,
+            "name": "that normie kid",
+            "position": 5,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 2,
+            "deaths": 10,
+            "assists": 13,
+            "rating": 36.7
+          }
+        ]
+      }
+    ]
+  },
+  "8919944298": {
+    "game": 1,
+    "matchId": 8919944298,
+    "parsed": true,
+    "duration": "55:10",
+    "teams": [
+      {
+        "teamId": 10020161,
+        "name": "D2Ire Rejects",
+        "win": true,
+        "kills": 35,
+        "players": [
+          {
+            "accountId": 31639200,
+            "name": "pRO_MiKe (º_•)",
+            "position": 1,
+            "hero": "Weaver",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_weaver.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_weaver.png",
+            "kills": 9,
+            "deaths": 4,
+            "assists": 13,
+            "rating": 49.6
+          },
+          {
+            "accountId": 125847008,
+            "name": "Rinkusaur",
+            "position": 2,
+            "hero": "Ember Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ember_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ember_spirit.png",
+            "kills": 9,
+            "deaths": 3,
+            "assists": 20,
+            "rating": 61.4
+          },
+          {
+            "accountId": 205207859,
+            "name": "barjakun is back",
+            "position": 3,
+            "hero": "Axe",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_axe.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_axe.png",
+            "kills": 10,
+            "deaths": 8,
+            "assists": 13,
+            "rating": 36.7
+          },
+          {
+            "accountId": 384723384,
+            "name": "Punjabi",
+            "position": 4,
+            "hero": "Techies",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_techies.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_techies.png",
+            "kills": 5,
+            "deaths": 9,
+            "assists": 15,
+            "rating": 50.4
+          },
+          {
+            "accountId": 79482122,
+            "name": "that normie kid",
+            "position": 5,
+            "hero": "Shadow Shaman",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_shadow_shaman.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_shadow_shaman.png",
+            "kills": 1,
+            "deaths": 8,
+            "assists": 24,
+            "rating": 62.8
+          }
+        ]
+      },
+      {
+        "teamId": 10151223,
+        "name": "The Dark Side of the Map",
+        "win": false,
+        "kills": 32,
+        "players": [
+          {
+            "accountId": 1010247178,
+            "name": "LPANDA",
+            "position": 1,
+            "hero": "Razor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_razor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_razor.png",
+            "kills": 9,
+            "deaths": 5,
+            "assists": 13,
+            "rating": 65
+          },
+          {
+            "accountId": 317992803,
+            "name": "Sparto",
+            "position": 2,
+            "hero": "Lone Druid",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lone_druid.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lone_druid.png",
+            "kills": 9,
+            "deaths": 2,
+            "assists": 9,
+            "rating": 66.6
+          },
+          {
+            "accountId": 241158366,
+            "name": "Drregron",
+            "position": 3,
+            "hero": "Pudge",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_pudge.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_pudge.png",
+            "kills": 10,
+            "deaths": 8,
+            "assists": 15,
+            "rating": 53.2
+          },
+          {
+            "accountId": 153031584,
+            "name": "RedRabbit",
+            "position": 4,
+            "hero": "Lich",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lich.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lich.png",
+            "kills": 0,
+            "deaths": 8,
+            "assists": 18,
+            "rating": 48.2
+          },
+          {
+            "accountId": 108777244,
+            "name": "Antbonjela",
+            "position": 5,
+            "hero": "Clockwerk",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_rattletrap.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_rattletrap.png",
+            "kills": 4,
+            "deaths": 12,
+            "assists": 20,
+            "rating": 40.9
+          }
+        ]
+      }
+    ]
+  },
+  "8920048857": {
+    "game": 1,
+    "matchId": 8920048857,
+    "parsed": true,
+    "duration": "59:27",
+    "teams": [
+      {
+        "teamId": 10020161,
+        "name": "D2Ire Rejects",
+        "win": false,
+        "kills": 38,
+        "players": [
+          {
+            "accountId": 31639200,
+            "name": "pRO_MiKe (º_•)",
+            "position": 1,
+            "hero": "Weaver",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_weaver.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_weaver.png",
+            "kills": 12,
+            "deaths": 10,
+            "assists": 18,
+            "rating": 43
+          },
+          {
+            "accountId": 125847008,
+            "name": "Rinkusaur",
+            "position": 2,
+            "hero": "Void Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_void_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_void_spirit.png",
+            "kills": 8,
+            "deaths": 7,
+            "assists": 15,
+            "rating": 43.1
+          },
+          {
+            "accountId": 205207859,
+            "name": "barjakun is back",
+            "position": 3,
+            "hero": "Axe",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_axe.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_axe.png",
+            "kills": 8,
+            "deaths": 11,
+            "assists": 9,
+            "rating": 18.4
+          },
+          {
+            "accountId": 384723384,
+            "name": "Punjabi",
+            "position": 4,
+            "hero": "Nature's Prophet",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_furion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_furion.png",
+            "kills": 7,
+            "deaths": 12,
+            "assists": 18,
+            "rating": 40
+          },
+          {
+            "accountId": 79482122,
+            "name": "that normie kid",
+            "position": 5,
+            "hero": "Shadow Shaman",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_shadow_shaman.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_shadow_shaman.png",
+            "kills": 3,
+            "deaths": 12,
+            "assists": 25,
+            "rating": 53.6
+          }
+        ]
+      },
+      {
+        "teamId": 10151223,
+        "name": "The Dark Side of the Map",
+        "win": true,
+        "kills": 52,
+        "players": [
+          {
+            "accountId": 1010247178,
+            "name": "LPANDA",
+            "position": 1,
+            "hero": "Dragon Knight",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dragon_knight.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dragon_knight.png",
+            "kills": 11,
+            "deaths": 3,
+            "assists": 22,
+            "rating": 82.5
+          },
+          {
+            "accountId": 317992803,
+            "name": "Sparto",
+            "position": 2,
+            "hero": "Ember Spirit",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ember_spirit.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ember_spirit.png",
+            "kills": 10,
+            "deaths": 4,
+            "assists": 28,
+            "rating": 62
+          },
+          {
+            "accountId": 241158366,
+            "name": "Drregron",
+            "position": 3,
+            "hero": "Dawnbreaker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_dawnbreaker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_dawnbreaker.png",
+            "kills": 20,
+            "deaths": 8,
+            "assists": 15,
+            "rating": 69.2
+          },
+          {
+            "accountId": 153031584,
+            "name": "RedRabbit",
+            "position": 4,
+            "hero": "Viper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_viper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_viper.png",
+            "kills": 4,
+            "deaths": 15,
+            "assists": 27,
+            "rating": 42.4
+          },
+          {
+            "accountId": 108777244,
+            "name": "Antbonjela",
+            "position": 5,
+            "hero": "Witch Doctor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_witch_doctor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_witch_doctor.png",
+            "kills": 7,
+            "deaths": 8,
+            "assists": 29,
+            "rating": 72.5
+          }
+        ]
+      }
+    ]
+  },
   "8898361912": {
     "game": 1,
     "matchId": 8898361912,
