@@ -39,5 +39,6 @@ export const s7PlayoffResults = {
     sf1: { winnerSeed: 1, score: '2-0', matchIds: [8898361912, 8898408707] }, // Wreck the Herald (1) beat Bord na Mona (4)
     sf2: { winnerSeed: 2, score: '2-1', matchIds: [8905993532, 8906073420, 8906154295] }, // Grumpy Old Men (2) beat Team Sosal (3)
     lr1: { winnerSeed: 3, score: 'W/O', matchIds: [] }, // Team Sosal (3) advance — Bord na Mona (4) forfeited
+    wf: { winnerSeed: 1, score: '2-1', matchIds: [8917000276, 8917058967] }, // Wreck the Herald (1) beat Grumpy Old Men (2) — deciding game ticketed to another league (Wreck's alt team), not retrievable
   },
 };

@@ -6046,5 +6046,293 @@
         ]
       }
     ]
+  },
+  "8917000276": {
+    "game": 1,
+    "matchId": 8917000276,
+    "parsed": true,
+    "duration": "26:47",
+    "teams": [
+      {
+        "teamId": 10163851,
+        "name": "Grumpy Old Men",
+        "win": false,
+        "kills": 9,
+        "players": [
+          {
+            "accountId": 26887731,
+            "name": "cherryghost",
+            "position": 1,
+            "hero": "Troll Warlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_troll_warlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_troll_warlord.png",
+            "kills": 0,
+            "deaths": 6,
+            "assists": 3,
+            "rating": 7.4
+          },
+          {
+            "accountId": 17619179,
+            "name": "Skull",
+            "position": 2,
+            "hero": "Silencer",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_silencer.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_silencer.png",
+            "kills": 2,
+            "deaths": 9,
+            "assists": 4,
+            "rating": 5.5
+          },
+          {
+            "accountId": 43239325,
+            "name": "Lambs",
+            "position": 3,
+            "hero": "Night Stalker",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_night_stalker.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_night_stalker.png",
+            "kills": 5,
+            "deaths": 7,
+            "assists": 2,
+            "rating": 9.5
+          },
+          {
+            "accountId": 108015816,
+            "name": "Foxys Devils",
+            "position": 4,
+            "hero": "Snapfire",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_snapfire.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_snapfire.png",
+            "kills": 0,
+            "deaths": 9,
+            "assists": 7,
+            "rating": 1.3
+          },
+          {
+            "accountId": 1334177,
+            "name": "KravSwaga",
+            "position": 5,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 1,
+            "deaths": 12,
+            "assists": 6,
+            "rating": 3.5
+          }
+        ]
+      },
+      {
+        "teamId": 10033510,
+        "name": "Wreck The Herald",
+        "win": true,
+        "kills": 42,
+        "players": [
+          {
+            "accountId": 189680910,
+            "name": "Malarkey O'Ten",
+            "position": 1,
+            "hero": "Sniper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_sniper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_sniper.png",
+            "kills": 12,
+            "deaths": 2,
+            "assists": 17,
+            "rating": 69.8
+          },
+          {
+            "accountId": 278213246,
+            "name": "MAB",
+            "position": 2,
+            "hero": "Slardar",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_slardar.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_slardar.png",
+            "kills": 20,
+            "deaths": 1,
+            "assists": 8,
+            "rating": 92.8
+          },
+          {
+            "accountId": 76708555,
+            "name": "kyuojuro_rengoku_hashira",
+            "position": 3,
+            "hero": "Underlord",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_abyssal_underlord.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_abyssal_underlord.png",
+            "kills": 3,
+            "deaths": 4,
+            "assists": 23,
+            "rating": 55.3
+          },
+          {
+            "accountId": 57926059,
+            "name": "webios",
+            "position": 4,
+            "hero": "Ringmaster",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ringmaster.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ringmaster.png",
+            "kills": 5,
+            "deaths": 1,
+            "assists": 18,
+            "rating": 89.8
+          },
+          {
+            "accountId": 94321260,
+            "name": "sUluMpAAn poLiTiKo sA piNaS",
+            "position": 5,
+            "hero": "Warlock",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_warlock.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_warlock.png",
+            "kills": 2,
+            "deaths": 1,
+            "assists": 26,
+            "rating": 92
+          }
+        ]
+      }
+    ]
+  },
+  "8917058967": {
+    "game": 1,
+    "matchId": 8917058967,
+    "parsed": true,
+    "duration": "33:46",
+    "teams": [
+      {
+        "teamId": 10163851,
+        "name": "Grumpy Old Men",
+        "win": true,
+        "kills": 39,
+        "players": [
+          {
+            "accountId": 26887731,
+            "name": "cherryghost",
+            "position": 1,
+            "hero": "Sniper",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_sniper.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_sniper.png",
+            "kills": 7,
+            "deaths": 3,
+            "assists": 19,
+            "rating": 63.6
+          },
+          {
+            "accountId": 17619179,
+            "name": "Skull",
+            "position": 2,
+            "hero": "Razor",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_razor.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_razor.png",
+            "kills": 11,
+            "deaths": 1,
+            "assists": 20,
+            "rating": 72.3
+          },
+          {
+            "accountId": 43239325,
+            "name": "Lambs",
+            "position": 3,
+            "hero": "Tidehunter",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_tidehunter.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_tidehunter.png",
+            "kills": 10,
+            "deaths": 1,
+            "assists": 18,
+            "rating": 69.2
+          },
+          {
+            "accountId": 108015816,
+            "name": "Foxys Devils",
+            "position": 4,
+            "hero": "Snapfire",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_snapfire.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_snapfire.png",
+            "kills": 7,
+            "deaths": 6,
+            "assists": 20,
+            "rating": 58.8
+          },
+          {
+            "accountId": 1334177,
+            "name": "KravSwaga",
+            "position": 5,
+            "hero": "Monkey King",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_monkey_king.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_monkey_king.png",
+            "kills": 4,
+            "deaths": 4,
+            "assists": 16,
+            "rating": 84.8
+          }
+        ]
+      },
+      {
+        "teamId": 10033510,
+        "name": "Wreck The Herald",
+        "win": false,
+        "kills": 15,
+        "players": [
+          {
+            "accountId": 189680910,
+            "name": "Malarkey O'Ten",
+            "position": 1,
+            "hero": "Chaos Knight",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_chaos_knight.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_chaos_knight.png",
+            "kills": 4,
+            "deaths": 7,
+            "assists": 6,
+            "rating": 12.2
+          },
+          {
+            "accountId": 278213246,
+            "name": "MAB",
+            "position": 2,
+            "hero": "Lion",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_lion.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_lion.png",
+            "kills": 5,
+            "deaths": 10,
+            "assists": 5,
+            "rating": 14
+          },
+          {
+            "accountId": 76708555,
+            "name": "kyuojuro_rengoku_hashira",
+            "position": 3,
+            "hero": "Ogre Magi",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_ogre_magi.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_ogre_magi.png",
+            "kills": 5,
+            "deaths": 9,
+            "assists": 4,
+            "rating": 11.5
+          },
+          {
+            "accountId": 57926059,
+            "name": "webios",
+            "position": 4,
+            "hero": "Jakiro",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_jakiro.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_jakiro.png",
+            "kills": 0,
+            "deaths": 4,
+            "assists": 7,
+            "rating": 34.2
+          },
+          {
+            "accountId": 94321260,
+            "name": "sUluMpAAn poLiTiKo sA piNaS",
+            "position": 5,
+            "hero": "Warlock",
+            "heroIcon": "https://cdn.imprint.gg/heroes/minimap_icons/npc_dota_hero_warlock.png",
+            "heroPortrait": "https://cdn.imprint.gg/heroes/rectangular_portraits/npc_dota_hero_warlock.png",
+            "kills": 1,
+            "deaths": 9,
+            "assists": 7,
+            "rating": 10.7
+          }
+        ]
+      }
+    ]
   }
 }
