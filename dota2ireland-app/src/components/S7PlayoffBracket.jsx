@@ -15,7 +15,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { s7PlayoffResults } from '../data/s7PlayoffResults';
 import s7PlayoffGames from '../data/s7PlayoffGames.json';
 import { fetchMatchDetails } from '../services/matchApi';
-import { gameFromMatchDetail } from '../utils/s7Results';
+import { gameFromMatchDetail, normTeamName } from '../utils/s7Results';
 import { MatchDetailPanel } from './MatchDetailPanel';
 
 const WEEKS_4 = [
@@ -78,9 +78,9 @@ const BRACKETS = {
       },
     ],
     gf: {
-      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo5',
+      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo3',
       slots: [ref('Winners Final winner'), ref('Losers Final winner')],
-      note: 'Bracket reset (Bo5, Aug 3-9) if the lower bracket team wins',
+      note: 'Best-of-3 grand final',
     },
     footer: "Teams: 2 Samuel's 2 Sexy, Business Mices, WONGWONGBAKERY. Seeded 1 to 3 by current group standings; the number 1 seed skips the opening round straight into the Winners Final.",
   },
@@ -125,7 +125,7 @@ const BRACKETS = {
       {
         week: 4, label: 'Final',
         matches: [
-          { id: 'final', win: null, tone: 'gf', round: 'Grand Final', bo: 'Bo5', slots: [ref('Semifinal winner'), ref('Semifinal winner')], note: 'Champion' },
+          { id: 'final', win: null, tone: 'gf', round: 'Grand Final', bo: 'Bo3', slots: [ref('Semifinal winner'), ref('Semifinal winner')], note: 'Champion' },
         ],
       },
     ],
@@ -178,9 +178,9 @@ const BRACKETS = {
       },
     ],
     gf: {
-      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo5',
+      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo3',
       slots: [ref('Winners Final winner'), ref('Lower Final winner')],
-      note: 'Bracket reset (Bo5, Aug 10-16) if the lower bracket team wins',
+      note: 'Best-of-3 grand final',
     },
     footer: 'Teams: Bord na Mona, Grumpy Old Men, Team Sosal, Wreck the Herald. Seeded 1 to 4 by current group standings (1 v 4, 2 v 3).',
   },
@@ -218,7 +218,7 @@ const Slot = ({ rs, tone, hideSeeds, status, score }) => {
 };
 
 const MatchCard = ({ match, tone, hideSeeds, view, onOpen, innerRef, onEnter, onLeave, highlight }) => {
-  const { slots: resolved, decided, winnerSeed, score } = view;
+  const { slots: resolved, decided, winnerSeed, score, note } = view;
   const clickable = typeof onOpen === 'function';
   const base =
     tone === 'gf' ? 'border border-primary/50 bg-gradient-to-br from-primary/10 to-accent-orange/5 shadow-[0_0_22px_rgba(19,236,91,0.12)]'
@@ -246,7 +246,16 @@ const MatchCard = ({ match, tone, hideSeeds, view, onOpen, innerRef, onEnter, on
       className={`rounded-md p-2.5 outline-none transition-shadow ${clickable ? 'cursor-pointer hover:ring-1 hover:ring-white/30' : 'cursor-default'} ${base} ${ring}`}
     >
       <div className="flex items-center justify-between mb-1.5">
-        <span className={`text-[10px] font-semibold uppercase tracking-wider ${roundTone}`}>{match.round}</span>
+        <span className={`flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider ${roundTone}`}>
+          {match.round}
+          {note && (
+            <span
+              className="material-symbols-outlined text-[13px] text-white/50 cursor-help"
+              title={note}
+              onClick={(e) => e.stopPropagation()}
+            >info</span>
+          )}
+        </span>
         {match.bo && <span className={`text-[10px] font-bold uppercase px-1.5 py-0.5 rounded border ${boTone}`}>{match.bo}</span>}
       </div>
       {resolved.map((rs, i) => {
@@ -380,7 +389,7 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
     const decided = !!res;
     const winnerSeed = res?.winnerSeed ?? null;
     const loserSeed = decided ? (slots.map((s) => s.seed).find((x) => x != null && x !== winnerSeed) ?? null) : null;
-    const view = { slots, decided, winnerSeed, loserSeed, score: res?.score, matchIds: res?.matchIds ?? [] };
+    const view = { slots, decided, winnerSeed, loserSeed, score: res?.score, matchIds: res?.matchIds ?? [], note: res?.note ?? null };
     viewCache[match.id] = view;
     return view;
   };
@@ -390,7 +399,7 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
     const ids = view.matchIds || [];
     if (!ids.length) return;
     const names = view.slots.filter((s) => s.kind === 'team').map((s) => s.name);
-    setSeries({ round: match.round, bo: match.bo, names, winnerName: seeds?.[view.winnerSeed] ?? null, score: view.score });
+    setSeries({ round: match.round, bo: match.bo, names, winnerName: seeds?.[view.winnerSeed] ?? null, score: view.score, note: view.note });
     setSeriesGames(null);
     setSeriesLoading(true);
     try {
@@ -400,7 +409,15 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
         const raw = await fetchMatchDetails(id).catch(() => null); // fallback for un-baked ids
         return gameFromMatchDetail(raw, i + 1);
       }));
-      setSeriesGames(games.filter((g) => g && g.parsed));
+      // Apply DQ overrides: a game awarded by ruling (e.g. a forfeit/cancel) shows the
+      // awarded team as the winner and a "DQ" tag, overriding Imprint's recorded winner.
+      const dq = results[match.id]?.dq || {};
+      setSeriesGames(games.filter((g) => g && g.parsed).map((g) => {
+        const dqSeed = dq[g.matchId];
+        if (dqSeed == null) return g;
+        const wName = seeds?.[dqSeed] ?? null;
+        return { ...g, dqWinner: wName, teams: g.teams.map((t) => ({ ...t, win: normTeamName(t.name) === normTeamName(wName) })) };
+      }));
     } finally {
       setSeriesLoading(false);
     }
@@ -595,6 +612,12 @@ export const S7PlayoffBracket = ({ division, seeds }) => {
                   <span className="mx-2 font-mono text-white/60">{series.score}</span>
                   <span className="text-white/70">{series.names.find((n) => n !== series.winnerName) ?? ''}</span>
                 </div>
+                {series.note && (
+                  <div className="mt-1.5 flex items-start gap-1.5 text-[11.5px] text-white/55">
+                    <span className="material-symbols-outlined text-[14px] text-white/40 mt-px">info</span>
+                    <span>{series.note}</span>
+                  </div>
+                )}
               </div>
               <button
                 onClick={closeSeries}

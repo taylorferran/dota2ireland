@@ -53,7 +53,14 @@ export function MatchDetailPanel({ games }) {
       {list.map((g) => (
         <div key={g.matchId ?? g.game} className="rounded-md bg-white/[0.03] border border-white/5 overflow-hidden">
           <div className="flex items-center justify-between px-3 py-1.5 bg-white/[0.02]">
-            <span className="text-xs font-medium text-white/50 uppercase tracking-wide">Game {g.game}</span>
+            <span className="flex items-center gap-2 text-xs font-medium text-white/50 uppercase tracking-wide">
+              Game {g.game}
+              {g.dqWinner && (
+                <span className="rounded bg-accent-orange/20 px-1.5 py-0.5 text-[10px] font-bold text-accent-orange" title={`DQ — win awarded to ${g.dqWinner}`}>
+                  DQ · {g.dqWinner}
+                </span>
+              )}
+            </span>
             <div className="flex items-center gap-3">
               {g.duration && <span className="text-xs font-mono text-white/40">{g.duration}</span>}
               {g.matchId && (

@@ -13,6 +13,7 @@ export const s7PlayoffResults = {
     ws: { winnerSeed: 3, score: '2-1', matchIds: [8891970909, 8892064896, 8892144571] }, // WONGWONGBAKERY (3) beat Business Mices (2)
     wf: { winnerSeed: 1, score: '2-0', matchIds: [8896705539, 8896816547] }, // 2 Samuel's 2 Sexy (1) beat WONGWONGBAKERY (3)
     lf: { winnerSeed: 2, score: '2-1', matchIds: [8916745349, 8916857866, 8916937839] }, // Business Mices (2) beat WONGWONGBAKERY (3) — Losers Final
+    gf: { winnerSeed: 2, score: '2-0', matchIds: [8927982474, 8928070669] }, // CHAMPION: Business Mices (2) beat 2 Samuel's 2 Sexy (1)
   },
   2: {
     // Round of 16
@@ -32,6 +33,7 @@ export const s7PlayoffResults = {
     // Semifinals
     sf1: { winnerSeed: 4, score: '2-1', matchIds: [8911902070, 8911991314, 8912074176] }, // Fost Team (4) beat Imprint Esports (1)
     sf2: { winnerSeed: 14, score: '2-1', matchIds: [8919842469, 8919944298, 8920048857] }, // The Dark Side of the Map (14) beat D2Ire Rejects (10)
+    final: { winnerSeed: 4, score: '2-0', matchIds: [8947471069, 8947589243] }, // CHAMPION: Fost Team (4) beat The Dark Side of the Map (14)
   },
   3: {
     // 4-team double elim. Like Div 1, group and playoff share the same teams, so results are
@@ -40,5 +42,14 @@ export const s7PlayoffResults = {
     sf2: { winnerSeed: 2, score: '2-1', matchIds: [8905993532, 8906073420, 8906154295] }, // Grumpy Old Men (2) beat Team Sosal (3)
     lr1: { winnerSeed: 3, score: 'W/O', matchIds: [] }, // Team Sosal (3) advance — Bord na Mona (4) forfeited
     wf: { winnerSeed: 1, score: '2-1', matchIds: [8917000276, 8917058967] }, // Wreck the Herald (1) beat Grumpy Old Men (2) — deciding game ticketed to another league (Wreck's alt team), not retrievable
+    // Lower Final: game 1 was a DQ in Grumpy's favour (`dq` maps a game id -> the seed it was
+    // awarded to, overriding Imprint's recorded winner); `note` shows as an (i) tooltip.
+    lf: {
+      winnerSeed: 2,
+      score: '2-0',
+      matchIds: [8951454884, 8951559547],
+      dq: { 8951454884: 2 }, // game 1 DQ'd in favour of Grumpy Old Men (seed 2)
+      note: "Game 1 was a DQ in Grumpy Old Men's favour — Team Sosal fake gg'd and cancelled it.",
+    }, // Grumpy Old Men (2) beat Team Sosal (3)
   },
 };
