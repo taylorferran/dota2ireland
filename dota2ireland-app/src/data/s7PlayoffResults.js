@@ -42,6 +42,7 @@ export const s7PlayoffResults = {
     sf2: { winnerSeed: 2, score: '2-1', matchIds: [8905993532, 8906073420, 8906154295] }, // Grumpy Old Men (2) beat Team Sosal (3)
     lr1: { winnerSeed: 3, score: 'W/O', matchIds: [] }, // Team Sosal (3) advance — Bord na Mona (4) forfeited
     wf: { winnerSeed: 1, score: '2-1', matchIds: [8917000276, 8917058967] }, // Wreck the Herald (1) beat Grumpy Old Men (2) — deciding game ticketed to another league (Wreck's alt team), not retrievable
+    gf: { winnerSeed: 1, score: '1-0', matchIds: [8965785989] }, // CHAMPION: Wreck the Herald (1) beat Grumpy Old Men (2) — Bo1
     // Lower Final: game 1 was a DQ in Grumpy's favour (`dq` maps a game id -> the seed it was
     // awarded to, overriding Imprint's recorded winner); `note` shows as an (i) tooltip.
     lf: {

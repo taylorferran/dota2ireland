@@ -178,9 +178,9 @@ const BRACKETS = {
       },
     ],
     gf: {
-      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo3',
+      id: 'gf', week: 4, round: 'Grand Final', bo: 'Bo1',
       slots: [ref('Winners Final winner'), ref('Lower Final winner')],
-      note: 'Best-of-3 grand final',
+      note: 'Best-of-1 grand final',
     },
     footer: 'Teams: Bord na Mona, Grumpy Old Men, Team Sosal, Wreck the Herald. Seeded 1 to 4 by current group standings (1 v 4, 2 v 3).',
   },
